@@ -12,9 +12,29 @@
     = javascript_include_tag "vendor/modernizr"
     = csrf_meta_tag
 
-  %body
+  %body{ :style => "font-family: sans-serif" }
+    .row.top-spacer{ :style => 'height:100px;' }
+    .row
+      %h1.small-12.columns.large-centered{ :style => "text-align:center" }
+        %a{ href: "/"} BAW BAW ORGANICS
 
+    .row
+      - @cms_site.pages.root.children.published.each do |page|
+        - if page.children.published.any?
+          %a.button.dropdown{ href: "#{page.full_path}", 'data-dropdown' => "drop_#{page.label}", 'data-options' => "is_hover: true" }
+            = page.label.upcase
+          %ul.f-dropdown{ :id => "drop_#{page.label}", 'data-dropdown-content' => true }
+            - page.children.published.each do |child_page|
+              %li
+                %a{ href: "#{child_page.full_path}" }
+                  = child_page.label
+        - else
+          %a.button{ href: "#{page.full_path}" }
+            = page.label.upcase
+      %a.button.end &nbsp;
 
-    = yield
+    .row
+      .main.small-16.columns
+        = yield
 
     = javascript_include_tag "application"
