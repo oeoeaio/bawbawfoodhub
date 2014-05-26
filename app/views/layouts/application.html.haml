@@ -1,4 +1,3 @@
-!!! 5
 %html{ :lang => "en"}
   %head
     %meta{ :charset => "utf-8" }
@@ -21,7 +20,7 @@
     .row
       - @cms_site.pages.root.children.published.each do |page|
         - if page.children.published.any?
-          %a.button.dropdown.small-2.columns{ href: "#{page.full_path}", 'data-dropdown' => "drop_#{page.label}", 'data-options' => "is_hover: true" }
+          %a.button.dropdown.small-2.columns{ href: "#{page.full_path}", 'data-dropdown' => "drop_#{page.label}", 'data-options' => "is_hover: true", style: "background-color: #209348" }
             = page.label.upcase
           %ul.f-dropdown{ :id => "drop_#{page.label}", 'data-dropdown-content' => true }
             - page.children.published.each do |child_page|
@@ -29,17 +28,19 @@
                 %a{ href: "#{child_page.full_path}" }
                   = child_page.label
         - else
-          %a.button.small-2.columns{ href: "#{page.full_path}" }
+          %a.button.small-2.columns{ href: "#{page.full_path}", style: "background-color: #209348" }
             = page.label.upcase
 
     .row
       .small-12.columns
         - if flash[:notice]
-          .notice
+          .notice.row
             = flash[:notice]
         -if flash[:alert]
-          .alert
+          .alert.row
             = flash[:alert]
-        = yield
+      .small-12.columns{ style: "padding-top: 10px" }
+        .row
+          = yield
 
     = javascript_include_tag "application"
