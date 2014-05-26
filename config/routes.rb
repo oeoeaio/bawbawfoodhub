@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :sessions
+  get 'login', controller: 'sessions', action: 'new'
+  get 'logout', controller: 'sessions', action: 'destroy'
+
   comfy_route :cms_admin, :path => '/cms'
 
   # Make sure this routeset is defined last

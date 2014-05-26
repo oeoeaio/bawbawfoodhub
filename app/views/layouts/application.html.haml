@@ -21,7 +21,7 @@
     .row
       - @cms_site.pages.root.children.published.each do |page|
         - if page.children.published.any?
-          %a.button.dropdown{ href: "#{page.full_path}", 'data-dropdown' => "drop_#{page.label}", 'data-options' => "is_hover: true" }
+          %a.button.dropdown.small-2.columns{ href: "#{page.full_path}", 'data-dropdown' => "drop_#{page.label}", 'data-options' => "is_hover: true" }
             = page.label.upcase
           %ul.f-dropdown{ :id => "drop_#{page.label}", 'data-dropdown-content' => true }
             - page.children.published.each do |child_page|
@@ -29,12 +29,17 @@
                 %a{ href: "#{child_page.full_path}" }
                   = child_page.label
         - else
-          %a.button{ href: "#{page.full_path}" }
+          %a.button.small-2.columns{ href: "#{page.full_path}" }
             = page.label.upcase
-      %a.button.end &nbsp;
 
     .row
-      .main.small-16.columns
+      .small-12.columns
+        - if flash[:notice]
+          .notice
+            = flash[:notice]
+        -if flash[:alert]
+          .alert
+            = flash[:alert]
         = yield
 
     = javascript_include_tag "application"
