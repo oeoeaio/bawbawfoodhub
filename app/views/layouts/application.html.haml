@@ -12,7 +12,11 @@
     = csrf_meta_tag
 
   %body{ :style => "font-family: sans-serif" }
-    .row.top-spacer{ :style => 'height:100px;' }
+    .top-spacer
+      - if logged_in?
+        %a{ href: '/logout'} Logout
+      - else
+        %a{ href: '/login'} Login
     .row
       %h1.small-12.columns.large-centered{ :style => "text-align:center" }
         %a{ href: "/"} BAW BAW ORGANICS
@@ -20,7 +24,7 @@
     .row
       - @cms_site.pages.root.children.published.each do |page|
         - if page.children.published.any?
-          %a.button.dropdown.small-2.columns{ href: "#{page.full_path}", 'data-dropdown' => "drop_#{page.label}", 'data-options' => "is_hover: true", style: "background-color: #209348" }
+          %a.button.dropdown.small-2.columns{ href: "#{page.full_path}", 'data-dropdown' => "drop_#{page.label}", 'data-options' => "is_hover: true" }
             = page.label.upcase
           %ul.f-dropdown{ :id => "drop_#{page.label}", 'data-dropdown-content' => true }
             - page.children.published.each do |child_page|
@@ -28,7 +32,7 @@
                 %a{ href: "#{child_page.full_path}" }
                   = child_page.label
         - else
-          %a.button.small-2.columns{ href: "#{page.full_path}", style: "background-color: #209348" }
+          %a.button.small-2.columns{ href: "#{page.full_path}" }
             = page.label.upcase
 
     .row
