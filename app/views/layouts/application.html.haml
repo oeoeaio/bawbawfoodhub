@@ -14,9 +14,13 @@
   %body{ :style => "font-family: sans-serif" }
     .top-spacer
       - if logged_in?
-        %a{ href: '/logout'} Logout
+        %a.logout{ href: '/logout'}
+          = icon('user')
+          Logout
       - else
-        %a{ href: '/login'} Login
+        %a.login{ href: '/login' }
+          = icon('lock')
+          Login
     .row
       %h1.small-12.columns.large-centered{ :style => "text-align:center" }
         %a{ href: "/"} BAW BAW ORGANICS
