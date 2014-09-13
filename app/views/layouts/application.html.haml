@@ -29,6 +29,19 @@
       - @cms_site.pages.root.children.published.each do |page|
         - if page.children.published.any?
           %a.button.dropdown.small-2.columns{ href: "#{page.full_path}", 'data-dropdown' => "drop_#{page.label}", 'data-options' => "is_hover: true" }
+            - case page.label
+            - when "About"
+              = icon('')
+            - when "Boxes"
+              = icon('')
+            - when "Markets"
+              = icon('truck')
+            - when "Projects"
+              = icon('cutlery')
+            - when "Blog"
+              = icon('bullhorn')
+            - when "Contact"
+              = icon('paper-plane-o')
             = page.label.upcase
           %ul.f-dropdown{ :id => "drop_#{page.label}", 'data-dropdown-content' => true }
             - page.children.published.each do |child_page|
