@@ -8,6 +8,5 @@ class ApplicationController < ActionController::Base
   private
   def load_cms_context
       @cms_site = Cms::Site.first
-      @cms_layout = @cms_site.layouts.find_by_identifier!('default')
   end
 end
