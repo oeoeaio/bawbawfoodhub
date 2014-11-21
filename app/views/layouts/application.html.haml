@@ -4,53 +4,63 @@
 
     %meta{ :name => "viewport", :content => "width=device-width, initial-scale=1.0" }
 
-    %title= content_for?(:title) ? yield(:title) : "Baw Baw Organics"
+    %title= content_for?(:title) ? yield(:title) : "Baw Baw Food Hub"
 
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = javascript_include_tag "vendor/modernizr"
     = csrf_meta_tag
 
-  %body{ :style => "font-family: sans-serif" }
-    .top-spacer
-      - if logged_in?
-        %a.logout{ href: '/logout'}
-          = icon('user')
-          Logout
-      - else
-        %a.login{ href: '/login' }
-          = icon('lock')
-          Login
-    .row
-      %h1.small-12.columns.large-centered{ :style => "text-align:center" }
-        %a{ href: "/"} BAW BAW ORGANICS
+    %link{ href: 'http://fonts.googleapis.com/css?family=Montserrat:400,700', rel: 'stylesheet', type: 'text/css' }
+    %link{ href: 'http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900', rel: 'stylesheet', type: 'text/css' }
 
-    .row
-      - @cms_site.pages.root.children.published.each do |page|
-        - if page.children.published.any?
-          %a.button.dropdown.small-2.columns{ href: "#{page.full_path}", 'data-dropdown' => "drop_#{page.label}", 'data-options' => "is_hover: true" }
-            - case page.label
-            - when "About"
-              = icon('')
-            - when "Boxes"
-              = icon('')
-            - when "Markets"
-              = icon('truck')
-            - when "Projects"
-              = icon('cutlery')
-            - when "Blog"
-              = icon('bullhorn')
-            - when "Contact"
-              = icon('paper-plane-o')
-            = page.label.upcase
-          %ul.f-dropdown{ :id => "drop_#{page.label}", 'data-dropdown-content' => true }
-            - page.children.published.each do |child_page|
-              %li
-                %a{ href: "#{child_page.full_path}" }
-                  = child_page.label
+  %body{ :style => "font-family: sans-serif" }
+    .header
+      .auth
+        - if logged_in?
+          %a.logout{ href: '/logout'}
+            = icon('user')
+            Logout
         - else
-          %a.button.small-2.columns{ href: "#{page.full_path}" }
-            = page.label.upcase
+          %a.login{ href: '/login' }
+            = icon('lock')
+            Login
+      .title
+        .row
+          .small-12.columns.center
+            .big
+              %a{ href: "/"} BAW BAW FOOD HUB
+        .row
+          #tagline.small-12.columns.center
+            %span Sourcing fresh produce from across West Gippsland
+
+    .nav-bar
+      .row
+        - @cms_site.pages.root.children.published.each do |page|
+          - case page.label
+          - when "About"
+            - icon_class = 'fa fa-users'
+          - when "Local Food"
+            - icon_class = 'bbfh-eggplant'
+          - when "Get Involved"
+            - icon_class = 'fa fa-exchange'
+          - when "Resources"
+            - icon_class = 'fa fa-book'
+          - when "Producers"
+            - icon_class = 'bbfh-producer'
+          - if page.children.published.any?
+            .button.dropdown{ 'data-dropdown' => "drop_#{page.slug}", 'data-options' => "is_hover: true" }
+              %i{ class: "#{icon_class}" }
+              = page.label.upcase
+            %ul.f-dropdown{ :id => "drop_#{page.slug}", 'data-dropdown-content' => true }
+              - page.children.published.each do |child_page|
+                %li
+                  %a{ href: "#{child_page.full_path}" }
+                    = child_page.label
+          - else
+            %a.button{ href: "#{page.full_path}" }
+              %i{ class: "#{icon_class}" }
+              = page.label.upcase
 
     .row
       .small-12.columns
@@ -61,7 +71,7 @@
           .alert.row
             = flash[:alert]
       .small-12.columns{ style: "padding-top: 10px" }
-        .row
+        .row.content
           = yield
 
     = javascript_include_tag "application"

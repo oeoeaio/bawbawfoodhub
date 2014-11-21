@@ -1,15 +1,49 @@
-.top-spacer
-  height: 100px
-  text-align: right
-  padding: 5px
-  a.login
-    color: #e6e6e6
-    &:hover
+.header
+  height: 250px
+  background-image: url('/assets/layout/headerbg.jpg')
+  background-size: cover
+  .auth
+    text-align: right
+    padding: 5px
+    a.login
+      color: #e6e6e6
+      &:hover
+        color: #000000
+    a.logout
       color: #000000
-  a.logout
-    color: #000000
-
-a.button
+  .title
+    text-align: center
+    .row
+      margin-top: 20px
+    .big a
+      font-size: 4.5em
+      font-weight: bold
+      font-family: 'Montserrat', 'sans-serif'
+      color: #ffffff
+    #tagline
+      font-size: 1.4em
+      font-family: 'Montserrat', 'sans-serif'
+      color: #ffffff
+.nav-bar
   background-color: #209348
-  &:hover
-    background-color: #187638
+  .button
+    padding: 0.8em
+    margin: 0px
+    font-size: 1.1em
+    background-color: #209348
+    font-family: 'Montserrat', 'sans-serif'
+    &:hover
+      background-color: #187638
+    &.dropdown
+      padding-right: 2.0em
+
+.content
+  color: #4f4f4f
+  font-size: 1.2em
+  font-family: 'Source Sans Pro', 'sans-serif'
+  font-weight: 400
+  line-height: 1.5em
+  h1, h2, h3, h4, h5, h6
+    color: #4f4f4f
+    font-weight: 400
+    font-family: 'Source Sans Pro', 'sans-serif'
