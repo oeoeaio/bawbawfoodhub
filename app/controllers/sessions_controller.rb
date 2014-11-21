@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   def create
-    if params[:password] == ENV['ADMIN_PASSWORD']
+    if Rails.application.secrets.admin_password && params[:password] == Rails.application.secrets.admin_password
       session[:password] = params[:password]
       flash[:notice] = "Logged in as Admin"
       redirect_to '/'
