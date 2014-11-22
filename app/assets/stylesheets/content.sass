@@ -8,10 +8,20 @@
   background-image: -o-linear-gradient(top, $shading, $shading), url($image) /* Opera 11.10+ */
   background-image: linear-gradient(to bottom, $shading, $shading), url($image) /* W3C */
 
+=background-image($image)
+  background-image: url('broccoli.jpg')
+  &.shaded
+    +shaded-background-image('broccoli.jpg', rgba(0, 0, 0, 0.6))
+    &:hover
+      +shaded-background-image('broccoli.jpg', rgba(0, 0, 0, 0.5))
+
 .content
+  font-size: 1.1em
+  line-height: 1.5em
   color: #4f4f4f
   font-family: 'Lato', 'Source Sans Pro', 'sans-serif'
   font-weight: 300
+  padding-bottom: 10em
   h1, h2, h3, h4, h5, h6
     color: #4f4f4f
     font-family: 'Lato', 'Source Sans Pro', 'sans-serif'
@@ -33,15 +43,13 @@
       font-size: 1.05em
       font-weight: 300
 
-  .image-callout
+  .image-content
     &.broccoli
-      +shaded-background-image('broccoli.jpg', rgba(0, 0, 0, 0.6))
-      &:hover
-        +shaded-background-image('broccoli.jpg', rgba(0, 0, 0, 0.5))
+      +background-image('broccoli.jpg')
 
     .content
       text-align: center
-      padding: 1em 1em
+      padding: 5em 1em 1em 1em
       color: #ffffff
 
       p
@@ -50,6 +58,10 @@
 
       h1, h2, h3, h4, h5, h6
         color: #ffffff
+
+  .cms-content
+    // Needs padding-top to make data-equalizer work...
+    padding-top: 1px
 
 
   // Buttons
