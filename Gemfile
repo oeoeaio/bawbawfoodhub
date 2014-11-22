@@ -30,6 +30,7 @@ gem 'comfortable_mexican_sofa', '~> 1.11.0'
 gem 'haml'
 gem 'foundation-rails', '~> 5.4.5.0'
 gem 'font-awesome-sass'
+gem 'jquery-turbolinks'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
