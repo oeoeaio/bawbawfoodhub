@@ -28,7 +28,7 @@ gem 'spring',        group: :development
 
 gem 'comfortable_mexican_sofa', '~> 1.11.0'
 gem 'haml'
-gem 'foundation-rails'
+gem 'foundation-rails', '~> 5.4.5.0'
 gem 'font-awesome-sass'
 
 # Use ActiveModel has_secure_password
