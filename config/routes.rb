@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root 'home#index'
+
   resources :sessions
   get 'login', controller: 'sessions', action: 'new'
   get 'logout', controller: 'sessions', action: 'destroy'

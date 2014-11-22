@@ -1,0 +1,64 @@
+=shaded-background-image($image, $shading)
+  background: $shading
+  background-image: url($image)
+  background-image: -webkit-gradient(linear, left top, left bottom, from($shading), to($shading)), url($image) /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, $shading, $shading), url($image) /* Chrome 10+, Saf5.1+ */
+  background-image: -moz-linear-gradient(top, $shading, $shading), url($image) /* FF3.6+ */
+  background-image: -ms-linear-gradient(top, $shading, $shading), url($image) /* IE10 */
+  background-image: -o-linear-gradient(top, $shading, $shading), url($image) /* Opera 11.10+ */
+  background-image: linear-gradient(to bottom, $shading, $shading), url($image) /* W3C */
+
+.content
+  color: #4f4f4f
+  font-family: 'Lato', 'Source Sans Pro', 'sans-serif'
+  font-weight: 300
+  h1, h2, h3, h4, h5, h6
+    color: #4f4f4f
+    font-family: 'Lato', 'Source Sans Pro', 'sans-serif'
+  h1
+    font-weight: 100
+    font-size: 3em
+  h2
+    font-weight: 100
+  h3
+    font-weight: 300
+
+
+  // Callouts
+  .callout
+    padding: 1em 1em
+    background-color: #ffe6e6
+
+    p
+      font-size: 1.05em
+      font-weight: 300
+
+  .image-callout
+    &.broccoli
+      +shaded-background-image('broccoli.jpg', rgba(0, 0, 0, 0.6))
+      &:hover
+        +shaded-background-image('broccoli.jpg', rgba(0, 0, 0, 0.5))
+
+    .content
+      position: relative
+      text-align: center
+      padding: 1em 1em
+      color: #ffffff
+      background-position: center
+
+      p
+        font-size: 1.05em
+        font-weight: 300
+
+      h1, h2, h3, h4, h5, h6
+        color: #ffffff
+
+
+  // Buttons
+  .button
+    &.red
+      background-color: #d52525
+      &:hover
+        background-color: darken(#d52525, 10%)
+
+
