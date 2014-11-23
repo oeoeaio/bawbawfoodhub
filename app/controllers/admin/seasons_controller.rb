@@ -10,8 +10,12 @@ class Admin::SeasonsController < Admin::BaseController
   end
 
   def create
-    @season = Season.create season_params
-    redirect_to admin_seasons_path
+    season = Season.new season_params
+    if season.save!
+      redirect_to admin_seasons_path
+    else
+      render :new
+    end
   end
 
   private
