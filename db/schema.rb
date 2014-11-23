@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140413015439) do
+ActiveRecord::Schema.define(version: 20141123014612) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,5 +132,38 @@ ActiveRecord::Schema.define(version: 20140413015439) do
 
   add_index "cms_snippets", ["site_id", "identifier"], name: "index_cms_snippets_on_site_id_and_identifier", unique: true, using: :btree
   add_index "cms_snippets", ["site_id", "position"], name: "index_cms_snippets_on_site_id_and_position", using: :btree
+
+  create_table "seasons", force: true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.boolean  "signups_open"
+    t.integer  "places_remaining"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "signups", force: true do |t|
+    t.integer  "season_id"
+    t.integer  "user_id"
+    t.string   "box_size"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "signups", ["season_id"], name: "index_signups_on_season_id", using: :btree
+  add_index "signups", ["user_id", "season_id"], name: "index_signups_on_user_id_and_season_id", unique: true, using: :btree
+  add_index "signups", ["user_id"], name: "index_signups_on_user_id", using: :btree
+
+  create_table "users", force: true do |t|
+    t.string   "given_name"
+    t.string   "surname"
+    t.string   "email"
+    t.string   "phone"
+    t.string   "password"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
 end
