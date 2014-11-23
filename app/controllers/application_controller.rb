@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include Pundit
   before_action :load_cms_context
 
   # Prevent CSRF attacks by raising an exception.
