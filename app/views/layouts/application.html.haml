@@ -63,14 +63,16 @@
               %i{ class: "#{icon_class}" }
               = page.label.upcase
 
+    .flash
+      - if flash[:success]
+        .success= flash[:success]
+      - if flash[:notice]
+        .notice= flash[:notice]
+      -if flash[:alert]
+        .alert= flash[:alert]
+      -if flash[:error]
+        .error= flash[:error]
     .row
-      .small-12.columns
-        - if flash[:notice]
-          .notice.row
-            = flash[:notice]
-        -if flash[:alert]
-          .alert.row
-            = flash[:alert]
       .small-12.columns{ style: "padding-top: 10px" }
         .row.content
           = yield
