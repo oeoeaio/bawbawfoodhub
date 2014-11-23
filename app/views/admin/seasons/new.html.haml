@@ -1,18 +1,1 @@
-= form_for @season, url: { action: "create" } do |f|
-  .row
-    .small-12.medium-6.columns
-      =f.label :name
-      =f.text_field :name
-    .small-12.medium-6.columns
-      =f.label :slug
-      =f.text_field :slug
-  .row
-    .small-12.medium-6.columns
-      =f.label :places_remaining
-      =f.number_field :places_remaining
-    .small-12.medium-6.columns
-      =f.label :signups_open
-      =f.check_box :signups_open
-  .row
-    .small-12.columns
-      = submit_tag "Create"
+=render 'form', action_name: action_name

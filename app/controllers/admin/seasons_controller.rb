@@ -18,6 +18,21 @@ class Admin::SeasonsController < Admin::BaseController
     end
   end
 
+  def edit
+    @season = Season.find params[:id]
+    authorize_admin @season
+  end
+
+  def update
+    season = Season.find params[:id]
+    authorize_admin season
+    if season.update_attributes! season_params
+      redirect_to admin_seasons_path
+    else
+      render :edit
+    end
+  end
+
   private
 
   def season_params
