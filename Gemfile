@@ -31,6 +31,7 @@ gem 'haml'
 gem 'foundation-rails', '~> 5.4.5.0'
 gem 'font-awesome-sass'
 gem 'jquery-turbolinks'
+gem 'pundit', '~> 0.3.0'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
