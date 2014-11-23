@@ -19,7 +19,7 @@ RSpec.describe Admin::SeasonsController, :type => :controller do
     end
 
     describe 'on unsuccessful save' do
-      it 'returns to index' do
+      it 'returns to new' do
         expect(season).to receive(:save!).and_return false
         post :create, { season: { id: 1 } }
         expect(response).to render_template :new
@@ -42,7 +42,7 @@ RSpec.describe Admin::SeasonsController, :type => :controller do
     end
 
     describe 'on unsuccessful save' do
-      it 'returns to index' do
+      it 'returns to edit' do
         expect(season).to receive(:update_attributes!).and_return false
         put :update, { id: 1, season: { id: 1 } }
         expect(response).to render_template :edit
