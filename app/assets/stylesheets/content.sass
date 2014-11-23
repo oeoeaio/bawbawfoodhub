@@ -1,3 +1,5 @@
+@import "foundation/components/buttons"
+
 =shaded-background-image($image, $shading)
   background: $shading
   background-image: url($image)
@@ -62,6 +64,9 @@
   .cms-content
     // Needs padding-top to make data-equalizer work...
     padding-top: 1px
+
+  input[type="submit"]
+    +button()
 
 
   // Buttons

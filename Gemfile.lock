@@ -59,6 +59,13 @@ GEM
       rails (~> 4.0)
       rails-i18n (~> 4.0.0)
       sass-rails (>= 3.1.0)
+    devise (3.4.1)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      responders
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.0.2)
@@ -107,6 +114,7 @@ GEM
     mime-types (1.25.1)
     minitest (5.3.2)
     multi_json (1.9.2)
+    orm_adapter (0.5.0)
     paperclip (4.1.1)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -140,6 +148,8 @@ GEM
     rake (10.2.2)
     rdoc (4.1.1)
       json (~> 1.4)
+    responders (1.1.2)
+      railties (>= 3.2, < 4.2)
     rspec-core (3.1.7)
       rspec-support (~> 3.1.0)
     rspec-expectations (3.1.2)
@@ -188,6 +198,8 @@ GEM
     uglifier (2.5.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    warden (1.2.3)
+      rack (>= 1.0)
 
 PLATFORMS
   ruby
@@ -196,6 +208,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   coffee-rails (~> 4.0.0)
   comfortable_mexican_sofa (~> 1.11.0)
+  devise (~> 3.4.1)
   factory_girl_rails
   faker (~> 1.4.3)
   font-awesome-sass
