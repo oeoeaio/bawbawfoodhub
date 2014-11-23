@@ -1,3 +1,17 @@
-Total: #{@seasons.count}
-- @seasons.each do |season|
-  = season.name
+%h2 Seasons
+%table.fullwidth
+  %tr
+    %th Name
+    %th Slug
+    %th Subscriptions
+    %th Places Remaining
+    %th Signups open?
+    %th
+  - @seasons.each do |season|
+    %tr
+      %td= season.name
+      %td= season.slug
+      %td= season.subscriptions.count
+      %td= season.places_remaining
+      %td= season.signups_open
+      %td= link_to "Edit", edit_admin_season_path(season)
