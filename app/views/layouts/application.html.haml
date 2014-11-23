@@ -18,12 +18,12 @@
   %body{ :style => "font-family: sans-serif" }
     .header
       .auth
-        - if logged_in?
-          %a.logout{ href: '/logout'}
+        - if admin_signed_in?
+          = link_to destroy_admin_session_path, method: :delete do
             = icon('user')
             Logout
         - else
-          %a.login{ href: '/login' }
+          %a.login{ href: "#{new_admin_session_path}" }
             = icon('lock')
             Login
       .title

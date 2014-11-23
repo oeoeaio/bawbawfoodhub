@@ -1,11 +1,8 @@
 Rails.application.routes.draw do
+  root :to => 'home#index'
+
   devise_for :admins
   devise_for :users
-  root 'home#index'
-
-  resources :sessions
-  get 'login', controller: 'sessions', action: 'new'
-  get 'logout', controller: 'sessions', action: 'destroy'
 
   comfy_route :cms_admin, :path => '/cms'
 
