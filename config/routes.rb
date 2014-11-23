@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   devise_for :admins
   devise_for :users
 
+  namespace :admin do
+    root :to => "home#index"
+  end
+
   comfy_route :cms_admin, :path => '/cms'
 
   # Make sure this routeset is defined last
