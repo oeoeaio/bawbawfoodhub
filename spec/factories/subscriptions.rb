@@ -1,8 +1,7 @@
 FactoryGirl.define do
   factory :subscription do
-    season nil
-    user nil
+    season
+    user
     box_size "Large"
   end
-
 end
