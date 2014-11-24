@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   devise_for :admins
   devise_for :users
 
+  get 'seasons/:slug', to: 'seasons#show', as: 'season'
+
   namespace :admin do
     root :to => "home#index"
 
