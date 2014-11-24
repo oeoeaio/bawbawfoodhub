@@ -12,6 +12,7 @@ class SubscriptionsController < ApplicationController
       else
         @subscription = Subscription.new new_user_subscription_params
         @user = User.new user_params
+        @user.valid? # Adds errors
         if @subscription.save
           redirect_to root_path #subscription_path(subscription)
         else
@@ -36,11 +37,11 @@ class SubscriptionsController < ApplicationController
   end
 
   def user_params
-    params[:subscription].require(:user_attributes).permit(:given_name, :surname, :email, :phone)
+    params[:subscription].require(:user_attributes).permit(:given_name, :surname, :email, :phone, :password, :password_confirmation)
   end
 
   def new_user_subscription_params
-    params.require(:subscription).permit(:box_size, user_attributes: [:given_name, :surname, :email, :phone, :password]).merge season: season
+    params.require(:subscription).permit(:box_size, user_attributes: [:given_name, :surname, :email, :phone, :password, :password_confirmation]).merge season: season
   end
 
   def existing_user_subscription_params

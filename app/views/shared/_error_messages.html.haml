@@ -1,0 +1,8 @@
+- if target && target.errors.any?
+  #errorExplanation.errorExplanation{"data-hook" => ""}
+    %h4
+      = "#{target.errors.count} errors prevented this record from being saved."
+  %p There were problems with the following fields:
+  %ul
+    - target.errors.full_messages.each do |msg|
+      %li= msg
