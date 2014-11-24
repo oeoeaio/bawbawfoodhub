@@ -37,7 +37,7 @@
 
     .nav-bar
       .row
-        - @cms_site.pages.root.children.published.each do |page|
+        - @cms_site.pages.root.children.published.select{ |p| p.slug.in? ['about','local-food','get-involved','resources','producers'] }.each do |page|
           - case page.label
           - when "About"
             - icon_class = 'fa fa-users'

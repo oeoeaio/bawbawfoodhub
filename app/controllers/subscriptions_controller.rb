@@ -15,7 +15,7 @@ class SubscriptionsController < ApplicationController
       else
         @subscription = Subscription.new new_user_subscription_params
         if @subscription.save
-          redirect_to root_path #subscription_path(subscription)
+          render :success
         else
           @user = User.new user_params
           @user.valid? # Adds errors
@@ -25,7 +25,7 @@ class SubscriptionsController < ApplicationController
     else
       @subscription = Subscription.new existing_user_subscription_params.merge user: current_user
       if @subscription.save
-        redirect_to root_path #subscription_path(subscription)
+        render :success
       else
         @user = current_user || User.new
         render :new

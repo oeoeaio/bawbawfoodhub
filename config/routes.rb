@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :seasons, only: [:show] do
     resources :subscriptions, only: [:new, :create]
     get 'subscriptions/user_exists', to: 'subscriptions#user_exists'
+    get 'subscriptions/success', to: 'subscriptions#success'
   end
 
   namespace :user do
