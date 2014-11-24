@@ -19,11 +19,14 @@
     .header
       .auth
         - if user_signed_in?
-          = link_to destroy_user_session_path, method: :delete do
+          = link_to user_root_path do
             = icon('user')
+            = current_user.email
+          |
+          = link_to destroy_user_session_path, method: :delete, class: "logout" do
             Logout
         - else
-          %a.login{ href: "#{new_user_session_path}" }
+          = link_to new_user_session_path, class: "login" do
             = icon('lock')
             Login
       .title
