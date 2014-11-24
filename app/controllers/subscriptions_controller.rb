@@ -11,6 +11,7 @@ class SubscriptionsController < ApplicationController
         render :user_exists
       else
         @subscription = Subscription.new new_user_subscription_params
+        @user = User.new user_params
         if @subscription.save
           redirect_to root_path #subscription_path(subscription)
         else
@@ -19,6 +20,7 @@ class SubscriptionsController < ApplicationController
       end
     else
       @subscription = Subscription.new existing_user_subscription_params.merge user: current_user
+      @user = current_user || User.new
       if @subscription.save
         redirect_to root_path #subscription_path(subscription)
       else
@@ -31,6 +33,10 @@ class SubscriptionsController < ApplicationController
 
   def season
     Season.find_by_slug params[:slug]
+  end
+
+  def user_params
+    params[:subscription].require(:user_attributes).permit(:given_name, :surname, :email, :phone)
   end
 
   def new_user_subscription_params
