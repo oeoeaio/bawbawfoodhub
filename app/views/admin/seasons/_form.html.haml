@@ -15,7 +15,7 @@
       =f.check_box :signups_open
   .row
     .small-12.columns
-      -if [:new, :create].include? action_name
+      -if %w(new create).include? action_name
         = submit_tag "Create"
       -else
         = submit_tag "Update"
