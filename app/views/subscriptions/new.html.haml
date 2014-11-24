@@ -1,0 +1,26 @@
+=form_for @subscription do |f|
+  =f.fields_for @user do |uf|
+    .row
+      .small-12.medium-6.columns
+        =uf.label :given_name
+        =uf.text_field :given_name
+      .small-12.medium-6.columns
+        =uf.label :surname
+        =uf.text_field :surname
+    .row
+      .small-12.medium-6.columns
+        =uf.label :email
+        =uf.text_field :email
+      .small-12.medium-6.columns
+        =uf.label :phone
+        =uf.text_field :phone
+    .row
+      .small-12.medium-6.columns
+        =uf.label :password
+        =uf.password_field :password
+      .small-12.medium-6.columns
+        =uf.label :password_confirmation
+        =uf.password_field :password_confirmation
+    .row
+      .small-12.columns
+        = submit_tag "Sign up!"

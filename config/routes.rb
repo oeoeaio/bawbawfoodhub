@@ -5,6 +5,11 @@ Rails.application.routes.draw do
   devise_for :users
 
   get 'seasons/:slug', to: 'seasons#show', as: 'season'
+  get 'seasons/:slug/subscriptions/user_exists', to: 'subscriptions#user_exists'
+  get 'seasons/:slug/subscriptions/new', to: 'subscriptions#new', as: 'new_subscription'
+  post 'seasons/:slug/subscriptions', to: 'subscriptions#create', as: 'subscriptions'
+  get 'seasons/:slug/subscriptions/user_exists', to: 'subscriptions#user_exists'
+
 
   namespace :admin do
     root :to => "home#index"
