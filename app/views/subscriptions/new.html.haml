@@ -2,10 +2,10 @@
 
 =form_for @subscription do |f|
   .row
-    .small-8.columns.small-centered.centered
+    .small-8.columns.small-centered.text-center
       %h2 Choose A Box Size
   .row
-    .small-8.columns.small-centered.centered.chunky
+    .small-8.columns.small-centered.text-center.chunky
       - Subscription::SIZES.each do |k,v|
         =f.radio_button :box_size, k
         =f.label :box_size, v, value: k, class: 'button'
@@ -46,8 +46,10 @@
           =uf.password_field :password_confirmation
           = first_error_for @user, :password_confirmation
       .row
-        .small-12.columns.centered
+        .small-12.columns.text-center
           %p A password is required so that you can update your info later and subscribe to subsequent seasons with the same account.
+  %br
+  %br
   .row
-    .small-12.columns
-      = submit_tag "Sign up!"
+    .small-4.small-centered.columns.text-center
+      = submit_tag "Sign up!", class: 'button red'
