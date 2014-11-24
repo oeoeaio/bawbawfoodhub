@@ -11,7 +11,5 @@ class Subscription < ActiveRecord::Base
   validates :user, presence: true
   validates :box_size, inclusion: { in: SIZES.keys, :message => "must be selected" }
 
-
-
   accepts_nested_attributes_for :user
 end

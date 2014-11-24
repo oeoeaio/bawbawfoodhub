@@ -12,4 +12,16 @@ RSpec.describe Season, :type => :model do
       end
     end
   end
+
+  describe "validations" do
+    describe "on slug" do
+      let!(:season){ create(:season, slug: 'taken-slug') }
+
+      it "does not allow duplicates" do
+        expect do
+          create(:season, slug: 'taken-slug')
+        end.to raise_error ActiveRecord::RecordInvalid, "Validation failed: Slug has already been taken"
+      end
+    end
+  end
 end
