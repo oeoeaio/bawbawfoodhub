@@ -36,6 +36,6 @@ class Admin::SeasonsController < Admin::BaseController
   private
 
   def season_params
-    params.require(:season).permit(:name, :slug, :places_remaining, :signups_open)
+    params.require(:season).permit(:name, :slug, :starts_on, :ends_on, :places_remaining, :signups_open)
   end
 end

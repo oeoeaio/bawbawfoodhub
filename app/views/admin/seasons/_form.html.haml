@@ -8,6 +8,13 @@
       =f.text_field :slug
   .row
     .small-12.medium-6.columns
+      =f.label :starts_on
+      =f.text_field :starts_on, placeholder: "yyyy-mm-dd"
+    .small-12.medium-6.columns
+      =f.label :ends_on
+      =f.text_field :ends_on, placeholder: "yyyy-mm-dd"
+  .row
+    .small-12.medium-6.columns
       =f.label :places_remaining
       =f.number_field :places_remaining
     .small-12.medium-6.columns
