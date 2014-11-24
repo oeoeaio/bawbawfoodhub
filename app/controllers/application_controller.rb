@@ -15,6 +15,15 @@ class ApplicationController < ActionController::Base
 
   def unauthorized
     flash[:error] = "You are not authorised to access that page."
-    redirect_to(request.referrer || root_path)
+    if current_user
+      redirect_to root_path
+    else
+      namespace = self.class.name.deconstantize
+      case namespace
+      when "Admin" then redirect_to new_admin_session_path
+      when "User" then redirect_to new_user_session_path
+      else redirect_to root_path
+      end
+    end
   end
 end
