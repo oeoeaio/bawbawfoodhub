@@ -13,7 +13,7 @@
       %td= subscription.user.surname
       %td= subscription.user.email
       %td= subscription.user.phone
-      %td= Subscription::SIZES[subscription.box_size]
+      %td= Subscription::SIZES[subscription.box_size][:name]
       %td= subscription.created_at.try{ |d| d.strftime("%d/%m/%Y") }
 
 .row

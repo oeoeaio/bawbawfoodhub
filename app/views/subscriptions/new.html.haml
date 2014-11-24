@@ -1,27 +1,32 @@
-= render 'shared/error_messages', target: @subscription
+-# render 'shared/error_messages', target: @subscription
+
+=#=@cms_site.pages.find_by(slug: 'subscription-top').content.html_safe
+
+
 
 =form_for ([@season, @subscription]) do |f|
   .row
     .small-8.columns.small-centered.text-center
       %h2 Choose A Box Size
   .row
-    - Subscription::SIZES.each do |k,v|
+    - Subscription::SIZES.each do |key,box|
       .small-4.columns.text-center.chunky
         .panel
-          %h4
-            = v
-
-
-
-          =f.radio_button :box_size, k
-          =f.label :box_size, v, value: k, class: 'button'
+          %h4= "#{box[:name]} (#{box[:price]})"
+          %p= box[:desc]
+          =f.radio_button :box_size, key
+          =f.label :box_size, "Choose", value: key, class: 'button'
 
     .row
       .small-12.columns.text-center
         = first_error_for @subscription, :box_size
+    .row
+      .small-12.columns.text-center
+        %p
+          Remember that you can always change your box size at a later date, as long as you let us know by
+          %strong Sunday evening.
 
   - unless current_user
-    %br
     %br
     .row
       .small-12.columns
@@ -47,17 +52,23 @@
           = first_error_for @user, :phone
       .row
         .small-12.medium-6.columns{ class: "#{error_class(@user,:password)}" }
-          =uf.label :password
+          =uf.label :password do
+            Password
+            %span.has-tip{ 'data-tooltip' => true, 'aria-haspopup' => true, title: "A password is required so that you can update your info later and subscribe to subsequent seasons with the same account." }
+              (Why?)
           =uf.password_field :password
           = first_error_for @user, :password
         .small-12.medium-6.columns{ class: "#{error_class(@user,:password_confirmation)}" }
           =uf.label :password_confirmation
           =uf.password_field :password_confirmation
           = first_error_for @user, :password_confirmation
-      .row
-        .small-12.columns.text-center
-          %p A password is required so that you can update your info later and subscribe to subsequent seasons with the same account.
   %br
+  .row
+    .small-8.small-centered.columns.text-center
+      %p
+        By clicking 'Sign up' you acknowledge that you understand that you are signing up for a vegetable box of your nominated size for
+        %strong each week
+        of the season.
   %br
   .row
     .small-4.small-centered.columns.text-center

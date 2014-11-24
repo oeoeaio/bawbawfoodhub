@@ -12,7 +12,7 @@ module SubscriptionHelper
   end
 
   def text_for( scope, size )
-    box_name = Subscription::SIZES[size]
+    box_name = Subscription::SIZES[size][:name]
     # If we are going to be joining multiple strings
     # Or if more than one subscription exists for this size
     if @subscriptions.count > 1 || scope.count > 1

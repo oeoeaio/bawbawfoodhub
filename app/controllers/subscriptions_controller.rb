@@ -19,6 +19,7 @@ class SubscriptionsController < ApplicationController
         else
           @user = User.new user_params
           @user.valid? # Adds errors
+          flash.now[:error] = "Oops! There were some problems with the details you entered!"
           render :new
         end
       end

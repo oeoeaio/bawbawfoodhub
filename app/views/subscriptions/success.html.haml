@@ -5,8 +5,8 @@
 
 %p
   We will pack you a
-  %strong= Subscription::SIZES[@subscription.box_size]
-  each week between now and the end of February. Unless you have made other arrangements with us, you will need to collect your box on Tuesdays bewteen
+  %strong= Subscription::SIZES[@subscription.box_size][:name]
+  each week between now and the end of February. Unless you have made other arrangements with us, you will need to collect your box on Tuesdays between
   %strong 4pm and 6pm,
   at the rear of
   %strong 34 Mason St, Warragul.
@@ -14,7 +14,7 @@
   Bear in mind that we will be taking a break over Christmas and new years, so there will be no pack on either the
   %strong 30th of December
   or the
-  %strong 6th of January
+  %strong 6th of January.
 
 %p
   If you'd like to buy any extras to go with your veggie box or to pay for your box online, you can do so through our online store on the
@@ -26,5 +26,5 @@
 
 =link_to "Back to Home", root_path, class: 'button'
 
-=link_to "Shop on the OFN", 'https://openfoodnetwork.org.au/enterprises/119-baw-baw-fresh-organics/shop', class: 'button red'
+=link_to "Shop on the OFN", 'https://openfoodnetwork.org.au/enterprises/119-baw-baw-fresh-organics/shop', target: '_blank', class: 'button red'
 
