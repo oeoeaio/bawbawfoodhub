@@ -2,10 +2,12 @@
 
 %h4
   The user
-  =@email
+  = @email
   already exists.
 
-%p If this is you, and you would like to manage your subscriptions, please sign in now.
+%p If this is you, and you would like to manage your subscriptions, please sign in now. If this is not your email address, click 'Use a different address', to continue the signup process with a different email address.
 
-=link_to "Sign In Now", new_user_session, class: 'button'
+=link_to "Sign In Now", new_user_session_path, class: 'button'
+
+=link_to "Use a different address", new_subscription_path(slug: @season.slug), class: 'button'
 

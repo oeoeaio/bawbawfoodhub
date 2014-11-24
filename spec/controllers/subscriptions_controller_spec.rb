@@ -30,6 +30,8 @@ RSpec.describe SubscriptionsController, :type => :controller do
         it "notifies the user" do
           post :create, { slug: season.slug, subscription: { box_size: "Large", user_attributes: user_attributes } }
           expect(response).to render_template :user_exists
+          expect(flash[:error]).to eq "The user '#{user.email}' already exists, to manage subscriptions for this user, please login (top right)."
+          expect(assigns(:email)).to eq user.email
         end
       end
     end

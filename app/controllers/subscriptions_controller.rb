@@ -1,4 +1,6 @@
 class SubscriptionsController < ApplicationController
+  before_filter :load_season
+
   def new
     @user = User.new
     @subscription = Subscription.new
@@ -7,7 +9,8 @@ class SubscriptionsController < ApplicationController
   def create
     if params[:subscription][:user_attributes]
       if User.exists? email: params[:subscription][:user_attributes][:email]
-        flash[:error] = "The user '#{params[:subscription][:user_attributes][:email]}' already exists, to manage subscriptions for this user, please login (top right)."
+        @email = params[:subscription][:user_attributes][:email]
+        flash.now[:error] = "The user '#{params[:subscription][:user_attributes][:email]}' already exists, to manage subscriptions for this user, please login (top right)."
         render :user_exists
       else
         @subscription = Subscription.new new_user_subscription_params
@@ -32,8 +35,8 @@ class SubscriptionsController < ApplicationController
 
   private
 
-  def season
-    Season.find_by_slug params[:slug]
+  def load_season
+    @season = Season.find_by_slug params[:slug]
   end
 
   def user_params
@@ -41,10 +44,10 @@ class SubscriptionsController < ApplicationController
   end
 
   def new_user_subscription_params
-    params.require(:subscription).permit(:box_size, user_attributes: [:given_name, :surname, :email, :phone, :password, :password_confirmation]).merge season: season
+    params.require(:subscription).permit(:box_size, user_attributes: [:given_name, :surname, :email, :phone, :password, :password_confirmation]).merge season: @season
   end
 
   def existing_user_subscription_params
-    params.require(:subscription).permit(:box_size).merge season: season
+    params.require(:subscription).permit(:box_size).merge season: @season
   end
 end
