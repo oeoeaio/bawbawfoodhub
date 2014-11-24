@@ -1,3 +1,8 @@
-.field_error
-  color: #d63e3e
-  font-size: 0.9em
+@import "foundation/components/forms"
+
+//Override foundation
+span.error, small.error
+  +form-error-message(#f04444)
+
+.error span.error, .error small.error
+  +form-error-message(#f04444)

@@ -28,29 +28,29 @@
         %h2 Your details
     =f.fields_for :user, @user do |uf|
       .row
-        .small-12.medium-6.columns
+        .small-12.medium-6.columns{ class: "#{error_class(@user,:given_name)}" }
           =uf.label :given_name
           =uf.text_field :given_name
           = first_error_for @user, :given_name
-        .small-12.medium-6.columns
+        .small-12.medium-6.columns{ class: "#{error_class(@user,:surname)}" }
           =uf.label :surname
           =uf.text_field :surname
           = first_error_for @user, :surname
       .row
-        .small-12.medium-6.columns
+        .small-12.medium-6.columns{ class: "#{error_class(@user,:email)}" }
           =uf.label :email
           =uf.text_field :email
           = first_error_for @user, :email
-        .small-12.medium-6.columns
+        .small-12.medium-6.columns{ class: "#{error_class(@user,:phone)}" }
           =uf.label :phone
           =uf.text_field :phone
           = first_error_for @user, :phone
       .row
-        .small-12.medium-6.columns
+        .small-12.medium-6.columns{ class: "#{error_class(@user,:password)}" }
           =uf.label :password
           =uf.password_field :password
           = first_error_for @user, :password
-        .small-12.medium-6.columns
+        .small-12.medium-6.columns{ class: "#{error_class(@user,:password_confirmation)}" }
           =uf.label :password_confirmation
           =uf.password_field :password_confirmation
           = first_error_for @user, :password_confirmation
