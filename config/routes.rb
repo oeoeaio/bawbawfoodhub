@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   post 'seasons/:slug/subscriptions', to: 'subscriptions#create', as: 'subscriptions'
   get 'seasons/:slug/subscriptions/user_exists', to: 'subscriptions#user_exists'
 
+  namespace :user do
+    root :to => "home#index"
+  end
 
   namespace :admin do
     root :to => "home#index"

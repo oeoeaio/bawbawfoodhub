@@ -34,7 +34,14 @@ class ApplicationPolicy
     false
   end
 
-  # Grant all permissions for admin user
+  # Grant all permissions user controllers for users
+  %w(index? show? create? new? update? edit? destroy?).each do |method|
+    define_method "user_#{method}".to_sym do
+      user.class == User
+    end
+  end
+
+  # Grant all permissions on admin controllers for admin users
   %w(index? show? create? new? update? edit? destroy?).each do |method|
     define_method "admin_#{method}".to_sym do
       user.class == Admin

@@ -1,0 +1,21 @@
+%h2 Your Subscriptions
+%table.fullwidth
+  %tr
+    %th Season Name
+    %th First Week
+    %th Final Week
+    %th Your Subscription
+    %th Signups Open?
+    %th
+  - Season.all.each do |season|
+    %tr
+      %td= season.name
+      %td= ""
+      %td= ""
+      %td= get_subscriptions(season)
+      %td= season.signups_open
+      %td
+        -if season.signups_open
+          = link_to "Signup Now", new_subscription_path(slug: season.slug), class: 'button'
+        -else
+          = link_to "Signups Closed", nil, class: 'button disabled'

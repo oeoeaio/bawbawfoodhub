@@ -1,7 +1,7 @@
 class Admin::HomeController < Admin::BaseController
 
   def index
-    authorize :home, :admin_index?
+    authorize_admin :home
   end
 
 end
