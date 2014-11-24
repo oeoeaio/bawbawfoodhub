@@ -1,6 +1,6 @@
 require 'devise'
 
-module ControllerAuthentication
+module ControllerAuth
   include Devise::TestHelpers
 
   def login_admin

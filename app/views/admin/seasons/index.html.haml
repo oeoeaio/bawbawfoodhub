@@ -16,7 +16,11 @@
     %tr
       %td= season.name
       %td= season.slug
-      %td= season.subscriptions.count
+      %td
+        = season.subscriptions.count
+        = precede "(" do
+          =succeed ")" do
+            =link_to "list", admin_subscriptions_path(slug: season.slug)
       %td= season.places_remaining
       %td= season.signups_open
       %td= link_to "Edit", edit_admin_season_path(season)

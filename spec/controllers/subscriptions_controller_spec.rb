@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'support/controller_auth'
 
 RSpec.describe SubscriptionsController, :type => :controller do
-  include ControllerAuthentication
+  include ControllerAuth
 
   describe 'create' do
     let(:season) { create(:season) }

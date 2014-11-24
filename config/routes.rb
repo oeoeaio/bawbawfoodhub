@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     root :to => "home#index"
 
     resources :seasons
+
+    get 'seasons/:slug/subscriptions', to: 'subscriptions#index', as: "subscriptions"
   end
 
   comfy_route :cms_admin, :path => '/cms'

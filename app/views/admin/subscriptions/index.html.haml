@@ -1,0 +1,17 @@
+%h2 Subscriptions for #{@season.name} (#{@subscriptions.count} total)
+%table.fullwidth
+  %tr
+    %th Given Name
+    %th Surname
+    %th Email
+    %th Phone
+    %th Box Size
+    %th Subscription Date
+  - @subscriptions.each do |subscription|
+    %tr
+      %td= subscription.user.given_name
+      %td= subscription.user.surname
+      %td= subscription.user.email
+      %td= subscription.user.phone
+      %td= Subscription::SIZES[subscription.box_size]
+      %td= subscription.created_at.try{ |d| d.strftime("%d/%m/%Y") }
