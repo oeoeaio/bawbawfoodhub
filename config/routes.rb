@@ -4,11 +4,10 @@ Rails.application.routes.draw do
   devise_for :admins
   devise_for :users
 
-  get 'seasons/:slug', to: 'seasons#show', as: 'season'
-  get 'seasons/:slug/subscriptions/user_exists', to: 'subscriptions#user_exists'
-  get 'seasons/:slug/subscriptions/new', to: 'subscriptions#new', as: 'new_subscription'
-  post 'seasons/:slug/subscriptions', to: 'subscriptions#create', as: 'subscriptions'
-  get 'seasons/:slug/subscriptions/user_exists', to: 'subscriptions#user_exists'
+  resources :seasons, only: [:show] do
+    resources :subscriptions, only: [:new, :create]
+    get 'subscriptions/user_exists', to: 'subscriptions#user_exists'
+  end
 
   namespace :user do
     root :to => "home#index"
@@ -17,9 +16,9 @@ Rails.application.routes.draw do
   namespace :admin do
     root :to => "home#index"
 
-    resources :seasons
-
-    get 'seasons/:slug/subscriptions', to: 'subscriptions#index', as: "subscriptions"
+    resources :seasons do
+      resources :subscriptions, only: [:index]
+    end
   end
 
   comfy_route :cms_admin, :path => '/cms'

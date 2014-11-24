@@ -19,12 +19,12 @@ class Admin::SeasonsController < Admin::BaseController
   end
 
   def edit
-    @season = Season.find params[:id]
+    @season = Season.find_by_slug params[:id]
     authorize_admin @season
   end
 
   def update
-    season = Season.find params[:id]
+    season = Season.find_by_slug params[:id]
     authorize_admin season
     if season.update_attributes! season_params
       redirect_to admin_seasons_path

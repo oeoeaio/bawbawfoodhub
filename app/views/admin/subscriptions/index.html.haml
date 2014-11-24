@@ -15,3 +15,8 @@
       %td= subscription.user.phone
       %td= Subscription::SIZES[subscription.box_size]
       %td= subscription.created_at.try{ |d| d.strftime("%d/%m/%Y") }
+
+.row
+  =link_to "Back to Seasons", admin_seasons_path, class: "button"
+.row
+  =link_to "Back to Dashboard", admin_root_path, class: "button"

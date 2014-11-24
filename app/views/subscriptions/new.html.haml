@@ -1,14 +1,23 @@
 = render 'shared/error_messages', target: @subscription
 
-=form_for @subscription do |f|
+=form_for ([@season, @subscription]) do |f|
   .row
     .small-8.columns.small-centered.text-center
       %h2 Choose A Box Size
   .row
-    .small-8.columns.small-centered.text-center.chunky
-      - Subscription::SIZES.each do |k,v|
-        =f.radio_button :box_size, k
-        =f.label :box_size, v, value: k, class: 'button'
+    - Subscription::SIZES.each do |k,v|
+      .small-4.columns.text-center.chunky
+        .panel
+          %h4
+            = v
+
+
+
+          =f.radio_button :box_size, k
+          =f.label :box_size, v, value: k, class: 'button'
+
+    .row
+      .small-12.columns.text-center
         = first_error_for @subscription, :box_size
 
   - unless current_user

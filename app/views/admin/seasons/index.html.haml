@@ -20,7 +20,10 @@
         = season.subscriptions.count
         = precede "(" do
           =succeed ")" do
-            =link_to "list", admin_subscriptions_path(slug: season.slug)
+            =link_to "list", admin_season_subscriptions_path(season)
       %td= season.places_remaining
       %td= season.signups_open
       %td= link_to "Edit", edit_admin_season_path(season)
+
+.row
+  =link_to "Back to Dashboard", admin_root_path, class: "button"

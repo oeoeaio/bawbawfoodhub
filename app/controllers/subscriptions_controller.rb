@@ -14,20 +14,20 @@ class SubscriptionsController < ApplicationController
         render :user_exists
       else
         @subscription = Subscription.new new_user_subscription_params
-        @user = User.new user_params
-        @user.valid? # Adds errors
         if @subscription.save
           redirect_to root_path #subscription_path(subscription)
         else
+          @user = User.new user_params
+          @user.valid? # Adds errors
           render :new
         end
       end
     else
       @subscription = Subscription.new existing_user_subscription_params.merge user: current_user
-      @user = current_user || User.new
       if @subscription.save
         redirect_to root_path #subscription_path(subscription)
       else
+        @user = current_user || User.new
         render :new
       end
     end
@@ -36,7 +36,11 @@ class SubscriptionsController < ApplicationController
   private
 
   def load_season
-    @season = Season.find_by_slug params[:slug]
+    @season = Season.find_by_slug params[:season_id]
+    if @season.nil?
+      flash[:error] = "No season by that name exists"
+      redirect_to root_path
+    end
   end
 
   def user_params
