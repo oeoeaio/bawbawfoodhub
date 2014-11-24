@@ -1,4 +1,9 @@
-%h2 Seasons
+.row
+  .small-6.columns
+    %h2 Seasons
+  .small-6.columns.text-right
+    = link_to "Create New", new_admin_season_path, class: 'button'
+
 %table.fullwidth
   %tr
     %th Name
