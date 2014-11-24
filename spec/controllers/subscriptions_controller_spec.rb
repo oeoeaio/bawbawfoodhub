@@ -52,7 +52,7 @@ RSpec.describe SubscriptionsController, :type => :controller do
 
         it "renders the new page with errors" do
           expect(response).to render_template :new
-          #TODO expect error
+          expect(assigns(:subscription).errors.full_messages_for(:user)).to eq ["User can't be blank"]
         end
       end
     end
