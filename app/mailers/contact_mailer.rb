@@ -3,7 +3,8 @@ class ContactMailer < ActionMailer::Base
     @contact = contact
     mail(
       to: Rails.application.secrets.admin_email,
-      from: contact.email,
+      from: Rails.application.secrets.admin_email,
+      reply_to: "\"#{contact.name}\" <#{contact.email}>",
       subject: contact.subject
     )
   end

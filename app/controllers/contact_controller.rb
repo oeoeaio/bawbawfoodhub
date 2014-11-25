@@ -24,6 +24,8 @@ class ContactController < ApplicationController
 
     def initialize(attr)
       @email = attr[:email]
+      @name = attr[:name]
+      @subject = attr[:subject]
       @body = attr[:body]
     end
   end
