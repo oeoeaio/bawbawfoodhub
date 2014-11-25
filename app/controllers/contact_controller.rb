@@ -6,7 +6,7 @@ class ContactController < ApplicationController
   def submit
     @contact = Contact.new params[:contact]
     if @contact.valid?
-      if ContactMailer.query(@contact).deliver!
+      if ContactMailer.query(@contact).deliver
         flash[:notice] = "Your email has been sent! We'll get back to you as soon as we can."
         redirect_to contact_path
       end
