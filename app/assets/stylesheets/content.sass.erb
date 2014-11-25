@@ -11,11 +11,11 @@
   background-image: linear-gradient(to bottom, $shading, $shading), url($image) /* W3C */
 
 =background-image($image)
-  background-image: url('broccoli.jpg')
+  background-image: url($image)
   &.shaded
-    +shaded-background-image('broccoli.jpg', rgba(0, 0, 0, 0.6))
+    +shaded-background-image($image, rgba(0, 0, 0, 0.6))
     &:hover
-      +shaded-background-image('broccoli.jpg', rgba(0, 0, 0, 0.5))
+      +shaded-background-image($image, rgba(0, 0, 0, 0.5))
 
 .content
   font-size: 1.1em
@@ -46,8 +46,11 @@
       font-weight: 300
 
   .image-content
-    &.broccoli
-      +background-image('broccoli.jpg')
+    // dkjbdg
+    <% Cms::Site.first.files.images.for_category('image-content').each do |img| %>
+    &.<%= img.label %>
+      +background-image('<%= img.file.url %>')
+    <% end %>
 
     .content
       text-align: center
@@ -74,5 +77,3 @@
       background-color: #d63e3e
       &:hover
         background-color: darken(#d63e3e, 10)
-
-
