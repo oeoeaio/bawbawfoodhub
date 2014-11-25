@@ -1,16 +1,12 @@
 -# render 'shared/error_messages', target: @subscription
 
-=#=@cms_site.pages.find_by(slug: 'subscription-top').content.html_safe
-
-
-
 =form_for ([@season, @subscription]) do |f|
   .row
     .small-8.columns.small-centered.text-center
       %h2 Choose A Box Size
   .row
     - Subscription::SIZES.each do |key,box|
-      .small-4.columns.text-center.chunky
+      .small-12.medium-4.columns.text-center.chunky
         .panel
           %h4= "#{box[:name]} (#{box[:price]})"
           %p= box[:desc]

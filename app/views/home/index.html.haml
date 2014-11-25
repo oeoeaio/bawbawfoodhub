@@ -2,11 +2,8 @@
   .small-6.columns
     .callout{ 'data-equalizer-watch' => true }
       %h3 You are invited to signup to our Summer season of vegetable boxes!
-      %p We will pack boxes every Tuesday in December up until (and including) the 23rd. We will then take a short break through Chistmas and the new year, and will begin packing boxes again from the 13th of January.
-      %p
-        Signing up for the season entitles you to a guaranteed box each week, and a price discount relative to our 'one-off' box prices. More information about our pricing policy is
-        = succeed '.' do
-          %a{ href: "#" } available here
+      %p Signups for summer have just opened, and we'd love it if you joined us for a season of delicious local produce.
+      %p We have three box sizes available ($20, $30 and $45) and a growing list of locally produced extras for you to choose from.
       %a.button.red{ href: "/seasons/summer-2015"}
         Signup Now!
 
@@ -17,3 +14,7 @@
         %p We pack boxes of fresh, local and organic produce for our customers each week.
         %a.button{ href: '/local-food/weekly-veggie-boxes' }
           Find out more!
+
+.row
+  .small-12.columns
+    = @cms_site.pages.root.content.html_safe
