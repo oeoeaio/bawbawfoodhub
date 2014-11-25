@@ -46,7 +46,6 @@
       font-weight: 300
 
   .image-content
-    // dkjbdg
     <% Cms::Site.first.files.images.for_category('image-content').each do |img| %>
     &.<%= img.label %>
       +background-image('<%= img.file.url %>')

@@ -10,6 +10,9 @@ Rails.application.routes.draw do
     get 'subscriptions/success', to: 'subscriptions#success'
   end
 
+  get 'about/contact', to: 'contact#index', as: 'contact'
+  post 'about/contact', to: 'contact#submit', as: 'submit_contact'
+
   namespace :user do
     root :to => "home#index"
   end

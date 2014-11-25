@@ -1,0 +1,25 @@
+%h2 Get in touch!
+
+%p This form will send us an email, and we'll do our best to get back to you as soon as possible.
+
+= form_for @contact, as: :contact, url: submit_contact_path do |f|
+  .row
+    .small-12.medium-6.columns{ class: "#{error_class(@contact,:email)}" }
+      =f.label :email, "Your Email Address (we'll send a reply to this address)"
+      =f.text_field :email
+      =first_error_for(@contact, :email)
+    .small-12.medium-6.columns
+      =f.label :name, "Your Name"
+      =f.text_field :name
+  .row
+    .small-12.columns
+      =f.label :subject
+      =f.text_field :subject
+  .row
+    .small-12.columns{ class: "#{error_class(@contact,:email)}" }
+      =f.label :body, "Question/Comment/Advice"
+      =f.text_area :body, rows: 10, placeholder: "What do you want to say to us?"
+      =first_error_for(@contact, :body)
+  .row
+    .small-12.medium-6.columns
+      = submit_tag "Send"
