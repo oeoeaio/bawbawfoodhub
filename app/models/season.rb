@@ -8,4 +8,21 @@ class Season < ActiveRecord::Base
   def to_param
     slug
   end
+
+  def first_pack
+    pack_days.order(pack_date: :asc).first
+  end
+
+  def last_pack
+    pack_days.order(pack_date: :asc).last
+  end
+
+  def next_pack_with_lead_time_from(time)
+    packs_after(time + 2.5.days).first
+  end
+
+  def packs_after(time)
+    pack_days.order(pack_date: :asc)
+    .select{ |pd| pd.pack_date > time }
+  end
 end

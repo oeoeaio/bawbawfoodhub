@@ -4,12 +4,13 @@
   .row
     .small-8.columns.small-centered.text-center
       %h2 Choose A Box Size
-  .row
+  .row{ 'data-equalizer' => true }
     - Subscription::SIZES.each do |key,box|
       .small-12.medium-4.columns.text-center.chunky
         .panel
-          %h4= "#{box[:name]} (#{box[:price]})"
-          %p= box[:desc]
+          .offset-bottom{ 'data-equalizer-watch' => true }
+            %h4= "#{box[:name]} (#{box[:price]})"
+            %p= box[:desc]
           =f.radio_button :box_size, key
           =f.label :box_size, "Choose", value: key, class: 'button'
 

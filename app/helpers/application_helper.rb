@@ -8,4 +8,8 @@ module ApplicationHelper
       render 'shared/field_error', target: target, field: field
     end
   end
+
+  def readable_date(date)
+    date.strftime("#{date.day.ordinalize} of %B")
+  end
 end

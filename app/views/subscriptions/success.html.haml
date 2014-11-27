@@ -1,38 +1,76 @@
-%h2 Congratulations!
+%h2 Congratulations #{@subscription.user.given_name}!
 
-%h4
+%br
+
+%h3
   You are now signed up for the #{@season.name} season!
 
 %p
-  We will pack you a
-  %strong= Subscription::SIZES[@subscription.box_size][:name]
-  each week between now and the end of February. Unless you have made other arrangements with us, you will need to collect your box on Tuesdays between
-  %strong 4pm and 6pm,
-  at the rear of
-  %strong 34 Mason St, Warragul.
-%p
-  Bear in mind that we will be taking a break over Christmas and new years, so there will be no pack on either the
-  %strong 30th of December
-  or the
-  %strong 6th of January.
+  We will pack you a #{Subscription::SIZES[@subscription.box_size][:name]} each Tuesday between the
+  %strong= readable_date(@season.next_pack_with_lead_time_from(@subscription.created_at).pack_date)
+  and the
+  =succeed "." do
+    %strong= readable_date(@season.last_pack.pack_date)
+  Unless you have made other arrangements with us, you will need to collect your box on Tuesdays between 4pm and 6pm,
+  at the rear of 34 Mason St, Warragul.
+
+- unless Date.today > Date.new(2015, 01, 13)
+  %p.offset-bottom
+    Bear in mind that we will be taking a break over Christmas and the new year, so there will be no pack on either the
+    %strong 30th of December
+    or the
+    %strong 6th of January.
 
 %p
-  We offer a
+  Please don't hesitate to get in touch with us via
+  %strong info@bawbawfoodhub.org.au
+  if you have any questions or if anything is unlear.
+
+
+%h3 Paying now for a 5% discount
+%p.offset-bottom
+  If you pay for all of your boxes between now and the end of the season, we'll offer you a
   %strong 5% discount
-  if you pay for the full eleven week season
-  %strong up-front.
-  Just bring cash to the next pickup, or alternatively, if you'd like you'd like to pay via EFT, head to our
-  =link_to "online store", 'https://openfoodnetwork.org.au/enterprises/119-baw-baw-fresh-organics/shop', target: '_blank'
-  and place an order there so we know who the transfer is from and what it is for. Your order confirmation email will provide the bank account details.
+  on the total price. We've calculated that the discounted total for your subscription for this season comes to
+  %strong= "$#{subscription_total_with_discount}."
+  If you'd like to claim the 5% discount, just transfer that amount into our account with your name as the description, or bring the amount in cash to your first pickup for the season on the
+  =succeed "." do
+    = readable_date(@season.next_pack_with_lead_time_from(@subscription.created_at).pack_date)
 
 %p
-  You can also use the online store to pay for individual boxes and to buy any extras to go with your veggies.
-  The store is open between
-  %strong Wednesday
-  and
-  %strong Saturday.
+  %strong Bank details:
+  %br
+  Account Name: Baw Baw Food Hub Inc.
+  %br
+  Account Number: 153165824
+  %br
+  BSB: 633-000
+
+%h3 Paying weekly
+%p You are also very welcome to pay for your box on a weekly basis.
+%p
+  If you would like to pay for
+  %strong just your box,
+  you can:
+
+  %ol{ type: "a"}
+    %li Pay in cash at the pickup each week
+    %li Transfer the money into our bank account each week with your name as the description.
+
+%p
+  If you would like to pay for your box
+  %strong and extras
+  ordered through the
+  = succeed "," do
+    =link_to "Open Food Network", 'https://openfoodnetwork.org.au/enterprises/119-baw-baw-fresh-organics/shop', target: '_blank'
+  you can:
+  %ol{ type: "a"}
+    %li Include a "Members Only" box in your order and pay in cash at the next pickup
+    %li Include a "Members Only" box in your order and pay via EFT with your order number (RXXXXXXXX) as the description
+
+%p.offset-bottom
+  Remember, the store is open between Wednesday and Saturday.
 
 =link_to "Back to Home", root_path, class: 'button'
 
-=link_to "Shop on the OFN", 'https://openfoodnetwork.org.au/enterprises/119-baw-baw-fresh-organics/shop', target: '_blank', class: 'button red'
-
+=link_to "Shop For Extras", 'https://openfoodnetwork.org.au/enterprises/119-baw-baw-fresh-organics/shop', target: '_blank', class: 'button red'
