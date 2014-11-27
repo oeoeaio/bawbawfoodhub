@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     root :to => "home#index"
 
     resources :seasons do
+      resources :pack_days
       resources :subscriptions, only: [:index]
     end
   end
