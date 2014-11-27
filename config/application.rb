@@ -21,5 +21,7 @@ module Bawbawfoodhub
     # config.i18n.default_locale = :de
 
     config.autoload_paths << Rails.root.join("lib")
+
+    config.time_zone = "Melbourne"
   end
 end
