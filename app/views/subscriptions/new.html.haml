@@ -61,6 +61,12 @@
           = first_error_for @user, :password_confirmation
   %br
   .row
+    .small-12.columns.text-center
+      %p
+        Your first pickup time for this season will be Tuesday the
+        %strong= readable_date(@season.next_pack_with_lead_time_from(Time.now).pack_date)
+        between 4pm and 6pm.
+  .row
     .small-8.small-centered.columns.text-center
       %p
         By clicking 'Sign up' you acknowledge that you understand that you are signing up for a vegetable box of your nominated size for
