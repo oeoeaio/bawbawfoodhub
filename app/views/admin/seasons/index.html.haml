@@ -8,6 +8,7 @@
   %tr
     %th Name
     %th Slug
+    %th Pack Days
     %th Subscriptions
     %th Places Remaining
     %th Signups open?
@@ -16,6 +17,11 @@
     %tr
       %td= season.name
       %td= season.slug
+      %td
+        = season.pack_days.count
+        = precede "(" do
+          =succeed ")" do
+            =link_to "manage", admin_season_pack_days_path(season)
       %td
         = season.subscriptions.count
         = precede "(" do

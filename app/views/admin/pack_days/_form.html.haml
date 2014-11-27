@@ -1,0 +1,19 @@
+= form_for [:admin, @season, @pack_day] do |f|
+  .row
+    .small-12.columns
+      %h2
+        -if %w(new create).include? action_name
+          = submit_tag "New"
+        -else
+          = submit_tag "Editing"
+        Pack Day
+  .row
+    .small-12.medium-6.columns
+      =f.label :pack_date
+      =f.text_field :pack_date, placeholder: 'yyyy-mm-dd'
+  .row
+    .small-12.columns
+      -if %w(new create).include? action_name
+        = submit_tag "Create"
+      -else
+        = submit_tag "Update"

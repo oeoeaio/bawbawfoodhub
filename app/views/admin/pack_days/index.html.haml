@@ -1,0 +1,17 @@
+.row
+  .small-6.columns
+    %h2 Pack Days for #{@season.name}
+  .small-6.columns.text-right
+    = link_to "Create New", new_admin_season_pack_day_path, class: 'button'
+
+%table.fullwidth
+  %tr
+    %th Date
+    %th
+  - @pack_days.each do |pack_day|
+    %tr
+      %td= pack_day.pack_date.strftime("%d/%m/%Y")
+      %td= link_to "Edit", edit_admin_season_pack_day_path(@season,pack_day)
+
+.row
+  =link_to "Back to Seasons", admin_seasons_path, class: "button"

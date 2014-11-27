@@ -1,0 +1,2 @@
+class PackDayPolicy < ApplicationPolicy
+end
