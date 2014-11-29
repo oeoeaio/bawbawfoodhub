@@ -1,5 +1,6 @@
 .header
-  height: 250px
+  min-height: 150px
+  padding-bottom: 2em
   background-image: image-url('layout/headerbg.jpg')
   background-size: cover
   .auth
@@ -13,11 +14,24 @@
     .row
       margin-top: 20px
     .big a
-      font-size: 4.5em
+      @media all and (max-width: 480px)
+        font-size: 2.0em
+      @media all and (min-width: 480px)
+        font-size: 2.5em
+      @media all and (min-width: 768px)
+        font-size: 3.5em
+      @media all and (min-width: 1024px)
+        font-size: 4.5em
       font-weight: bold
       font-family: 'Montserrat', 'sans-serif'
       color: #ffffff
     #tagline
+      @media all and (max-width: 480px)
+        font-size: 1em
+      @media all and (min-width: 480px)
+        font-size: 1.2em
+      @media all and (min-width: 768px)
+        font-size: 1.4em
       font-size: 1.4em
       font-family: 'Montserrat', 'sans-serif'
       color: #ffffff

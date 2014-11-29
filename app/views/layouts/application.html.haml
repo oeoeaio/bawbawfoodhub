@@ -39,32 +39,33 @@
             %span Sourcing fresh produce from across West Gippsland
 
     .nav-bar
-      .row
-        - @cms_site.pages.root.children.published.select{ |p| p.slug.in? ['about','local-food','get-involved','resources','producers'] }.each do |page|
-          - case page.label
-          - when "About"
-            - icon_class = 'fa fa-users'
-          - when "Local Food"
-            - icon_class = 'bbfh-eggplant'
-          - when "Get Involved"
-            - icon_class = 'fa fa-exchange'
-          - when "Resources"
-            - icon_class = 'fa fa-book'
-          - when "Producers"
-            - icon_class = 'bbfh-producer'
-          - if page.children.published.any?
-            .button.dropdown{ 'data-dropdown' => "drop_#{page.slug}", 'data-options' => "is_hover: true" }
-              %i{ class: "#{icon_class}" }
-              = page.label.upcase
-            %ul.f-dropdown{ :id => "drop_#{page.slug}", 'data-dropdown-content' => true }
-              - page.children.published.each do |child_page|
-                %li
-                  %a{ href: "#{child_page.full_path}" }
-                    = child_page.label
-          - else
-            %a.button{ href: "#{page.full_path}" }
-              %i{ class: "#{icon_class}" }
-              = page.label.upcase
+      - [{ row: 'show-for-medium-up', buttons: ''}, { row:'show-for-small-only', buttons: 'small-12 columns' }].each do |html_classes|
+        .row{ class: html_classes[:row] }
+          - @cms_site.pages.root.children.published.select{ |p| p.slug.in? ['about','local-food','get-involved','resources','producers'] }.each do |page|
+            - case page.label
+            - when "About"
+              - icon_class = 'fa fa-users'
+            - when "Local Food"
+              - icon_class = 'bbfh-eggplant'
+            - when "Get Involved"
+              - icon_class = 'fa fa-exchange'
+            - when "Resources"
+              - icon_class = 'fa fa-book'
+            - when "Producers"
+              - icon_class = 'bbfh-producer'
+            - if page.children.published.any?
+              .button.dropdown{ 'data-dropdown' => "drop_#{page.slug}", 'data-options' => "is_hover: true", class: html_classes[:buttons] }
+                %i{ class: "#{icon_class}" }
+                = page.label.upcase
+              %ul.f-dropdown{ :id => "drop_#{page.slug}", 'data-dropdown-content' => true }
+                - page.children.published.each do |child_page|
+                  %li
+                    %a{ href: "#{child_page.full_path}" }
+                      = child_page.label
+            - else
+              %a.button{ href: "#{page.full_path}", class: html_classes[:buttons]  }
+                %i{ class: "#{icon_class}" }
+                = page.label.upcase
 
     .flash
       - if flash[:success]
