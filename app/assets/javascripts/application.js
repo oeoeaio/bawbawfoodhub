@@ -18,3 +18,9 @@
 //= require_tree .
 
 $(function(){ $(document).foundation(); });
+
+
+// Fix for issue #4275 on zurb/foundation, use until pull #5988 or similar is merged
+$(document).on('page:change', function() {
+  $('[data-equalizer]').data('equalizer-init', Foundation.libs.equalizer.settings);
+});
