@@ -38,23 +38,35 @@
           #tagline.small-12.columns.center
             %span Sourcing fresh produce from across West Gippsland
 
-    .nav-bar
-      - [{ row: 'show-for-medium-up', buttons: ''}, { row:'show-for-small-only', buttons: 'small-12 columns' }].each do |html_classes|
-        .row{ class: html_classes[:row] }
-          - @cms_site.pages.root.children.published.select{ |p| p.slug.in? ['about','local-food','get-involved','resources','producers'] }.each do |page|
-            - if page.children.published.any?
-              .button.dropdown{ 'data-dropdown' => "drop_#{page.slug}", 'data-options' => "is_hover: true", class: html_classes[:buttons] }
-                %i{ class: "#{icon_class(page.label)}" }
-                = page.label.upcase
-              %ul.f-dropdown{ :id => "drop_#{page.slug}", 'data-dropdown-content' => true }
-                - page.children.published.each do |child_page|
-                  %li
-                    %a{ href: "#{child_page.full_path}" }
-                      = child_page.label
-            - else
-              %a.button{ href: "#{page.full_path}", class: html_classes[:buttons]  }
-                %i{ class: "#{icon_class(page.label)}" }
-                = page.label.upcase
+    .contain-to-grid
+      %nav.top-bar{ role: "navigation", 'data-topbar' => true }
+        %ul.title-area
+          %li.name
+            %h1
+              %a{ href:"#{root_path}" }
+                =icon('home')
+                HOME
+          %li.toggle-topbar.menu-icon
+            %a{ href:"#" }
+              %span
+        %section.top-bar-section
+          %ul.left
+            - @cms_site.pages.root.children.published.select{ |p| p.slug.in? ['about','local-food','get-involved','resources','producers'] }.each do |page|
+              - if page.children.published.any?
+                %li.has-dropdown
+                  %a{ href:"#{page.children.published.first.full_path}" }
+                    %i{ class: "#{icon_class(page.label)}" }
+                    = page.label.upcase
+                  %ul.dropdown
+                    - page.children.published.each do |child_page|
+                      %li
+                        %a{ href: "#{child_page.full_path}" }
+                          = child_page.label
+              - else
+                %li
+                  %a{ href: "#{page.full_path}" }
+                    %i{ class: "#{icon_class(page.label)}" }
+                    = page.label.upcase
 
     .flash
       - if flash[:success]
