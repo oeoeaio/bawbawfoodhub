@@ -12,4 +12,21 @@ module ApplicationHelper
   def readable_date(date)
     date.strftime("#{date.day.ordinalize} of %B")
   end
+
+  def icon_class(label)
+    case label
+    when "About"
+      'fa fa-users'
+    when "Local Food"
+      'bbfh-eggplant'
+    when "Get Involved"
+      'fa fa-exchange'
+    when "Resources"
+      'fa fa-book'
+    when "Producers"
+      'bbfh-producer'
+    else
+      ''
+    end
+  end
 end
