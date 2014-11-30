@@ -18,7 +18,7 @@ class Season < ActiveRecord::Base
   end
 
   def next_pack_with_lead_time_from(time)
-    packs_after(time + 1.days).first
+    packs_after(time + 31.hours).first
   end
 
   def packs_after(time)
