@@ -3,7 +3,7 @@ class Admin::SubscriptionsController < Admin::BaseController
   before_filter :load_season
 
   def index
-    @subscriptions = Subscription.where(season: @season)
+    @subscriptions = Subscription.where(season: @season).order(created_at: :desc)
   end
 
   private
