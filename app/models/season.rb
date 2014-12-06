@@ -18,11 +18,11 @@ class Season < ActiveRecord::Base
   end
 
   def next_pack_with_lead_time_from(time)
-    packs_after(time + 1.5.days).first
+    packs_after(time + 36.hours).first
   end
 
   def packs_after(time)
     pack_days.order(pack_date: :asc)
-    .select{ |pd| pd.pack_date.to_time > time }
+    .select{ |pd| Time.zone.parse(pd.pack_date.to_s) > time }
   end
 end
