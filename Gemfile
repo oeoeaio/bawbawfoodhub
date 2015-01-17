@@ -33,6 +33,7 @@ gem 'font-awesome-sass'
 gem 'jquery-turbolinks'
 gem 'pundit', '~> 0.3.0'
 gem 'devise', '~> 3.4.1'
+gem 'roadie-rails', '~> 1.0.4'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
@@ -51,4 +52,3 @@ gem 'bcrypt', '~> 3.1.7'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
-
