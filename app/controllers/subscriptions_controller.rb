@@ -1,5 +1,6 @@
 class SubscriptionsController < ApplicationController
   before_filter :load_season
+  before_filter :pack_days_remaining?, only: [:new, :create]
 
   def new
     @user = User.new
@@ -40,6 +41,13 @@ class SubscriptionsController < ApplicationController
     @season = Season.find_by_slug params[:season_id]
     if @season.nil?
       flash[:error] = "No season by that name exists"
+      redirect_to root_path
+    end
+  end
+
+  def pack_days_remaining?
+    if !@season.signups_open || !@season.next_pack_with_lead_time_from(Time.now)
+      flash[:error] = "Signups for the #{@season.name} season have closed."
       redirect_to root_path
     end
   end
