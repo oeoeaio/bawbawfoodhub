@@ -22,9 +22,30 @@ class Subscription < ActiveRecord::Base
 
   belongs_to :season
   belongs_to :user
+  validate :ensure_season_is_open
   validates :season, presence: true
   validates :user, presence: true
   validates :box_size, inclusion: { in: SIZES.keys, :message => "must be selected" }
 
   accepts_nested_attributes_for :user
+
+  after_save :send_confirmation
+
+  private
+
+  def send_confirmation
+    # begin
+      mail = SubscriptionMailer.confirmation(self).deliver
+    # rescue SomethingError
+    #   errors.add(:email, "could not be delivered to")
+    # end
+  end
+
+  def ensure_season_is_open
+    if !season.signups_open
+      errors.add(:season,"is not open for signups")
+    elsif !season.next_pack_with_lead_time_from(Time.now)
+      errors.add(:season,"has no pack days remaining")
+    end
+  end
 end

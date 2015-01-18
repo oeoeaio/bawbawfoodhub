@@ -1,7 +1,5 @@
 FactoryGirl.define do
   factory :pack_day do
-    season nil
-    pack_date "2014-11-27"
+    sequence(:pack_date) { |n| Date.today + (7*n).days}
   end
-
 end

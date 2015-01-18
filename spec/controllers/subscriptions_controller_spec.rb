@@ -5,9 +5,8 @@ RSpec.describe SubscriptionsController, :type => :controller do
   include ControllerAuth
 
   describe 'create' do
-    let(:season) { create(:season) }
-
     describe "when no remaining pack dates are available" do
+      let(:season) { create(:season) }
       before do
         post :create, { season_id: season.slug, subscription: { box_size: "large" } }
       end
@@ -19,9 +18,7 @@ RSpec.describe SubscriptionsController, :type => :controller do
     end
 
     describe "when more pack dates are available" do
-      before do
-        season.pack_days << create(:pack_day, season: season, pack_date: Date.today + 7.days)
-      end
+      let(:season) { create(:season_with_pack_days) }
 
       describe "but signups are closed" do
         before do
