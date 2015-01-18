@@ -1,0 +1,44 @@
+%html{:xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+    = stylesheet_link_tag    'mail', media: 'all'
+    %title= @subject
+  %body{:leftmargin => "0", :marginheight => "0", :marginwidth => "0", :offset => "0", :topmargin => "0"}
+    %center
+      %table#bodyTable{:align => "center", :border => "0", :cellpadding => "0", :cellspacing => "0", :height => "100%", :width => "100%"}
+        %tr
+          %td#bodyCell{:align => "center", :valign => "top"}
+            / BEGIN TEMPLATE //
+            %table#templateContainer{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "600"}
+              %tr
+                %td{:align => "center", :valign => "top"}
+                  / BEGIN HEADER //
+                  %table#templateHeader{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "600"}
+                    %tr
+                      %td.headerContainer{:valign => "top"}
+                        %table.mcnImageBlock{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+                          %tbody.mcnImageBlockOuter
+                            %tr
+                              %td.mcnImageBlockInner{ :valign => "top"}
+                                %table.mcnImageContentContainer{:align => "left", :border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+                                  %tbody
+                                    %tr
+                                      %td.mcnImageContent{ :valign => "top"}
+                                        %img.mcnImage{:align => "left", :alt => "", :src => "https://gallery.mailchimp.com/87d56e29d660188ebfd3e03ce/images/6fb2bb4f-e66e-4316-a732-61d1c3bc78b7.jpg", :width => "564"}/
+                  / // END HEADER
+              %tr
+                %td{:align => "center", :valign => "top"}
+                  / BEGIN BODY //
+                  %table#templateBody{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "600"}
+                    %tr
+                      %td.bodyContainer{:valign => "top"}
+                        %table.mcnTextBlock{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+                          %tbody.mcnTextBlockOuter
+                            %tr
+                              %td.mcnTextBlockInner{:valign => "top"}
+                                %table.mcnTextContentContainer{:align => "left", :border => "0", :cellpadding => "0", :cellspacing => "0", :width => "600"}
+                                  %tbody
+                                    %tr
+                                      %td.mcnTextContent{ :valign => "top"}
+                                        = yield
