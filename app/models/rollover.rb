@@ -16,6 +16,15 @@ class Rollover < ActiveRecord::Base
       generate_confirmation_token!
     end
 
-    # RolloverMailer.confirmation_instructions(self).deliver
+    RolloverMailer.confirmation_instructions(self).deliver
+  end
+
+  protected
+
+  # This is an override of the devise method
+  # Changes:
+  # 1. Removed: && self.email.present?
+  def send_confirmation_notification?
+    confirmation_required? && !@skip_confirmation_notification
   end
 end
