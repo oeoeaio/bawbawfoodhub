@@ -24,6 +24,8 @@ Rails.application.routes.draw do
     resources :seasons do
       resources :pack_days
       resources :subscriptions, only: [:index]
+      resources :rollovers, only: [:index]
+      put 'rollovers/create_multiple'
     end
   end
 
