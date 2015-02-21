@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141127121725) do
+ActiveRecord::Schema.define(version: 20150220234938) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,6 +150,20 @@ ActiveRecord::Schema.define(version: 20141127121725) do
   end
 
   add_index "pack_days", ["season_id"], name: "index_pack_days_on_season_id", using: :btree
+
+  create_table "rollovers", force: true do |t|
+    t.integer  "season_id",            null: false
+    t.integer  "subscription_id",      null: false
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "rollovers", ["confirmation_token"], name: "index_rollovers_on_confirmation_token", unique: true, using: :btree
+  add_index "rollovers", ["season_id"], name: "index_rollovers_on_season_id", using: :btree
+  add_index "rollovers", ["subscription_id"], name: "index_rollovers_on_subscription_id", using: :btree
 
   create_table "seasons", force: true do |t|
     t.string   "name"

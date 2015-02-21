@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   devise_for :admins
   devise_for :users
+  devise_for :rollovers # , controllers: { confirmations: 'rollover_confirmations' }
 
   resources :seasons, only: [:show] do
     resources :subscriptions, only: [:new, :create]
