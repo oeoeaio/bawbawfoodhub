@@ -13,6 +13,14 @@ module ApplicationHelper
     date.strftime("#{date.day.ordinalize} of %B")
   end
 
+  def current_season
+    season = Season.all
+    .select{ |season| season.next_pack_with_lead_time_from(Time.now).present? }
+    .sort{ |a,b| a.first_pack.pack_date <=> b.first_pack.pack_date }.first
+
+    season || Season.order(created_at: :desc).limit(1).last
+  end
+
   def icon_class(label)
     case label
     when "About"
