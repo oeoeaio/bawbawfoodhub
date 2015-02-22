@@ -2,9 +2,9 @@
 
   = @cms_site.pages.find_by(slug: 'current-season-introduction').content.html_safe
 
-  = link_to "Signup now!", new_season_subscription_path(@season), class: "button red"
+  = link_to "Signup now!", new_season_subscription_path(@season), class: "button red left"
 
-  = link_to "Take me to the Online Store >", "https://openfoodnetwork.org.au/baw-baw-fresh-organics/shop", class: "button"
+  = link_to "Take me to the Online Store >", "https://openfoodnetwork.org.au/baw-baw-fresh-organics/shop", target: "_blank", class: "button right"
 
 - else
   %h2 Sorry!
