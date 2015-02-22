@@ -1,3 +1,13 @@
-= @cms_site.pages.find_by(slug: 'current-season-introduction').content.html_safe
+- if @season.signups_open?
 
-= link_to "Signup now!", new_season_subscription_path(@season), class: "button red"
+  = @cms_site.pages.find_by(slug: 'current-season-introduction').content.html_safe
+
+  = link_to "Signup now!", new_season_subscription_path(@season), class: "button red"
+
+- else
+  %h2 Sorry!
+
+  %p
+    Signups for the
+    = @season.name
+    season are now closed.
