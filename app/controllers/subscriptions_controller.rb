@@ -19,14 +19,26 @@ class SubscriptionsController < ApplicationController
     else
       if params[:subscription][:user_attributes]
         if User.exists? email: params[:subscription][:user_attributes][:email]
-          @email = params[:subscription][:user_attributes][:email]
-          flash.now[:error] = "The user '#{params[:subscription][:user_attributes][:email]}' already exists, to manage subscriptions for this user, please login (top right)."
-          render :user_exists
+          user = User.find_by_email(params[:subscription][:user_attributes][:email])
+          if user.valid_password?(params[:subscription][:user_attributes][:password])
+            create_for_current_user
+          else
+            flash.now[:error] = "The password you entered was incorrect."
+            render :new
+          end
         else
           create_for_new_user
         end
       else
-        create_for_current_user
+        if current_user
+          create_for_current_user
+        else
+          @subscription = Subscription.new existing_user_subscription_params
+          @subscription.valid? # Adds errors
+          @user = User.new
+          @user.valid? # Adds errors
+          render :new
+        end
       end
     end
   end
@@ -73,12 +85,18 @@ class SubscriptionsController < ApplicationController
   end
 
   def create_for_current_user
-    @subscription = Subscription.new existing_user_subscription_params.merge user: current_user
-    if @subscription.save
-      render :success
+    existing_subscriptions = current_user.subscriptions.where(season: @season).order(created_at: :asc)
+    if existing_subscriptions.empty? || params[:confirmed]
+      @subscription = Subscription.new existing_user_subscription_params.merge(user: current_user)
+      if @subscription.save
+        render :success
+      else
+        @user = current_user
+        render :new
+      end
     else
-      @user = current_user || User.new
-      render :new
+      @existing_subscription = existing_subscriptions.last
+      render :confirm
     end
   end
 

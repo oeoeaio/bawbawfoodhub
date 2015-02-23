@@ -34,7 +34,6 @@ RSpec.describe SubscriptionsController, :type => :controller do
       end
 
       context "when a confirmation_token is submitted" do
-        let(:season) { create(:season) }
         let(:rollover) { create(:rollover, season: season) }
         let(:params) { { season_id: season.slug, raw_token: "some_token" } }
 
@@ -112,18 +111,93 @@ RSpec.describe SubscriptionsController, :type => :controller do
         describe 'an existing user (recognised email address)' do
           let(:user) { create(:user) }
           let(:user_attributes) { { given_name: "Frida", surname: "Delaware", email: user.email, password: "12345678", password_confirmation: "12345678"} }
+          let(:params) { { season_id: season.slug, subscription: { box_size: "large", user_attributes: user_attributes } } }
 
-          it "notifies the user" do
-            post :create, { season_id: season.slug, subscription: { box_size: "large", user_attributes: user_attributes } }
-            expect(response).to render_template :user_exists
-            expect(flash[:error]).to eq "The user '#{user.email}' already exists, to manage subscriptions for this user, please login (top right)."
-            expect(assigns(:email)).to eq user.email
+          before do
+            allow(controller).to receive(:sign_in) # Stubbing out, because we don't have Warden
+            allow(controller).to receive(:current_user) { user }
+          end
+
+          context "and the password submitted is invalid" do
+            before do
+              allow(User).to receive(:find_by_email) { user }
+              allow(user).to receive(:valid_password?) { false }
+            end
+
+            it "renders :new" do
+              post :create, params
+              expect(response).to render_template :new
+            end
+          end
+
+          context "and a valid password submitted" do
+            before do
+              allow(User).to receive(:find_by_email) { user }
+              allow(user).to receive(:valid_password?) { true }
+            end
+
+            context "when the user already has an existing subscription for this season" do
+              let!(:subscription) { create(:subscription, season: season, user: user) }
+
+              context "and the user has not confirmed creation of this subscription" do
+                before { post :create, params }
+
+                it "assigns @existing_subscription" do
+                  expect(assigns(:existing_subscription)).to eq subscription
+                end
+
+                it "renders :confirm" do
+                  expect(response).to render_template :confirm
+                end
+              end
+
+              context "but the user has already confirmed creation of this subscription" do
+                before do
+                  params.merge!({ confirmed: true })
+                  post :create, params
+                end
+
+                it "renders :success" do
+                  expect(response).to render_template :success
+                end
+              end
+            end
+
+            context "when the user has no existing subscriptions for this season" do
+              let(:subscription) { double(:subscription) }
+              before { allow(Subscription).to receive(:new) { subscription } }
+              context "and the subscription saves" do
+                before do
+                  allow(subscription).to receive(:save) { true }
+                  post :create, params
+                end
+
+                it "renders :success" do
+                  expect(response).to render_template :success
+                end
+              end
+
+              context "and the subscription does not save" do
+                before do
+                  allow(subscription).to receive(:save) { false }
+                  post :create, params
+                end
+
+                it "assigns @user" do
+                  expect(assigns(:user)).to eq user
+                end
+
+                it "renders :new" do
+                  expect(response).to render_template :new
+                end
+              end
+            end
           end
         end
       end
 
-      describe "without nested attributes for a user" do
-        describe "when the user is logged in" do
+      context "without nested attributes for a user" do
+        context "when the user is logged in" do
           let!(:user) { login_user }
 
           it "creates a new subscription" do
@@ -132,7 +206,7 @@ RSpec.describe SubscriptionsController, :type => :controller do
           end
         end
 
-        describe "when no user is logged in" do
+        context "when no user is logged in" do
           before do
             allow(controller).to receive(:current_user).and_return nil
             post :create, { season_id: season.slug, subscription: { box_size: "large" } }
@@ -155,10 +229,10 @@ RSpec.describe SubscriptionsController, :type => :controller do
           controller.instance_variable_set(:@season, season )
         end
 
-        describe "when a token is submitted" do
+        context "when a token is submitted" do
           before { allow(controller).to receive(:params) { { raw_token: @raw_token } } }
 
-          describe "and it matches an instance of Rollover" do
+          context "and it matches an instance of Rollover" do
             before { rollover.update_attributes(confirmation_token: @token) }
             it "assigns @token and @rollover" do
               controller.send(:validate_token)
@@ -167,7 +241,7 @@ RSpec.describe SubscriptionsController, :type => :controller do
             end
           end
 
-          describe "and it doesn't match an instance of rollover" do
+          context "and it doesn't match an instance of rollover" do
             before { rollover.update_attributes(confirmation_token: "some-other-token") }
             it "redirects to new subscriptions path" do
               expect(controller).to receive(:redirect_to).with new_season_subscription_path(season)
@@ -176,7 +250,7 @@ RSpec.describe SubscriptionsController, :type => :controller do
           end
         end
 
-        describe "when a token is not submitted" do
+        context "when a token is not submitted" do
           before { allow(controller).to receive(:params) { { not_a_raw_token: "token" } } }
           it "redirects to new subscriptions path" do
             expect(controller).to receive(:redirect_to).with new_season_subscription_path(season)
