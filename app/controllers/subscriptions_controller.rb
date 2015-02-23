@@ -10,54 +10,24 @@ class SubscriptionsController < ApplicationController
 
   def new_from_token
     @subscription = Subscription.new( box_size: @rollover.subscription.box_size )
+    render :new
   end
 
   def create
-    if params[:subscription][:user_attributes]
-      if User.exists? email: params[:subscription][:user_attributes][:email]
-        @email = params[:subscription][:user_attributes][:email]
-        flash.now[:error] = "The user '#{params[:subscription][:user_attributes][:email]}' already exists, to manage subscriptions for this user, please login (top right)."
-        render :user_exists
-      else
-        @subscription = Subscription.new new_user_subscription_params
-        if @subscription.save
-          render :success
+    if params[:raw_token]
+      create_from_token
+    else
+      if params[:subscription][:user_attributes]
+        if User.exists? email: params[:subscription][:user_attributes][:email]
+          @email = params[:subscription][:user_attributes][:email]
+          flash.now[:error] = "The user '#{params[:subscription][:user_attributes][:email]}' already exists, to manage subscriptions for this user, please login (top right)."
+          render :user_exists
         else
-          @user = User.new user_params
-          @user.valid? # Adds errors
-          flash.now[:error] = "Oops! There were some problems with the details you entered!"
-          render :new
+          create_for_new_user
         end
-      end
-    else
-      @subscription = Subscription.new existing_user_subscription_params.merge user: current_user
-      if @subscription.save
-        render :success
       else
-        @user = current_user || User.new
-        render :new
+        create_for_current_user
       end
-    end
-  end
-
-  def create_from_token
-    @rollover = Rollover.confirm_by_token(params[:raw_token])
-
-    if @rollover.persisted? # Found a valid rollover object
-      @subscription = Subscription.new(
-        user: @rollover.user,
-        season: @rollover.season,
-        box_size: params[:subscription][:box_size]
-      )
-      if @subscription && @subscription.save
-        render :success
-      else
-        @rollover.reset_confirmation_token!(params[:raw_token])
-        @raw_token = params[:raw_token]
-        render :new_from_token
-      end
-    else
-      render :new
     end
   end
 
@@ -88,6 +58,49 @@ class SubscriptionsController < ApplicationController
 
   def existing_user_subscription_params
     params.require(:subscription).permit(:box_size).merge season: @season
+  end
+
+  def create_for_new_user
+    @subscription = Subscription.new new_user_subscription_params
+    if @subscription.save
+      render :success
+    else
+      @user = User.new user_params
+      @user.valid? # Adds errors
+      flash.now[:error] = "Oops! There were some problems with the details you entered!"
+      render :new
+    end
+  end
+
+  def create_for_current_user
+    @subscription = Subscription.new existing_user_subscription_params.merge user: current_user
+    if @subscription.save
+      render :success
+    else
+      @user = current_user || User.new
+      render :new
+    end
+  end
+
+  def create_from_token
+    @rollover = Rollover.confirm_by_token(params[:raw_token])
+
+    if @rollover.persisted? # Found a valid rollover object
+      @subscription = Subscription.new(
+      user: @rollover.user,
+      season: @rollover.season,
+      box_size: params[:subscription][:box_size]
+      )
+      if @subscription && @subscription.save
+        render :success
+      else
+        @rollover.reset_confirmation_token!(params[:raw_token])
+        @raw_token = params[:raw_token]
+        render :new
+      end
+    else
+      render :new
+    end
   end
 
   def validate_token

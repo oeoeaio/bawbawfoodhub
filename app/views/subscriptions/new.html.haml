@@ -23,7 +23,10 @@
           Remember that you can always change your box size at a later date, as long as you let us know by
           %strong Sunday evening.
 
-  - unless current_user
+  - if @raw_token
+    = hidden_field :raw_token, @raw_token
+
+  - unless current_user || @raw_token
     %br
     .row
       .small-12.columns
