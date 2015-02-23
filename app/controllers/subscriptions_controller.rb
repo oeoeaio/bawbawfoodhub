@@ -1,10 +1,15 @@
 class SubscriptionsController < ApplicationController
   before_filter :load_season
   before_filter :pack_days_remaining?, only: [:new, :create]
+  before_filter :validate_token, only: [:new_from_token]
 
   def new
     @user = User.new
     @subscription = Subscription.new
+  end
+
+  def new_from_token
+    @subscription = Subscription.new( box_size: @rollover.subscription.box_size )
   end
 
   def create
@@ -35,6 +40,27 @@ class SubscriptionsController < ApplicationController
     end
   end
 
+  def create_from_token
+    @rollover = Rollover.confirm_by_token(params[:raw_token])
+
+    if @rollover.persisted? # Found a valid rollover object
+      @subscription = Subscription.new(
+        user: @rollover.user,
+        season: @rollover.season,
+        box_size: params[:subscription][:box_size]
+      )
+      if @subscription && @subscription.save
+        render :success
+      else
+        @rollover.reset_confirmation_token!(params[:raw_token])
+        @raw_token = params[:raw_token]
+        render :new_from_token
+      end
+    else
+      render :new
+    end
+  end
+
   private
 
   def load_season
@@ -62,5 +88,18 @@ class SubscriptionsController < ApplicationController
 
   def existing_user_subscription_params
     params.require(:subscription).permit(:box_size).merge season: @season
+  end
+
+  def validate_token
+    # Returns false if params[:raw_token] is nil
+    confirmation_token = Devise.token_generator.digest(Rollover, :confirmation_token, params[:raw_token])
+
+    if confirmation_token && rollover = Rollover.find_by_confirmation_token(confirmation_token)
+      @rollover = rollover
+      @raw_token = params[:raw_token]
+    else
+      flash[:error] = "Invalid token"
+      redirect_to new_season_subscription_path(@season)
+    end
   end
 end

@@ -1,6 +1,7 @@
 class Rollover < ActiveRecord::Base
   belongs_to :season
   belongs_to :subscription
+  delegate :user, to: :subscription
   devise :confirmable, reconfirmable: false
 
   validates :season, presence: true
@@ -17,6 +18,14 @@ class Rollover < ActiveRecord::Base
     end
 
     RolloverMailer.confirmation_instructions(self).deliver
+  end
+
+  def reset_confirmation_token!(raw)
+    enc = Devise.token_generator.digest(Rollover, :confirmation_token, raw)
+    self.confirmation_token   = enc
+    self.confirmed_at         = nil
+    self.confirmation_sent_at = Time.now.utc
+    save(validate: false)
   end
 
   protected

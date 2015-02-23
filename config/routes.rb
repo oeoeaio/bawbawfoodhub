@@ -6,9 +6,12 @@ Rails.application.routes.draw do
   devise_for :rollovers # , controllers: { confirmations: 'rollover_confirmations' }
 
   resources :seasons, only: [:show] do
+    #Subscriptios
     resources :subscriptions, only: [:new, :create]
     get 'subscriptions/user_exists', to: 'subscriptions#user_exists'
     get 'subscriptions/success', to: 'subscriptions#success'
+    get 'subscription/new_from_token', to: 'subscriptions#new_from_token'
+    post 'subscription/create_from_token', to: 'subscriptions#create_from_token'
   end
 
   get 'about/contact', to: 'contact#index', as: 'contact'
@@ -23,7 +26,10 @@ Rails.application.routes.draw do
 
     resources :seasons do
       resources :pack_days
+
       resources :subscriptions, only: [:index]
+
+      # Rollovers
       resources :rollovers, only: [:index]
       put 'rollovers/create_multiple'
     end

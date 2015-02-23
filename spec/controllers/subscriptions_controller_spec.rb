@@ -86,5 +86,121 @@ RSpec.describe SubscriptionsController, :type => :controller do
       end
     end
 
+    describe 'token actions' do
+      describe "validating tokens" do
+        let(:season) { create(:season) }
+        let(:rollover) { create(:rollover, season: season, confirmed_at: nil) }
+        before do
+          @raw_token, @token = Devise.token_generator.generate(Rollover, :confirmation_token)
+          controller.instance_variable_set(:@season, season )
+        end
+
+        describe "when a token is submitted" do
+          before { allow(controller).to receive(:params) { { raw_token: @raw_token } } }
+
+          describe "and it matches an instance of Rollover" do
+            before { rollover.update_attributes(confirmation_token: @token) }
+            it "assigns @token and @rollover" do
+              controller.send(:validate_token)
+              expect(assigns(:rollover)).to eq rollover
+              expect(assigns(:raw_token)).to eq @raw_token
+            end
+          end
+
+          describe "and it doesn't match an instance of rollover" do
+            before { rollover.update_attributes(confirmation_token: "some-other-token") }
+            it "redirects to new subscriptions path" do
+              expect(controller).to receive(:redirect_to).with new_season_subscription_path(season)
+              controller.send(:validate_token)
+            end
+          end
+        end
+
+        describe "when a token is not submitted" do
+          before { allow(controller).to receive(:params) { { not_a_raw_token: "token" } } }
+          it "redirects to new subscriptions path" do
+            expect(controller).to receive(:redirect_to).with new_season_subscription_path(season)
+            controller.send(:validate_token)
+          end
+        end
+      end
+
+      describe "new_from_token" do
+        let(:season) { create(:season) }
+        let(:rollover) { create(:rollover, season: season) }
+
+        before do
+          expect(controller).to receive(:validate_token)
+          controller.instance_variable_set( :@rollover, rollover )
+        end
+
+        it "instantiates a subscription object for building the form" do
+          get :new_from_token, season_id: season.slug
+          expect(assigns(:subscription)).to be_a_new(Subscription)
+          expect(assigns(:subscription)[:box_size]).to eq rollover.subscription.box_size
+        end
+      end
+
+      describe "create_from_token" do
+        let(:season) { create(:season) }
+        let(:rollover) { create(:rollover, season: season) }
+
+        describe "when the token maps to a real rollover object" do
+          before { allow(Rollover).to receive(:confirm_by_token) { rollover } }
+
+          describe "and the user submits acceptable data" do
+            let(:subscription_params) { { box_size: "standard" } }
+
+            before do
+              post :create_from_token, season_id: season.slug, subscription: subscription_params
+            end
+
+            it "creates a new subscription object" do
+              expect(assigns(:subscription)).to be_a(Subscription)
+            end
+
+            it "render :success" do
+              expect(response).to render_template :success
+            end
+          end
+
+          describe "and the user submits invalid invalid data" do
+            let(:subscription_params) { { box_size: "some_invalid_box_size" } }
+
+            before do
+              allow(rollover).to receive(:reset_confirmation_token!)
+              post :create_from_token, season_id: season.slug, raw_token: "token", subscription: subscription_params
+            end
+
+            it "creates a new subscription object" do
+              expect(assigns(:subscription)).to be_a_new(Subscription)
+            end
+
+            it "rolls back confirmation on the the rollover" do
+              expect(rollover).to have_received(:reset_confirmation_token!)
+            end
+
+            it "render :new_from_token" do
+              expect(response).to render_template :new_from_token
+            end
+          end
+        end
+
+        describe "when the token doesn't map to a rollover object" do
+          before { allow(Rollover).to receive(:confirm_by_token) { Rollover.new } }
+          describe "and the user submits acceptable data" do
+            let(:subscription_params) { { box_size: "standard" } }
+
+            before do
+              post :create_from_token, season_id: season.slug, subscription: subscription_params
+            end
+
+            it "renders :new" do
+              expect(response).to render_template :new
+            end
+          end
+        end
+      end
+    end
   end
 end
