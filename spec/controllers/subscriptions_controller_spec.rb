@@ -142,6 +142,10 @@ RSpec.describe SubscriptionsController, :type => :controller do
               context "and the user has not confirmed creation of this subscription" do
                 before { post :create, params }
 
+                it "assigns @subscription" do
+                  expect(assigns(:subscription)).to be_a_new(Subscription)
+                end
+
                 it "assigns @existing_subscription" do
                   expect(assigns(:existing_subscription)).to eq subscription
                 end

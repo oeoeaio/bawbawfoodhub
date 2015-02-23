@@ -21,8 +21,12 @@ class SubscriptionsController < ApplicationController
         if User.exists? email: params[:subscription][:user_attributes][:email]
           user = User.find_by_email(params[:subscription][:user_attributes][:email])
           if user.valid_password?(params[:subscription][:user_attributes][:password])
+            sign_in(user)
             create_for_current_user
           else
+            @subscription = Subscription.new existing_user_subscription_params.merge(user: user)
+            @subscription.valid? # Adds errors
+            @user = User.new user_params
             flash.now[:error] = "The password you entered was incorrect."
             render :new
           end
@@ -86,8 +90,8 @@ class SubscriptionsController < ApplicationController
 
   def create_for_current_user
     existing_subscriptions = current_user.subscriptions.where(season: @season).order(created_at: :asc)
+    @subscription = Subscription.new existing_user_subscription_params.merge(user: current_user)
     if existing_subscriptions.empty? || params[:confirmed]
-      @subscription = Subscription.new existing_user_subscription_params.merge(user: current_user)
       if @subscription.save
         render :success
       else

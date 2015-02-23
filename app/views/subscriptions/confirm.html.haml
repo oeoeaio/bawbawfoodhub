@@ -6,19 +6,13 @@
   %h2 Are you sure you want to sign up for another box?
 
   %p
-    According to our records you already signed up for a
+    We already have you down for a
     %b= Subscription::SIZES[@existing_subscription.box_size][:name]
-    box for the
-    = @season.name
-    season, on
+    , which you signed up for on the
     %b= readable_date(@existing_subscription.created_at)
     at
     = succeed "." do
-      %b= @existing_subscription.created_at.strftime("%h:%M:%S")
-
-  %p If you meant to sign up for a another box for this season, please click the red button below to finalise your subscription.
-
-  %p Alternatively, if you don't need another box, click the blue button to head back to the home page.
+      %b= @existing_subscription.created_at.strftime("%H:%M")
 
   %p
     Please don't hesitate to get in touch with us via
@@ -27,7 +21,7 @@
 
   %br
   .row
-    .small-12.columns.text-center
-      = submit_tag "Yes, I want another box!", class: 'button red'
-    .small-12.columns.text-center
-      = submit_tag "No, I don't need another box!", class: 'button'
+    .small-12.medium-6.columns
+      = submit_tag "Yes, Continue with signup!", class: 'button red left'
+    .small-12.medium-6.columns
+      = link_to "Oops, I don't need another box!", root_path, class: 'button right'
