@@ -3,15 +3,12 @@ Rails.application.routes.draw do
 
   devise_for :admins
   devise_for :users
-  devise_for :rollovers # , controllers: { confirmations: 'rollover_confirmations' }
+  # devise_for :rollovers, skip: :confirmations # , controllers: { confirmations: 'rollover_confirmations' }
 
   resources :seasons, only: [:show] do
-    #Subscriptios
+    #Subscriptions
     resources :subscriptions, only: [:new, :create]
-    get 'subscriptions/user_exists', to: 'subscriptions#user_exists'
     get 'subscriptions/success', to: 'subscriptions#success'
-    get 'subscription/new_from_token', to: 'subscriptions#new_from_token'
-    post 'subscription/create_from_token', to: 'subscriptions#create_from_token'
   end
 
   get 'about/contact', to: 'contact#index', as: 'contact'
