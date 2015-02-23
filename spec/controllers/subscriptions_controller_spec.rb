@@ -4,6 +4,44 @@ require 'support/controller_auth'
 RSpec.describe SubscriptionsController, :type => :controller do
   include ControllerAuth
 
+  describe 'new' do
+    let(:season) { create(:season) }
+    let(:params) { { season_id: season.slug } }
+
+    context "when a token is submitted" do
+      let(:rollover) { create(:rollover, season: season) }
+
+      before do
+        params.merge!( { raw_token: "some_token"} )
+        expect(controller).to receive(:validate_token) { true }
+        controller.instance_variable_set( :@rollover, rollover )
+      end
+
+      it "instantiates a subscription object for building the form" do
+        get :new, params
+        expect(assigns(:subscription)).to be_a_new(Subscription)
+        expect(assigns(:subscription)[:box_size]).to eq rollover.subscription.box_size
+      end
+    end
+
+    context "when a token is not submitted" do
+      before do
+        expect(controller).to_not receive(:validate_token)
+      end
+
+      it "instantiates the @subscription object for building the form" do
+        get :new, params
+        expect(assigns(:subscription)).to be_a_new(Subscription)
+        expect(assigns(:subscription)[:box_size]).to eq ""
+      end
+
+      it "instantiates the @user object for building the form" do
+        get :new, params
+        expect(assigns(:user)).to be_a_new(User)
+      end
+    end
+  end
+
   describe 'create' do
     context "when no remaining pack dates are available" do
       let(:season) { create(:season_without_pack_days) }
@@ -224,38 +262,28 @@ RSpec.describe SubscriptionsController, :type => :controller do
       end
     end
 
-    describe 'token actions' do
-      describe "validating tokens" do
-        let(:season) { create(:season) }
-        let(:rollover) { create(:rollover, season: season, confirmed_at: nil) }
-        before do
-          @raw_token, @token = Devise.token_generator.generate(Rollover, :confirmation_token)
-          controller.instance_variable_set(:@season, season )
-        end
+    describe "validating tokens" do
+      let(:season) { create(:season) }
+      let(:rollover) { create(:rollover, season: season, confirmed_at: nil) }
+      before do
+        @raw_token, @token = Devise.token_generator.generate(Rollover, :confirmation_token)
+        controller.instance_variable_set(:@season, season )
+      end
 
-        context "when a token is submitted" do
-          before { allow(controller).to receive(:params) { { raw_token: @raw_token } } }
+      context "when a token is submitted" do
+        before { allow(controller).to receive(:params) { { raw_token: @raw_token } } }
 
-          context "and it matches an instance of Rollover" do
-            before { rollover.update_attributes(confirmation_token: @token) }
-            it "assigns @token and @rollover" do
-              controller.send(:validate_token)
-              expect(assigns(:rollover)).to eq rollover
-              expect(assigns(:raw_token)).to eq @raw_token
-            end
-          end
-
-          context "and it doesn't match an instance of rollover" do
-            before { rollover.update_attributes(confirmation_token: "some-other-token") }
-            it "redirects to new subscriptions path" do
-              expect(controller).to receive(:redirect_to).with new_season_subscription_path(season)
-              controller.send(:validate_token)
-            end
+        context "and it matches an instance of Rollover" do
+          before { rollover.update_attributes(confirmation_token: @token) }
+          it "assigns @token and @rollover" do
+            controller.send(:validate_token)
+            expect(assigns(:rollover)).to eq rollover
+            expect(assigns(:raw_token)).to eq @raw_token
           end
         end
 
-        context "when a token is not submitted" do
-          before { allow(controller).to receive(:params) { { not_a_raw_token: "token" } } }
+        context "and it doesn't match an instance of rollover" do
+          before { rollover.update_attributes(confirmation_token: "some-other-token") }
           it "redirects to new subscriptions path" do
             expect(controller).to receive(:redirect_to).with new_season_subscription_path(season)
             controller.send(:validate_token)
@@ -263,19 +291,11 @@ RSpec.describe SubscriptionsController, :type => :controller do
         end
       end
 
-      describe "new_from_token" do
-        let(:season) { create(:season) }
-        let(:rollover) { create(:rollover, season: season) }
-
-        before do
-          expect(controller).to receive(:validate_token)
-          controller.instance_variable_set( :@rollover, rollover )
-        end
-
-        it "instantiates a subscription object for building the form" do
-          get :new_from_token, season_id: season.slug
-          expect(assigns(:subscription)).to be_a_new(Subscription)
-          expect(assigns(:subscription)[:box_size]).to eq rollover.subscription.box_size
+      context "when a token is not submitted" do
+        before { allow(controller).to receive(:params) { { not_a_raw_token: "token" } } }
+        it "redirects to new subscriptions path" do
+          expect(controller).to receive(:redirect_to).with new_season_subscription_path(season)
+          controller.send(:validate_token)
         end
       end
     end

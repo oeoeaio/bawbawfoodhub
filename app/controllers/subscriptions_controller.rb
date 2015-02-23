@@ -1,16 +1,14 @@
 class SubscriptionsController < ApplicationController
   before_filter :load_season
   before_filter :pack_days_remaining?, only: [:new, :create]
-  before_filter :validate_token, only: [:new_from_token]
 
   def new
-    @user = User.new
-    @subscription = Subscription.new
-  end
-
-  def new_from_token
-    @subscription = Subscription.new( box_size: @rollover.subscription.box_size )
-    render :new
+    if params[:raw_token] && validate_token
+      @subscription = Subscription.new( box_size: @rollover.subscription.box_size )
+    else
+      @user = User.new
+      @subscription = Subscription.new
+    end
   end
 
   def create
@@ -132,9 +130,11 @@ class SubscriptionsController < ApplicationController
     if confirmation_token && rollover = Rollover.find_by_confirmation_token(confirmation_token)
       @rollover = rollover
       @raw_token = params[:raw_token]
+      true
     else
       flash[:error] = "Invalid token"
       redirect_to new_season_subscription_path(@season)
+      false
     end
   end
 end
