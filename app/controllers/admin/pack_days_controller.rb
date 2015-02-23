@@ -42,14 +42,6 @@ class Admin::PackDaysController < Admin::BaseController
 
   private
 
-  def load_season
-    @season = Season.find_by_slug params[:season_id]
-    if @season.nil?
-      flash[:error] = "No season by that name exists"
-      redirect_to admin_root_path
-    end
-  end
-
   def pack_day_params
     params.require(:pack_day).permit(:pack_date).merge(season: @season)
   end

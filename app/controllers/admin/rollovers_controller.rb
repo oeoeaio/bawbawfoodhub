@@ -1,9 +1,11 @@
 class Admin::RolloversController < Admin::BaseController
+  before_filter :authorize_admin
+  before_filter :load_season
+
   def index
   end
 
   def create_multiple
-    authorize_admin Rollover
     season = Season.find_by_slug params[:season_id]
     original_season = Season.find_by_slug params[:original_season_id]
     subscriptions = Subscription.where( id: params[:subscription_ids].split(",") )

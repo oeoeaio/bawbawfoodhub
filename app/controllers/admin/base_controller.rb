@@ -12,4 +12,12 @@ class Admin::BaseController < ApplicationController
   def authorize_admin(resource = controller_name.classify.constantize)
     authorize resource, "admin_#{action_name}?".to_sym
   end
+
+  def load_season
+    @season = Season.find_by_slug params[:season_id]
+    if @season.nil?
+      flash[:error] = "No season by that name exists"
+      redirect_to admin_root_path
+    end
+  end
 end
