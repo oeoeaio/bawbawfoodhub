@@ -11,7 +11,7 @@ class Admin::RolloversController < Admin::BaseController
   end
 
   def create_multiple
-    target_season = Season.find_by_id params[:target_season_id]
+    target_season = Season.find_by_slug params[:target_season_id]
     original_season = @season
     subscriptions = Subscription.where( id: params[:subscription_ids] )
 
