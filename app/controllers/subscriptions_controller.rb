@@ -23,10 +23,14 @@ class SubscriptionsController < ApplicationController
             create_for_current_user
           else
             @subscription = Subscription.new existing_user_subscription_params.merge(user: user)
-            @subscription.valid? # Adds errors
-            @user = User.new user_params
-            flash.now[:error] = "The password you entered was incorrect."
-            render :new
+            if @subscription.valid? # Adds errors
+              @user = user
+              flash.now[:error] = "The password you entered was incorrect."
+              render :user_exists
+            else
+              @user = User.new user_params
+              render :new
+            end
           end
         else
           create_for_new_user
@@ -122,6 +126,7 @@ class SubscriptionsController < ApplicationController
         end
       else
         @rollover.reset_confirmation_token!(params[:raw_token])
+        @raw_token = params[:raw_token]
         @existing_subscription = existing_subscriptions.last
         render :confirm
       end

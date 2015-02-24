@@ -85,8 +85,17 @@ RSpec.describe SubscriptionsController, :type => :controller do
           context "when the user already has an existing subscription for this season" do
             let!(:subscription) { create(:subscription, season: target_season, user: user) }
             before do
+              allow(rollover).to receive(:reset_confirmation_token!)
               params.merge!({ subscription: { box_size: "standard" } })
               post :create, params
+            end
+
+            it "assigns @raw_token" do
+              expect(assigns(:raw_token)).to eq "some_token"
+            end
+
+            it "resets the confirmation_token on rollover" do
+              expect(rollover).to have_received(:reset_confirmation_token!).with("some_token")
             end
 
             it "assigns @subscription" do
@@ -184,14 +193,45 @@ RSpec.describe SubscriptionsController, :type => :controller do
           end
 
           context "and the password submitted is invalid" do
+            let(:subscription) { double(:subscription) }
+
             before do
               allow(User).to receive(:find_by_email) { user }
               allow(user).to receive(:valid_password?) { false }
             end
 
-            it "renders :new" do
+            it "assigns @subscription" do
               post :create, params
-              expect(response).to render_template :new
+              expect(assigns(:subscription)).to be_a_new(Subscription)
+            end
+
+            context "and the subscription is valid" do
+              before do
+                allow(Subscription).to receive(:new) { subscription }
+                allow(subscription).to receive(:valid?) { true }
+                post :create, params
+              end
+
+              it "assigns @user" do
+                expect(assigns(:user)).to eq user
+              end
+
+              it "renders :user_exists" do
+                expect(response).to render_template :user_exists
+              end
+            end
+
+            context "and the subscription is invalid" do
+              before do
+                allow(Subscription).to receive(:new) { subscription }
+                allow(subscription).to receive(:valid?) { false }
+                post :create, params
+              end
+
+              it "renders :new" do
+                post :create, params
+                expect(response).to render_template :new
+              end
             end
           end
 

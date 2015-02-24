@@ -3,11 +3,25 @@
 %h4
   The user
   = @email
-  already exists.
+  already exists, but the password you entered was not correct.
 
-%p If this is you, and you would like to manage your subscriptions, please sign in now. If this is not your email address, click 'Use a different address', to continue the signup process with a different email address.
+%p If this is you, and you would like to continue with signup using this account, please enter your password below.
 
-=link_to "Sign In Now", new_user_session_path, class: 'button'
+=form_for ([@season, @subscription]) do |f|
+  = f.hidden_field :box_size
 
-=link_to "Use a different address", new_season_subscription_path(@season), class: 'button'
+  =f.fields_for :user, @user do |uf|
+    =uf.hidden_field :email
 
+    .row
+      .small-12.medium-6.columns
+        =uf.label :password do
+          Password
+        =uf.password_field :password
+
+  %br
+  .row
+    .small-12.medium-6.columns
+      = submit_tag "Confirm", class: 'button red left'
+    .small-12.medium-6.columns
+      =link_to "Use a different email address", new_season_subscription_path(@season), class: 'button right'
