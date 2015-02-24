@@ -5,16 +5,16 @@ RSpec.describe Admin::RolloversController, :type => :controller do
   before { allow(controller).to receive(:current_admin).and_return admin }
 
   describe 'create_multiple' do
-    let!(:season) { create(:season) }
+    let!(:target_season) { create(:season) }
     let!(:original_season) { create(:season) }
-    let(:subscription1) { create(:subscription, season: original_season) }
-    let(:subscription2) { create(:subscription, season: original_season) }
+    let(:subscription1) { create(:subscription, season: target_season) }
+    let(:subscription2) { create(:subscription, season: target_season) }
 
     describe "creating rollovers" do
       it "creates a new rollover for each of the specified subscriptions" do
         expect(Rollover.all.count).to be 0
         allow_any_instance_of(Rollover).to receive(:send_confirmation_instructions)
-        put :create_multiple, season_id: season, subscription_ids: "#{subscription1.id},#{subscription2.id}"
+        put :create_multiple, season_id: original_season, target_season_id: target_season, subscription_ids: [subscription1.id,subscription2.id]
         expect(Rollover.all.count).to be 2
       end
     end
@@ -37,8 +37,8 @@ RSpec.describe Admin::RolloversController, :type => :controller do
             expect(r).to receive(:send_confirmation_instructions)
           end
 
-          put :create_multiple, season_id: season, subscription_ids: "#{subscription1.id},#{subscription2.id}"
-          expect(response).to redirect_to admin_season_rollovers_path(season)
+          put :create_multiple, season_id: original_season, target_season_id: target_season, subscription_ids: [subscription1.id,subscription2.id]
+          expect(response).to redirect_to admin_season_rollovers_path(target_season)
         end
       end
 
@@ -48,7 +48,7 @@ RSpec.describe Admin::RolloversController, :type => :controller do
             rollovers.each{ |r| allow(r).to receive(:save) { false } }
             expect(r).to_not receive(:send_confirmation_instructions)
           end
-          put :create_multiple, season_id: season, original_season_id: original_season, subscription_ids: "#{subscription1.id},#{subscription2.id}"
+          put :create_multiple, season_id: original_season, target_season_id: target_season, subscription_ids: [subscription1.id,subscription2.id]
           expect(response).to redirect_to admin_season_subscriptions_path(original_season)
         end
       end

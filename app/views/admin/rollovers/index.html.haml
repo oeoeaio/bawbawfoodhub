@@ -1,0 +1,22 @@
+%h2 Rollovers for #{@season.name} (#{@rollovers.count} total)
+
+%br
+
+
+  %table.fullwidth
+    %tr
+      %th Given Name
+      %th Surname
+      %th Email
+      %th Confirmed?
+    - @rollovers.each do |rollover|
+      %tr
+        %td= rollover.user.given_name
+        %td= rollover.user.surname
+        %td= rollover.user.email
+        %td= rollover.confirmed? ? "Yes" : "No"
+
+.row
+  =link_to "Show Subscriptions", admin_season_subscriptions_path(@season), class: "button left"
+.row
+  =link_to "Back to Seasons", admin_seasons_path, class: "button left"

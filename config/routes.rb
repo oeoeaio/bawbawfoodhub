@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
       # Rollovers
       resources :rollovers, only: [:index]
+      get 'rollovers/new_multiple'
       put 'rollovers/create_multiple'
     end
   end

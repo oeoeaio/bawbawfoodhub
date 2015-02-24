@@ -8,7 +8,7 @@
 %p
   To make this process easier, we've created a special link just for you which will allow you to sign-up quickly and simply.
 
-= link_to "Take me to the quick signup!", new_season_subscription_path(@season), raw_token: @raw_token
+= link_to "Take me to the quick signup!", new_season_subscription_url(@season, raw_token: @raw_token)
 
 %p
   Bear in mind that this link is only for you and will only work once, so if you'd like to invite your friends/family to sign up as well, please send them to the standard sign-up page for the

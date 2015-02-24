@@ -1,5 +1,16 @@
 -# render 'shared/error_messages', target: @subscription
 
+.row
+  .small-8.columns.small-centered.text-center
+    %h2 Signing up for #{@season.name}
+
+    %p
+      The #{@season.name} season will run from the
+      %strong= readable_date(@season.next_pack_with_lead_time_from(Time.now).pack_date)
+      until the
+      =succeed "." do
+        %strong= readable_date(@season.last_pack.pack_date)
+
 =form_for ([@season, @subscription]) do |f|
   .row
     .small-8.columns.small-centered.text-center
@@ -24,7 +35,7 @@
           %strong Sunday evening.
 
   - if @raw_token
-    = hidden_field :raw_token, @raw_token
+    = hidden_field_tag :raw_token, @raw_token
 
   - unless current_user || @raw_token
     %br
@@ -72,9 +83,13 @@
   .row
     .small-8.small-centered.columns.text-center
       %p
-        By clicking 'Sign up' you acknowledge that you understand that you are signing up for a vegetable box of your nominated size for
+        By clicking 'Sign up' you acknowledge that you are responsible for collecting a vegetable box of your nominated size
         %strong each week
-        of the season.
+        from the
+        %strong= readable_date(@season.next_pack_with_lead_time_from(Time.now).pack_date)
+        until the
+        =succeed "." do
+          %strong= readable_date(@season.last_pack.pack_date)
   %br
   .row
     .small-4.small-centered.columns.text-center

@@ -1,4 +1,8 @@
-%h2 Subscriptions for #{@season.name} (#{@subscriptions.count} total)
+.row
+  .small-12.medium-8.columns
+    %h2 Subscriptions for #{@season.name} (#{@subscriptions.count} total)
+  .small-12.medium-4.columns
+    = link_to "Send Invites", admin_season_rollovers_new_multiple_path(@season), class: "button red right"
 %table.fullwidth
   %tr
     %th Given Name
@@ -17,6 +21,6 @@
       %td= subscription.created_at.try{ |d| d.strftime("%d/%m/%Y %H:%M:%S") }
 
 .row
-  =link_to "Back to Seasons", admin_seasons_path, class: "button"
+  =link_to "Back to Seasons", admin_seasons_path, class: "button left"
 .row
-  =link_to "Back to Dashboard", admin_root_path, class: "button"
+  =link_to "Back to Dashboard", admin_root_path, class: "button left"
