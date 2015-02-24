@@ -3,11 +3,15 @@
 %br
 
 %h3
-  We'd like to invite you to sign up for the #{@season.name} season!
+  We'd like to invite you to sign up for the #{@season.name} season! It will run for #{@season.pack_days.count} weeks in total, from the
+  %strong= readable_date(@season.first_pack.pack_date)
+  until the
+  =succeed "." do
+    %strong= readable_date(@season.last_pack.pack_date)
 
 %p
   To make this process easier, we've created a special link just for you which will make signing up
-  %b super
+  %strong super
   fast.
 
 %br

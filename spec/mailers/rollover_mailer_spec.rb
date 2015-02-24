@@ -9,7 +9,7 @@ RSpec.describe RolloverMailer do
     let!(:mail) { ActionMailer::Base.deliveries.last }
 
     it 'renders the subject' do
-      expect(mail.subject).to eq "You can sign up for the #{season.name} season of veggie boxes now!"
+      expect(mail.subject).to eq "Signups for the #{season.name} season of veggie boxes are open now!"
     end
 
     it 'renders the receiver email' do
