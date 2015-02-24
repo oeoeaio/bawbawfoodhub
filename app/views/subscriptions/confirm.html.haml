@@ -1,6 +1,9 @@
 =form_for ([@season, @subscription]) do |f|
   = f.hidden_field :box_size
 
+  - if @raw_token
+    = hidden_field_tag :raw_token, @raw_token
+
   = hidden_field :confirmed, true
 
   %h2 Are you sure you want to sign up for another box?

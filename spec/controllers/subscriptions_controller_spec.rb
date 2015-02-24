@@ -56,9 +56,9 @@ RSpec.describe SubscriptionsController, :type => :controller do
     end
 
     describe "when more pack dates are available" do
-      let(:season) { create(:season) }
-
       context "but signups are closed" do
+        let(:season) { create(:season) }
+
         before do
           season.signups_open = false
           season.save!
@@ -72,44 +72,70 @@ RSpec.describe SubscriptionsController, :type => :controller do
       end
 
       context "when a confirmation_token is submitted" do
-        let(:rollover) { create(:rollover, season: season) }
-        let(:params) { { season_id: season.slug, raw_token: "some_token" } }
+        let(:original_season) { create(:season) }
+        let(:target_season) { create(:season) }
+        let(:user) { create(:user) }
+        let(:subscription) { create(:subscription, season: original_season, user: user) }
+        let(:rollover) { create(:rollover, season: target_season, subscription: subscription) }
+        let(:params) { { season_id: target_season.slug, raw_token: "some_token" } }
 
         context "when the token maps to a real rollover object" do
           before { allow(Rollover).to receive(:confirm_by_token) { rollover } }
 
-          context "and the user submits acceptable data" do
+          context "when the user already has an existing subscription for this season" do
+            let!(:subscription) { create(:subscription, season: target_season, user: user) }
             before do
               params.merge!({ subscription: { box_size: "standard" } })
               post :create, params
             end
 
-            it "creates a new subscription object" do
-              expect(assigns(:subscription)).to be_a(Subscription)
-            end
-
-            it "render :success" do
-              expect(response).to render_template :success
-            end
-          end
-
-          context "and the user submits invalid invalid data" do
-            before do
-              params.merge!({ subscription: { box_size: "some-unacceptable-box-size" } })
-              allow(rollover).to receive(:reset_confirmation_token!)
-              post :create, params
-            end
-
-            it "creates a new subscription object" do
+            it "assigns @subscription" do
               expect(assigns(:subscription)).to be_a_new(Subscription)
             end
 
-            it "rolls back confirmation on the the rollover" do
-              expect(rollover).to have_received(:reset_confirmation_token!)
+            it "assigns @existing_subscription" do
+              expect(assigns(:existing_subscription)).to eq subscription
             end
 
-            it "render :new" do
-              expect(response).to render_template :new
+            it "renders :confirm" do
+              expect(response).to render_template :confirm
+            end
+          end
+
+          context "when the user has no existing subscriptions for this season" do
+            context "and the user submits acceptable data" do
+              before do
+                params.merge!({ subscription: { box_size: "standard" } })
+                post :create, params
+              end
+
+              it "creates a new subscription object" do
+                expect(assigns(:subscription)).to be_a(Subscription)
+              end
+
+              it "render :success" do
+                expect(response).to render_template :success
+              end
+            end
+
+            context "and the user submits invalid invalid data" do
+              before do
+                params.merge!({ subscription: { box_size: "some-unacceptable-box-size" } })
+                allow(rollover).to receive(:reset_confirmation_token!)
+                post :create, params
+              end
+
+              it "creates a new subscription object" do
+                expect(assigns(:subscription)).to be_a_new(Subscription)
+              end
+
+              it "rolls back confirmation on the the rollover" do
+                expect(rollover).to have_received(:reset_confirmation_token!)
+              end
+
+              it "render :new" do
+                expect(response).to render_template :new
+              end
             end
           end
         end
@@ -131,6 +157,7 @@ RSpec.describe SubscriptionsController, :type => :controller do
       end
 
       describe 'with nested_attributes for' do
+        let(:season) { create(:season) }
         describe 'a new user (unrecognised email address)' do
           let(:user_attributes) { { given_name: "Frida", surname: "Delaware", email: "unknown@email.com", password: "12345678", password_confirmation: "12345678"} }
           before do
@@ -239,6 +266,7 @@ RSpec.describe SubscriptionsController, :type => :controller do
       end
 
       context "without nested attributes for a user" do
+        let(:season) { create(:season) }
         context "when the user is logged in" do
           let!(:user) { login_user }
 

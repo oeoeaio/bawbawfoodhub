@@ -106,17 +106,24 @@ class SubscriptionsController < ApplicationController
     @rollover = Rollover.confirm_by_token(params[:raw_token])
 
     if @rollover.persisted? # Found a valid rollover object
+      existing_subscriptions = @rollover.user.subscriptions.where(season: @season).order(created_at: :asc)
       @subscription = Subscription.new(
       user: @rollover.user,
       season: @rollover.season,
       box_size: params[:subscription][:box_size]
       )
-      if @subscription && @subscription.save
-        render :success
+      if existing_subscriptions.empty? || params[:confirmed]
+        if @subscription.save
+          render :success
+        else
+          @rollover.reset_confirmation_token!(params[:raw_token])
+          @raw_token = params[:raw_token]
+          render :new
+        end
       else
         @rollover.reset_confirmation_token!(params[:raw_token])
-        @raw_token = params[:raw_token]
-        render :new
+        @existing_subscription = existing_subscriptions.last
+        render :confirm
       end
     else
       render :new
