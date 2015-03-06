@@ -6,10 +6,10 @@
 
     %p
       The #{@season.name} season will run from the
-      %strong= readable_date(@season.next_pack_with_lead_time_from(Time.now).pack_date)
+      %strong= readable_date(@season.first_pack_day.pack_date)
       until the
       =succeed "." do
-        %strong= readable_date(@season.last_pack.pack_date)
+        %strong= readable_date(@season.last_pack_day.pack_date)
 
 =form_for ([@season, @subscription]) do |f|
   .row
@@ -78,7 +78,7 @@
     .small-12.columns.text-center
       %p
         Your first pickup time for this season will be Tuesday the
-        %strong= readable_date(@season.next_pack_with_lead_time_from(Time.now).pack_date)
+        %strong= readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date)
         between 4pm and 6pm.
   .row
     .small-8.small-centered.columns.text-center
@@ -86,10 +86,10 @@
         By clicking 'Sign up' you acknowledge that you are responsible for collecting a vegetable box of your nominated size
         %strong each week
         from the
-        %strong= readable_date(@season.next_pack_with_lead_time_from(Time.now).pack_date)
+        %strong= readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date)
         until the
         =succeed "." do
-          %strong= readable_date(@season.last_pack.pack_date)
+          %strong= readable_date(@season.last_pack_day.pack_date)
   %br
   .row
     .small-4.small-centered.columns.text-center

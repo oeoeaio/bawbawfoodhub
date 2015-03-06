@@ -7,10 +7,10 @@
 
 %p
   We will pack you a #{Subscription::SIZES[@subscription.box_size][:name]} each Tuesday between the
-  %strong= readable_date(@season.next_pack_with_lead_time_from(@subscription.created_at).pack_date)
+  %strong= readable_date(@season.first_pack_day_with_lead_time_after(@subscription.created_at).pack_date)
   and the
   =succeed "." do
-    %strong= readable_date(@season.last_pack.pack_date)
+    %strong= readable_date(@season.last_pack_day.pack_date)
   Unless you have made other arrangements with us, you will need to collect your box on Tuesdays between 4pm and 6pm,
   at the rear of 34 Mason St, Warragul.
 
@@ -35,7 +35,7 @@
   %strong= "$#{subscription_total_with_discount}."
   If you'd like to claim the 5% discount, just transfer that amount into our account with your name as the description, or bring the amount in cash to your first pickup for the season on the
   =succeed "." do
-    = readable_date(@season.next_pack_with_lead_time_from(@subscription.created_at).pack_date)
+    = readable_date(@season.first_pack_day_with_lead_time_after(@subscription.created_at).pack_date)
 
 %p
   %strong Bank details:

@@ -60,7 +60,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def pack_days_remaining?
-    if !@season.signups_open || !@season.next_pack_with_lead_time_from(Time.now)
+    if !@season.signups_open || !@season.first_pack_day_with_lead_time_after(Time.now)
       flash[:error] = "Signups for the #{@season.name} season have closed."
       redirect_to root_path
     end

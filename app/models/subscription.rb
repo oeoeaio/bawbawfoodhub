@@ -44,7 +44,7 @@ class Subscription < ActiveRecord::Base
   def ensure_season_is_open
     if !season.signups_open
       errors.add(:season,"is not open for signups")
-    elsif !season.next_pack_with_lead_time_from(Time.now)
+    elsif !season.first_pack_day_with_lead_time_after(Time.now)
       errors.add(:season,"has no pack days remaining")
     end
   end

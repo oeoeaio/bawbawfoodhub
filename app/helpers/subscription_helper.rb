@@ -25,8 +25,9 @@ module SubscriptionHelper
   end
 
   def subscription_total_with_discount
-    pack_count = @season.packs_after(@subscription.created_at).count
+    pack_count = @season.pack_days_with_lead_time_after(@subscription.created_at).count
     value = Subscription::SIZES[@subscription.box_size][:value]
+    return value if pack_count == 1
     (pack_count * value * 0.95).round 2
   end
 end

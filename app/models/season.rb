@@ -1,4 +1,6 @@
 class Season < ActiveRecord::Base
+  LEAD_TIME = 36.hours
+
   has_many :subscriptions
   has_many :pack_days
   has_many :users, through: :subscriptions
@@ -10,19 +12,27 @@ class Season < ActiveRecord::Base
     slug
   end
 
-  def first_pack
+  def first_pack_day
     pack_days.order(pack_date: :asc).first
   end
 
-  def last_pack
+  def last_pack_day
     pack_days.order(pack_date: :asc).last
   end
 
-  def next_pack_with_lead_time_from(time)
-    packs_after(time + 36.hours).first
+  def first_pack_day_with_lead_time_after(time)
+    first_pack_day_after(time + LEAD_TIME)
   end
 
-  def packs_after(time)
+  def first_pack_day_after(time)
+    pack_days_after(time).first
+  end
+
+  def pack_days_with_lead_time_after(time)
+    pack_days_after(time + LEAD_TIME)
+  end
+
+  def pack_days_after(time)
     pack_days.order(pack_date: :asc)
     .select{ |pd| Time.zone.parse(pd.pack_date.to_s) > time }
   end
