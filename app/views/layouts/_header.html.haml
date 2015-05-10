@@ -1,0 +1,21 @@
+.header
+  .auth
+    - if user_signed_in?
+      = link_to user_root_path do
+        = icon('user')
+        = current_user.email
+      |
+      = link_to destroy_user_session_path, method: :delete, class: "logout" do
+        Logout
+    - else
+      = link_to new_user_session_path, class: "login" do
+        = icon('lock')
+        Login
+  .title
+    .row
+      .small-12.columns.center
+        .big
+          %a{ href: "/"} BAW BAW FOOD HUB
+    .row
+      #tagline.small-12.columns.center
+        %span Sourcing fresh produce from across West Gippsland

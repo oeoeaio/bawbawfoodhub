@@ -16,57 +16,9 @@
     %link{ href: '//fonts.googleapis.com/css?family=Lato:100,300,400,700,900', rel: 'stylesheet', type: 'text/css' }
 
   %body{ :style => "font-family: sans-serif" }
-    .header
-      .auth
-        - if user_signed_in?
-          = link_to user_root_path do
-            = icon('user')
-            = current_user.email
-          |
-          = link_to destroy_user_session_path, method: :delete, class: "logout" do
-            Logout
-        - else
-          = link_to new_user_session_path, class: "login" do
-            = icon('lock')
-            Login
-      .title
-        .row
-          .small-12.columns.center
-            .big
-              %a{ href: "/"} BAW BAW FOOD HUB
-        .row
-          #tagline.small-12.columns.center
-            %span Sourcing fresh produce from across West Gippsland
+    =render 'layouts/header'
 
-    .contain-to-grid
-      %nav.top-bar{ role: "navigation", 'data-topbar' => true }
-        %ul.title-area
-          %li.name
-            %h1
-              %a{ href:"#{root_path}" }
-                =icon('home')
-                HOME
-          %li.toggle-topbar.menu-icon
-            %a{ href:"#" }
-              %span
-        %section.top-bar-section
-          %ul.left
-            - @cms_site.pages.root.children.published.select{ |p| p.slug.in? ['about','local-food','get-involved','resources','producers'] }.each do |page|
-              - if page.children.published.any?
-                %li.has-dropdown
-                  %a{ href:"#{page.children.published.first.full_path}" }
-                    %i{ class: "#{icon_class(page.label)}" }
-                    = page.label.upcase
-                  %ul.dropdown
-                    - page.children.published.each do |child_page|
-                      %li
-                        %a{ href: "#{child_page.full_path}" }
-                          = child_page.label
-              - else
-                %li
-                  %a{ href: "#{page.full_path}" }
-                    %i{ class: "#{icon_class(page.label)}" }
-                    = page.label.upcase
+    = render 'layouts/nav'
 
     .flash
       - if flash[:success]
