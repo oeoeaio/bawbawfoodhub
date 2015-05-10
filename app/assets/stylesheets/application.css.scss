@@ -13,6 +13,8 @@
 *= require_self
 *= require ./application/foundation_and_overrides
 *= require_tree ./application
-*= require font-awesome
 
 */
+
+@import "font-awesome-sprockets";
+@import "font-awesome";
