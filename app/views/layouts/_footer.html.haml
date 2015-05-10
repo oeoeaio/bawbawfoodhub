@@ -1,0 +1,37 @@
+.footer
+  .row
+    .small-12.medium-5.columns
+      %h4 Contact Us
+      %div
+        %a{ href: "mailto:info@bawbawfoodhub.org.au" }
+          %i.fa.fa-envelope
+          info@bawbawfoodhub.org.au
+      %div
+        %a{ href: "https://www.facebook.com/BawBawOrganics" }
+          %i.fa.fa-facebook-official
+          Facebook
+      %br
+      %h4 Join Our Mailing List
+      %form#mc-embedded-subscribe-form.validate{:action => "//facebook.us8.list-manage.com/subscribe/post?u=87d56e29d660188ebfd3e03ce&id=3bd359d80a", :method => "post", :name => "mc-embedded-subscribe-form", :novalidate => "", :target => "_blank"}
+        .row.collapse
+          .small-9.columns
+            %input#mce-EMAIL.required.email{:name => "EMAIL", :type => "email", :value => "", placeholder: "Your email"}/
+            %div{:style => "position: absolute; left: -5000px;"}
+              %input{:name => "b_87d56e29d660188ebfd3e03ce_3bd359d80a", :tabindex => "-1", :type => "text", :value => ""}/
+          .small-3.columns
+            %input#mc-embedded-subscribe.button.expand.postfix.red{:name => "subscribe", :type => "submit", :value => "Subscribe"}/
+    .small-12.medium-3.columns
+      %h4 Navigation
+      %div
+        = link_to "Signup", season_path(current_season)
+      %div
+        = link_to "How it works", '/local-food/weekly-veggie-boxes'
+      %div
+        = link_to "Our Producers", '/producers'
+      %div
+        = link_to "Resources", '/resources'
+      %div
+        = link_to "Contact", '/about/contact'
+    .small-12.medium-4.columns
+      %h4 About Us
+      Baw Baw Food Hub is a not-for-profit group based in Warragul that sources organic, natural and local produce for people in the Baw Baw area of West Gippsland.
