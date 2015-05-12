@@ -1,0 +1,14 @@
+.producers
+  %ul.small-block-grid-1.medium-block-grid-2.large-block-grid-3{ 'data-equalizer' => true }
+    - producer_pages.each do |producer_page|
+      %li
+        %a{ href: producer_page.full_path }
+          .thumbnail{ 'data-equalizer-watch' => true }
+            - file = cms_page_content(:header, producer_page)
+            - if file
+              %img{ src: "#{file.file.url}", alt: "#{producer_page.label}"}
+            - else
+              .filler.text-center
+                %i.bbfh-producer
+          %h5
+            = producer_page.label
