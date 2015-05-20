@@ -43,6 +43,7 @@ end
 
 group :test do
   gem 'shoulda-matchers', require: false
+  gem 'capybara', '~> 2.4.4'
 end
 
 # Use ActiveModel has_secure_password
