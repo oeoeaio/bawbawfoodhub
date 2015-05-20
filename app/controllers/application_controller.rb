@@ -26,4 +26,21 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  def validate_rollover_token
+    # Returns false if params[:raw_token] is nil
+    confirmation_token = Devise.token_generator.digest(Rollover, :confirmation_token, params[:raw_token])
+
+    if confirmation_token && rollover = Rollover.find_by_confirmation_token(confirmation_token)
+      @rollover = rollover
+      @raw_token = params[:raw_token]
+    else
+      flash[:error] = "Invalid token"
+      invalid_rollover_token
+    end
+  end
+
+  def invalid_rollover_token
+    redirect_to root_path
+  end
 end
