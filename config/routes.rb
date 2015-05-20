@@ -14,6 +14,12 @@ Rails.application.routes.draw do
   get 'about/contact', to: 'contact#index', as: 'contact'
   post 'about/contact', to: 'contact#submit', as: 'submit_contact'
 
+  resources :rollovers, only: [] do
+    collection do
+      get :cancel
+    end
+  end
+
   namespace :user do
     root :to => "home#index"
   end
