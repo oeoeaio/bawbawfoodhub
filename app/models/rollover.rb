@@ -28,6 +28,10 @@ class Rollover < ActiveRecord::Base
     save(validate: false)
   end
 
+  def cancelled?
+    !cancelled_at.nil?
+  end
+
   protected
 
   # This is an override of the devise method
