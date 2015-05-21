@@ -28,6 +28,12 @@ class Rollover < ActiveRecord::Base
     save(validate: false)
   end
 
+  def status
+    return "cancelled" if cancelled?
+    return "confirmed" if confirmed?
+    "unconfirmed"
+  end
+
   def cancelled?
     !cancelled_at.nil?
   end

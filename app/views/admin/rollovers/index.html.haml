@@ -8,13 +8,13 @@
       %th Given Name
       %th Surname
       %th Email
-      %th Confirmed?
+      %th Status
     - @rollovers.each do |rollover|
       %tr
         %td= rollover.user.given_name
         %td= rollover.user.surname
         %td= rollover.user.email
-        %td= rollover.confirmed? ? "Yes" : "No"
+        %td= rollover.status
 
 .row
   =link_to "Show Subscriptions", admin_season_subscriptions_path(@season), class: "button left"
