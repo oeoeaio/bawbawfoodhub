@@ -11,19 +11,20 @@
           %span
     %section.top-bar-section
       %ul.left
-        - @cms_site.pages.root.children.published.select{ |p| p.slug.in? ['about','local-food','get-involved','resources','producers'] }.each do |page|
-          - if page.children.published.any?
-            %li.has-dropdown
-              %a{ href:"#{page.children.published.first.full_path}" }
-                %i{ class: "#{icon_class(page.label)}" }
-                = page.label.upcase
-              %ul.dropdown
-                - page.children.published.each do |child_page|
-                  %li
-                    %a{ href: "#{child_page.full_path}" }
-                      = child_page.label
-          - else
-            %li
-              %a{ href: "#{page.full_path}" }
-                %i{ class: "#{icon_class(page.label)}" }
-                = page.label.upcase
+        - if @cms_site
+          - @cms_site.pages.root.children.published.select{ |p| p.slug.in? ['about','local-food','get-involved','resources','producers'] }.each do |page|
+            - if page.children.published.any?
+              %li.has-dropdown
+                %a{ href:"#{page.children.published.first.full_path}" }
+                  %i{ class: "#{icon_class(page.label)}" }
+                  = page.label.upcase
+                %ul.dropdown
+                  - page.children.published.each do |child_page|
+                    %li
+                      %a{ href: "#{child_page.full_path}" }
+                        = child_page.label
+            - else
+              %li
+                %a{ href: "#{page.full_path}" }
+                  %i{ class: "#{icon_class(page.label)}" }
+                  = page.label.upcase
