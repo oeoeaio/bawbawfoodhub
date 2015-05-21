@@ -17,9 +17,30 @@ RSpec.describe 'Responding to rollover emails', :type => :feature do
   end
 
   describe "confirmation" do
-    it "renders 'new' with the relevant subscription information" do
-      visit new_season_subscription_url(rollover.season, raw_token: 'sometoken')
-      expect(page).to have_content "Signing up for #{rollover.season.name}"
+    context "without a box size" do
+      before do
+        visit new_season_subscription_path(rollover.season, raw_token: 'sometoken')
+      end
+
+      it "renders 'new' with the relevant subscription information" do
+        expect(page).to have_content "Signing up for #{rollover.season.name}"
+      end
+    end
+
+    context "with a box size" do
+      before do
+        visit new_season_subscription_path(rollover.season, raw_token: 'sometoken', box_size: 'large' )
+      end
+
+      it "creates a new subscription based on rollover subscription" do
+        expect(page).to have_content "Congratulations #{rollover.subscription.user.given_name}"
+        expect(page).to have_content "You are now signed up for the #{rollover.season.name} season!"
+        expect(page).to have_content "We will pack you a Large Box each Tuesday"
+        subscription = Subscription.last
+        expect(subscription.season).to eq rollover.season
+        expect(subscription.box_size).to eq 'large'
+        expect(subscription.user).to eq rollover.subscription.user
+      end
     end
   end
 end

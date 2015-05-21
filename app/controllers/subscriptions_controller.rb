@@ -4,7 +4,12 @@ class SubscriptionsController < ApplicationController
   before_filter :validate_rollover_token, only: [:new]
 
   def new
-    @subscription = Subscription.new( box_size: @rollover.subscription.box_size )
+    if params[:box_size] && Subscription::SIZES.keys.include?(params[:box_size])
+      params[:subscription] = { box_size: params[:box_size] }
+      create_from_token
+    else
+      @subscription = Subscription.new( box_size: @rollover.subscription.box_size )
+    end
   end
 
   def create

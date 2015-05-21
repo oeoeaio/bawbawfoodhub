@@ -9,18 +9,30 @@ RSpec.describe SubscriptionsController, :type => :controller do
     let(:params) { { season_id: season.slug } }
 
     context "when a token is submitted" do
-      let(:rollover) { create(:rollover, season: season) }
+      let!(:rollover) { create(:rollover, season: season) }
 
       before do
         params.merge!( { raw_token: "some_token"} )
+        allow(Rollover).to receive(:find_by_confirmation_token) { rollover }
       end
 
       it "instantiates a subscription object for building the form" do
-        expect(Rollover).to receive(:find_by_confirmation_token) { rollover }
         get :new, params
         expect(assigns(:rollover)).to eq rollover
         expect(assigns(:subscription)).to be_a_new(Subscription)
         expect(assigns(:subscription)[:box_size]).to eq rollover.subscription.box_size
+      end
+
+      context "and a box_size is also submitted" do
+        before do
+          params.merge!( { box_size: "large" } )
+          allow(controller).to receive(:create_from_token)
+        end
+
+        it "calls create_from_token" do
+          get :new, params
+          expect(controller).to have_received(:create_from_token)
+        end
       end
     end
 
