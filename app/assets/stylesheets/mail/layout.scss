@@ -413,12 +413,19 @@ h4 {
 
   a.button {
     padding: 15px;
-    background-color: #d63e3e;
     color: #fff;
     font-weight: bold;
     word-wrap: normal;
     display: inline-block;
     text-align: center;
+
+    &.red {
+      background-color: #d63e3e;
+    }
+
+    &.blue {
+      background-color: #008cba;
+    }
   }
 }
 

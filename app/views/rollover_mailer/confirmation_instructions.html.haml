@@ -3,26 +3,47 @@
 %br
 
 %h3
-  We'd like to invite you to sign up for the #{@season.name} season! It will run for #{@season.pack_days.count} weeks in total, from the
+  The #{@season.name} begins very soon and we'd love for you to join us! It will run for #{@season.pack_days.count} weeks in total, from the
   %strong= readable_date(@season.first_pack_day.pack_date)
   until the
   =succeed "." do
     %strong= readable_date(@season.last_pack_day.pack_date)
 
 %p
-  To make this process easier, we've created a special link just for you which will make signing up
+  Please take a moment to let us know your intentions by using the appropriate link below (it's
   %strong super
-  fast.
+  fast, we promise), or by getting in touch with us via email at: info@bawbawfoodhub.org.au
+
+%p
+  Use this link to rollover your subscription for a
+  =succeed "." do
+    %strong= Subscription::SIZES[@subscription.box_size][:name]
+
+= link_to "CONTINUE WITH A #{Subscription::SIZES[@subscription.box_size][:name].upcase}", new_season_subscription_url(@season, raw_token: @raw_token, box_size: @subscription.box_size), class: "button red"
 
 %br
 
-= link_to "Take me to the quick signup!", new_season_subscription_url(@season, raw_token: @raw_token), class: "button"
+%p
+  If you would like to change sizes can let us know your new preferred box size for winter here:
+
+= link_to "CHOOSE A DIFFERENT BOX SIZE", new_season_subscription_url(@season, raw_token: @raw_token), class: "button red"
+
+%br
+
+%p Alternatively, you can cancel your subscription here:
+
+= link_to "PLEASE CANCEL MY SUBSCRIPTION", cancel_rollovers_url(raw_token: @raw_token), class: "button blue"
+
+%p
+  If we do not hear from you before the beginning of the season we will assume that you wish to continue your subscription for a
+  =succeed "." do
+    %strong= Subscription::SIZES[@subscription.box_size][:name]
 
 %br
 %br
 
 %p
-  Bear in mind that this link is only for you as a current subscriber and will only work once, so if you'd like to invite your friends/family to sign up as well, please send them to the public sign-up page for the
+  Bear in mind that these links are only for you as a current subscriber and will only work once, so if you'd like to invite your friends/family to sign up as well, please send them to the public sign-up page for the
   = @season.name
   season:
 
