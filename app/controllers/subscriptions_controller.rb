@@ -1,14 +1,10 @@
 class SubscriptionsController < ApplicationController
   before_filter :load_season
   before_filter :pack_days_remaining?, only: [:new, :create]
+  before_filter :validate_rollover_token, only: [:new]
 
   def new
-    if params[:raw_token] && validate_token
-      @subscription = Subscription.new( box_size: @rollover.subscription.box_size )
-    else
-      @user = User.new
-      @subscription = Subscription.new
-    end
+    @subscription = Subscription.new( box_size: @rollover.subscription.box_size )
   end
 
   def create
@@ -135,18 +131,9 @@ class SubscriptionsController < ApplicationController
     end
   end
 
-  def validate_token
-    # Returns false if params[:raw_token] is nil
-    confirmation_token = Devise.token_generator.digest(Rollover, :confirmation_token, params[:raw_token])
-
-    if confirmation_token && rollover = Rollover.find_by_confirmation_token(confirmation_token)
-      @rollover = rollover
-      @raw_token = params[:raw_token]
-      true
-    else
-      flash[:error] = "Invalid token"
-      redirect_to new_season_subscription_path(@season)
-      false
-    end
+  def invalid_rollover_token
+    @user = User.new
+    @subscription = Subscription.new
+    render :new
   end
 end
