@@ -2,7 +2,7 @@
   .small-12.medium-8.columns
     %h2 Subscriptions for #{@season.name} (#{@subscriptions.count} total)
   .small-12.medium-4.columns
-    = link_to "Send Invites", admin_season_rollovers_new_multiple_path(@season), class: "button red right"
+    = link_to "Rollover This List", admin_season_rollovers_new_multiple_path(@season), class: "button red right"
 %table.fullwidth
   %tr
     %th Given Name

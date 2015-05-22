@@ -3,7 +3,7 @@
 %br
 
 =form_tag admin_season_rollovers_create_multiple_path(@season), method: :put do |f|
-  =label_tag :target_season_id, "Invite to:"
+  =label_tag :target_season_id, "Rollover to:"
   =select_tag :target_season_id, options_from_collection_for_select(Season.where(signups_open: true), :slug, :name), placeholder: "Select Season"
 
   %table.fullwidth
@@ -19,8 +19,8 @@
         %td= subscription.user.surname
         %td= subscription.user.email
         %td= Subscription::SIZES[subscription.box_size][:name]
-        %td= check_box_tag 'subscription_ids[]', subscription.id, selected: true
+        %td= check_box_tag 'subscription_ids[]', subscription.id, true
 
-  = submit_tag "Send Invites!", class: "button red left"
+  = submit_tag "Create Rollover List", class: "button red left"
 
   = link_to "Cancel", admin_season_subscriptions_path(@season), class: "button right"
