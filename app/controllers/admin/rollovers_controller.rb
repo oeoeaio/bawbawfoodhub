@@ -22,10 +22,22 @@ class Admin::RolloversController < Admin::BaseController
     end
 
     if rollovers.all?(&:save)
-      rollovers.each(&:send_confirmation_instructions)
       redirect_to admin_season_rollovers_path(target_season)
     else
       redirect_to admin_season_subscriptions_path(original_season)
     end
+  end
+
+  def bulk_action
+    rollovers = Rollover.where(id: params[:rollover_ids])
+    case params[:bulk_action]
+    when 'cancel'
+      rollovers.each(&:cancel)
+      flash[:success] = "Cancelled #{rollovers.count} rollovers"
+    when 'send'
+      rollovers.each(&:send_confirmation_instructions)
+      flash[:success] = "Sent #{rollovers.count} confirmation emails"
+    end
+    redirect_to admin_season_rollovers_path(@season)
   end
 end

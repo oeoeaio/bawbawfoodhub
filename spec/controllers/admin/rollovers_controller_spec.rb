@@ -31,12 +31,21 @@ RSpec.describe Admin::RolloversController, :type => :controller do
       end
 
       describe "when all objects save" do
-        it "sends confirmation emails and redirects" do
+        before do
           rollovers.each do |r|
             rollovers.each{ |r| allow(r).to receive(:save) { true } }
-            expect(r).to receive(:send_confirmation_instructions)
           end
+        end
 
+        it "doesn't send any confirmation emails" do
+          subscription1
+          subscription2
+          expect{
+            put :create_multiple, season_id: original_season, target_season_id: target_season, subscription_ids: [subscription1.id,subscription2.id]
+          }.to_not change{ActionMailer::Base.deliveries.count}
+        end
+
+        it "redirects" do
           put :create_multiple, season_id: original_season, target_season_id: target_season, subscription_ids: [subscription1.id,subscription2.id]
           expect(response).to redirect_to admin_season_rollovers_path(target_season)
         end
@@ -51,6 +60,29 @@ RSpec.describe Admin::RolloversController, :type => :controller do
           put :create_multiple, season_id: original_season, target_season_id: target_season, subscription_ids: [subscription1.id,subscription2.id]
           expect(response).to redirect_to admin_season_subscriptions_path(original_season)
         end
+      end
+    end
+  end
+
+  describe 'bulk_action' do
+    let!(:target_season) { create(:season) }
+    let!(:rollover) { create(:rollover) }
+
+    describe "cancel" do
+      it "cancels the rollovers submitted" do
+        expect{
+          post :bulk_action, season_id: target_season, bulk_action: 'cancel', rollover_ids: [rollover.id]
+        }.to change{rollover.reload.cancelled?}.from(false).to(true)
+        expect(flash[:success]).to eq "Cancelled 1 rollovers"
+      end
+    end
+
+    describe "send" do
+      it "send confirmatino emails for the rollovers submitted" do
+        expect{
+          post :bulk_action, season_id: target_season, bulk_action: 'send', rollover_ids: [rollover.id]
+        }.to change{ActionMailer::Base.deliveries.count}.by(1)
+        expect(flash[:success]).to eq "Sent 1 confirmation emails"
       end
     end
   end

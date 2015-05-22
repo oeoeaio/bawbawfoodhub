@@ -2,15 +2,21 @@
 
 %br
 
+=form_tag admin_season_rollovers_bulk_action_path(@season), method: :post do |f|
+  = label_tag :bulk_action
+  = select_tag :bulk_action, options_for_select([["Cancel Rollovers", "cancel"], ["Send Email Confirmations", "send"]]), include_blank: true, placeholder: "Select Action"
+  = submit_tag "Perform Bulk Action (on selected rollovers)", class: "button red"
 
   %table.fullwidth
     %tr
+      %th= check_box_tag 'selectall', "", false, id: 'selectall'
       %th Given Name
       %th Surname
       %th Email
       %th Status
     - @rollovers.each do |rollover|
       %tr
+        %td= check_box_tag 'rollover_ids[]', rollover.id, false, class: 'selectallable'
         %td= rollover.user.given_name
         %td= rollover.user.surname
         %td= rollover.user.email
