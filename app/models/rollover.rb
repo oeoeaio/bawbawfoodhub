@@ -38,6 +38,10 @@ class Rollover < ActiveRecord::Base
     !cancelled_at.nil?
   end
 
+  def cancel
+    update_attribute(:cancelled_at, Time.now)
+  end
+
   protected
 
   # This is an override of the devise method
