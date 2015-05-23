@@ -38,6 +38,8 @@ Rails.application.routes.draw do
       put 'rollovers/create_multiple'
       post 'rollovers/bulk_action'
     end
+
+    resources :users, only: [:index, :edit, :update]
   end
 
   comfy_route :cms_admin, :path => '/cms'
