@@ -1,0 +1,17 @@
+%h2 Users
+%table.fullwidth
+  %tr
+    %th Given name
+    %th Surname
+    %th Email
+    %th Phone
+    %th Subscriptions
+    %th Edit
+  - @users.each do |user|
+    %tr
+      %td= user.given_name
+      %td= user.surname
+      %td= user.email
+      %td= user.phone
+      %td= "Manage"
+      %td= link_to "Edit", edit_admin_user_path(user)

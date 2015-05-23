@@ -1,0 +1,22 @@
+= form_for [:admin, @user] do |f|
+  .row
+    .small-12.medium-6.columns
+      =f.label :given_name
+      =f.text_field :given_name
+    .small-12.medium-6.columns
+      =f.label :surname
+      =f.text_field :surname
+  .row
+    .small-12.medium-6.columns
+      =f.label :email
+      =f.text_field :email
+    .small-12.medium-6.columns
+      =f.label :phone
+      =f.text_field :phone
+  .row
+    .small-12.columns
+      -if %w(new create).include? action_name
+        = submit_tag "Create"
+      -else
+        = submit_tag "Update"
+      = link_to "Cancel", admin_users_path, class: "button red"
