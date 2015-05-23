@@ -1,0 +1,24 @@
+= form_for [:admin, @subscription] do |f|
+  .row
+    .small-12.medium-6.columns
+      =f.label :season_id
+      =f.collection_select :season_id, Season.all, :id, :name, disabled: Season.where(signups_open: false).map(&:id)
+
+    .small-12.medium-6.columns
+      =f.label :user_id
+      =f.collection_select :user_id, User.all, :id, :email
+  .row
+    .small-12.medium-6.columns
+      =f.label :box_size
+      =f.select :box_size, options_for_select(Subscription::SIZES.map{ |k,v| [v[:name], k]})
+    -if %w(new create).include? action_name
+      .small-12.medium-6.columns
+        =f.label :skip_confirmation_email, "Skip Confirmation Email?"
+        =check_box_tag :skip_confirmation_email
+  .row
+    .small-12.columns
+      -if %w(new create).include? action_name
+        = submit_tag "Create"
+      -else
+        = submit_tag "Update"
+      = link_to "Cancel", :back, class: "button red"
