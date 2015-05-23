@@ -43,7 +43,13 @@ Rails.application.routes.draw do
       post 'rollovers/bulk_action'
     end
 
-    resources :users, only: [:index, :edit, :update]
+    resources :users, only: [:index, :edit, :update] do
+      resources :subscriptions, only: [] do
+        collection do
+          get :index, to: :users_index
+        end
+      end
+    end
   end
 
   comfy_route :cms_admin, :path => '/cms'
