@@ -1,26 +1,39 @@
 .row
   .small-12.medium-8.columns
-    %h2 Subscriptions for #{@season.name} (#{@subscriptions.count} total)
+    - if @user
+      %h2 Subscriptions for #{@user.given_name} #{@user.surname} (#{@subscriptions.count} total)
+    - elsif @season
+      %h2 Subscriptions for #{@season.name} (#{@subscriptions.count} total)
   .small-12.medium-4.columns
-    = link_to "Rollover This List", admin_season_rollovers_new_multiple_path(@season), class: "button red right"
+    - if @season
+      = link_to "Rollover This List", admin_season_rollovers_new_multiple_path(@season), class: "button red right"
 %table.fullwidth
   %tr
-    %th Given Name
-    %th Surname
-    %th Email
-    %th Phone
+    - if @user
+      %th Season
+    - elsif @season
+      %th Given Name
+      %th Surname
+      %th Email
+      %th Phone
     %th Box Size
     %th Subscription Date
   - @subscriptions.each do |subscription|
     %tr
-      %td= subscription.user.given_name
-      %td= subscription.user.surname
-      %td= subscription.user.email
-      %td= subscription.user.phone
+      - if @user
+        %td= subscription.season.name
+      - elsif @season
+        %td= subscription.user.given_name
+        %td= subscription.user.surname
+        %td= subscription.user.email
+        %td= subscription.user.phone
       %td= Subscription::SIZES[subscription.box_size][:name]
       %td= subscription.created_at.try{ |d| d.strftime("%d/%m/%Y %H:%M:%S") }
 
 .row
-  =link_to "Back to Seasons", admin_seasons_path, class: "button left"
+  - if @user
+    =link_to "Back to Users", admin_users_path, class: "button left"
+  - if @season
+    =link_to "Back to Seasons", admin_seasons_path, class: "button left"
 .row
   =link_to "Back to Dashboard", admin_root_path, class: "button left"
