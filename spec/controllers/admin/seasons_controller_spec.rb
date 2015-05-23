@@ -30,7 +30,7 @@ RSpec.describe Admin::SeasonsController, :type => :controller do
   describe 'update' do
     let(:season) { double(:season, class: Season) }
     before do
-      allow(Season).to receive(:find) { season }
+      allow(Season).to receive(:find_by_slug) { season }
     end
 
     describe 'on successful update' do
