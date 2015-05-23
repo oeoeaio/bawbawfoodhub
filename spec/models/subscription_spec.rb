@@ -31,12 +31,24 @@ RSpec.describe Subscription, :type => :model do
     end
   end
 
-  describe "emails" do
-    let!(:season) { create(:season) }
-    let!(:subscription) { create(:subscription, season: season) }
+  describe "callbacks" do
+    describe "after_create" do
+      let!(:season) { create(:season) }
+      let!(:subscription) { build(:subscription, season: season) }
 
-    it "sends a confirmation email" do
-      expect { subscription.send(:send_confirmation) }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      context "when skip_confirmation_email is falsey" do
+        it "sends a confirmation email" do
+          expect { subscription.save }.to change { ActionMailer::Base.deliveries.count }.by(1)
+        end
+      end
+
+      context "when skip_confirmation_email is true" do
+        before { subscription.skip_confirmation_email = true }
+        it "sends a confirmation email" do
+          expect { subscription.save }.to_not change { ActionMailer::Base.deliveries.count }
+          expect(subscription.persisted?).to be true
+        end
+      end
     end
   end
 end

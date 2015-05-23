@@ -29,7 +29,8 @@ class Subscription < ActiveRecord::Base
 
   accepts_nested_attributes_for :user
 
-  after_save :send_confirmation
+  attr_accessor :skip_confirmation_email
+  after_create :send_confirmation, unless: :skip_confirmation_email
 
   private
 
