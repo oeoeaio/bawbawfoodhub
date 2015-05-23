@@ -12,4 +12,8 @@ class SubscriptionPolicy < ApplicationPolicy
   def admin_seasons_index?
     user.class == Admin
   end
+
+  def admin_users_index?
+    user.class == Admin
+  end
 end

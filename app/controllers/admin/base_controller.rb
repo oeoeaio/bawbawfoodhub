@@ -20,4 +20,12 @@ class Admin::BaseController < ApplicationController
       redirect_to admin_root_path
     end
   end
+
+  def load_user
+    @user = User.find_by_id params[:user_id]
+    if @user.nil?
+      flash[:error] = "Unable to find the specified user"
+      redirect_to admin_root_path
+    end
+  end
 end
