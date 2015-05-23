@@ -8,4 +8,8 @@ class SubscriptionPolicy < ApplicationPolicy
       end
     end
   end
+
+  def admin_seasons_index?
+    user.class == Admin
+  end
 end

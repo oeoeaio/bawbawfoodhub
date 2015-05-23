@@ -30,7 +30,11 @@ Rails.application.routes.draw do
     resources :seasons do
       resources :pack_days
 
-      resources :subscriptions, only: [:index]
+      resources :subscriptions, only: [] do
+        collection do
+          get :index, to: :seasons_index
+        end
+      end
 
       # Rollovers
       resources :rollovers, only: [:index]

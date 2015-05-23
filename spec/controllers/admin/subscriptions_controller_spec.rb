@@ -10,7 +10,7 @@ RSpec.describe Admin::SubscriptionsController, :type => :controller do
 
   describe "index" do
     before(:example) do
-      get :index, season_id: season.slug
+      get :seasons_index, season_id: season.slug
     end
 
     it "assigns the season" do
