@@ -35,4 +35,45 @@ RSpec.describe User, :type => :model do
       expect(build(:user, password: "password")).to be_valid
     end
   end
+
+  describe "callbacks" do
+    describe "initialisation" do
+      context "creation" do
+        let!(:user) { User.new(given_name: "Todd", surname: "Summers", email: "todd@email.com", password: "12345678", password_confirmation: "12345678") }
+
+        context "when skip_initialisation is not set" do
+          it "sets initialised_at" do
+            expect{user.save}.to change{user.initialised_at}.from(nil)
+          end
+        end
+
+        context "when skip_initialisation is not set" do
+          before { user.skip_initialisation = true }
+          it "does not set initialised_at" do
+            expect{user.save}.to_not change{user.initialised_at}.from(nil)
+          end
+        end
+
+      end
+      context "updating" do
+        let(:user) { create(:user, skip_initialisation: true)}
+        before { user.skip_initialisation = false }
+
+        it "sets initialised_at if password is changed" do
+          expect do
+            user.password = "lalalala"
+            user.password_confirmation = "lalalala"
+            user.save
+          end.to change{user.initialised_at}.from(nil)
+        end
+
+        it "does not set initialised_at if password is not changed" do
+          expect do
+            user.given_name = "Tony"
+            user.save
+          end.to_not change{user.initialised_at}.from(nil)
+        end
+      end
+    end
+  end
 end

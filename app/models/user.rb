@@ -6,4 +6,19 @@ class User < ActiveRecord::Base
 
   validates :given_name, presence: true
   validates :surname, presence: true
+
+  attr_accessor :skip_initialisation
+  after_save :initialise, if: :encrypted_password_changed?, unless: :skip_initialisation?
+
+  def skip_initialisation?
+    initialised? || @skip_initialisation
+  end
+
+  def initialised?
+    !!initialised_at
+  end
+
+  def initialise
+    update_attribute(:initialised_at, Time.now)
+  end
 end
