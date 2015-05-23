@@ -40,4 +40,54 @@ RSpec.describe Admin::SubscriptionsController, :type => :controller do
       expect(assigns(:subscriptions)).to eq [subscription1]
     end
   end
+
+  describe "new" do
+    it "builds a new subscription and renders :new" do
+      get :new
+      expect(assigns(:subscription)).to be_a_new Subscription
+      expect(response).to render_template :new
+    end
+
+    context "when given a user_id" do
+      let(:user) { create(:user) }
+      before { get :new, user_id: user.id }
+
+      it "builds a new subscription" do
+        expect(assigns(:subscription).user).to eq user
+      end
+    end
+
+    context "when given a season_id" do
+      let(:season) { create(:season) }
+      before { get :new, season_id: season.slug }
+
+      it "builds a new subscription" do
+        expect(assigns(:subscription).season).to eq season
+      end
+    end
+  end
+
+  describe 'create' do
+    let(:season) { create(:season) }
+    let(:subscription) { double(:subscription, season: season) }
+    before do
+      allow(Subscription).to receive(:new) { subscription }
+    end
+
+    describe 'on successful save' do
+      it 'redirects to index' do
+        expect(subscription).to receive(:save).and_return true
+        post :create, { subscription: { box_size: 'standard' } }
+        expect(response).to redirect_to admin_season_subscriptions_path(season)
+      end
+    end
+
+    describe 'on unsuccessful save' do
+      it 'returns to new' do
+        expect(subscription).to receive(:save).and_return false
+        post :create, { subscription: { box_size: 'standard' } }
+        expect(response).to render_template :new
+      end
+    end
+  end
 end
