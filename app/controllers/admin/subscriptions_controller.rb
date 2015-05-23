@@ -33,6 +33,6 @@ class Admin::SubscriptionsController < Admin::BaseController
   private
 
   def subscription_params
-    params.require(:subscription).permit(:season_id, :user_id, :box_size, :skip_confirmation_notification)
+    params.require(:subscription).permit(:season_id, :user_id, :box_size, :skip_confirmation_email)
   end
 end
