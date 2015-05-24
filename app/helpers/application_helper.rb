@@ -14,7 +14,7 @@ module ApplicationHelper
   end
 
   def current_season
-    season = Season.all
+    season = Season.all.where(signups_open: true)
     .select{ |season| season.first_pack_day_with_lead_time_after(Time.now).present? }
     .sort{ |a,b| a.first_pack_day.pack_date <=> b.first_pack_day.pack_date }.first
 
