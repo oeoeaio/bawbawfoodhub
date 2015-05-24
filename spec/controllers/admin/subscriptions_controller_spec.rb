@@ -52,7 +52,7 @@ RSpec.describe Admin::SubscriptionsController, :type => :controller do
       let(:user) { create(:user) }
       before { get :new, user_id: user.id }
 
-      it "builds a new subscription" do
+      it "set the user on the new subscription" do
         expect(assigns(:subscription).user).to eq user
       end
     end
@@ -61,7 +61,7 @@ RSpec.describe Admin::SubscriptionsController, :type => :controller do
       let(:season) { create(:season) }
       before { get :new, season_id: season.slug }
 
-      it "builds a new subscription" do
+      it "set the season on the new subscription" do
         expect(assigns(:subscription).season).to eq season
       end
     end
