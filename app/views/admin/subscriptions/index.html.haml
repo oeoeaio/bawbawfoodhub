@@ -21,6 +21,7 @@
       %th Phone
     %th Box Size
     %th Subscription Date
+    %th Edit
   - @subscriptions.each do |subscription|
     %tr
       - if @user
@@ -32,6 +33,7 @@
         %td= subscription.user.phone
       %td= Subscription::SIZES[subscription.box_size][:name]
       %td= subscription.created_at.try{ |d| d.strftime("%d/%m/%Y %H:%M:%S") }
+      %th= link_to "Edit", edit_admin_subscription_path(subscription)
 
 .row
   - if @user
