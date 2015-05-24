@@ -13,6 +13,13 @@
     .small-12.medium-6.columns
       =f.label :phone
       =f.text_field :phone
+  -if %w(new create).include? action_name
+    .row
+      .small-12.medium-6.columns
+        &nbsp;
+      .small-12.medium-6.columns
+        =f.check_box(:skip_initialisation, checked: true)
+        =f.label :skip_initialisation, "Skip Initialisation? (advised)"
   .row
     .small-12.columns
       -if %w(new create).include? action_name
