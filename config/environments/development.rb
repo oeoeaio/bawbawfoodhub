@@ -37,4 +37,17 @@ Rails.application.configure do
 
   # Devise
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  # Uncomment to test emails in development
+  # config.action_mailer.perform_deliveries = true
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  #   address:              'smtp.gmail.com',
+  #   port:                 587,
+  #   domain:               'bawbawfoodhub.org.au',
+  #   user_name:            Rails.application.secrets.admin_email,
+  #   password:             Rails.application.secrets.email_pass,
+  #   authentication:       'plain',
+  #   return_response:      true,
+  #   enable_starttls_auto: true  }
 end
