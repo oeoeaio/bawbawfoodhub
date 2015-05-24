@@ -13,8 +13,12 @@
       =f.select :box_size, options_for_select(Subscription::SIZES.map{ |k,v| [v[:name], k]})
     -if %w(new create).include? action_name
       .small-12.medium-6.columns
-        =f.label :skip_confirmation_email, "Skip Confirmation Email?"
-        =check_box_tag :skip_confirmation_email
+        =f.label :skip_confirmation_email, "Send A Confirmation Email?"
+        =f.radio_button :skip_confirmation_email, "no", checked: true
+        =f.label :skip_confirmation_no, "Yes"
+        =f.radio_button :skip_confirmation_email, "yes"
+        =f.label :skip_confirmation_yes, "No"
+
   .row
     .small-12.columns
       -if %w(new create).include? action_name

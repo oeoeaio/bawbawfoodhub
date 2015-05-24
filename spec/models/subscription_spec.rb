@@ -43,7 +43,7 @@ RSpec.describe Subscription, :type => :model do
       end
 
       context "when skip_confirmation_email is true" do
-        before { subscription.skip_confirmation_email = true }
+        before { subscription.skip_confirmation_email = "yes" }
         it "sends a confirmation email" do
           expect { subscription.save }.to_not change { ActionMailer::Base.deliveries.count }
           expect(subscription.persisted?).to be true

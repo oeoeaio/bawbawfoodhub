@@ -30,9 +30,13 @@ class Subscription < ActiveRecord::Base
   accepts_nested_attributes_for :user
 
   attr_accessor :skip_confirmation_email
-  after_create :send_confirmation, unless: :skip_confirmation_email
+  after_create :send_confirmation, unless: :skip_confirmation_email?
 
   private
+
+  def skip_confirmation_email?
+    skip_confirmation_email == "yes"
+  end
 
   def send_confirmation
     # begin
