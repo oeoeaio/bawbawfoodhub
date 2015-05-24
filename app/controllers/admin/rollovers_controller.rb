@@ -1,9 +1,27 @@
 class Admin::RolloversController < Admin::BaseController
   before_filter :authorize_admin
-  before_filter :load_season
+  before_filter :load_season, except: [:new, :create]
 
   def index
     @rollovers = Rollover.where(season:@season).order(confirmed_at: :desc, created_at: :desc)
+  end
+
+  def new
+    @rollover = Rollover.new
+    @rollover.season = Season.find_by_slug params[:season_id] if params[:season_id]
+    @rollover.user = User.find_by_id params[:user_id] if params[:user_id]
+  end
+
+  def create
+    @rollover = Rollover.new(rollover_params)
+    @rollover.skip_confirmation_notification!
+
+    if @rollover.save
+      flash[:success] = "Successfully created a new rollover"
+      redirect_to admin_season_rollovers_path(@rollover.season)
+    else
+      render :new
+    end
   end
 
   def new_multiple
@@ -39,5 +57,11 @@ class Admin::RolloversController < Admin::BaseController
       flash[:success] = "Sent #{rollovers.count} confirmation emails"
     end
     redirect_to admin_season_rollovers_path(@season)
+  end
+
+  private
+
+  def rollover_params
+    params.require(:rollover).permit(:season_id, :user_id, :box_size)
   end
 end

@@ -15,9 +15,7 @@ Rails.application.routes.draw do
   post 'about/contact', to: 'contact#submit', as: 'submit_contact'
 
   resources :rollovers, only: [] do
-    collection do
-      get :cancel
-    end
+    get :cancel, on: :collection
   end
 
   namespace :user do
@@ -35,19 +33,21 @@ Rails.application.routes.draw do
       end
 
       # Rollovers
-      resources :rollovers, only: [:index]
-      get 'rollovers/new_multiple'
-      put 'rollovers/create_multiple'
-      post 'rollovers/bulk_action'
+      resources :rollovers, only: [:index] do
+        collection do
+          get :new_multiple
+          put :create_multiple
+          post :bulk_action
+        end
+      end
     end
 
+    resources :rollovers, only: [:new, :create]
     resources :subscriptions, only: [:new, :create, :edit, :update]
 
     resources :users, only: [:index, :new, :create, :edit, :update] do
       resources :subscriptions, only: [] do
-        collection do
-          get :index, to: :users_index
-        end
+        get :index, to: :users_index, on: :collection
       end
     end
   end

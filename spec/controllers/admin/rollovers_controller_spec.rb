@@ -4,6 +4,79 @@ RSpec.describe Admin::RolloversController, :type => :controller do
   let(:admin) { build(:admin) }
   before { allow(controller).to receive(:current_admin).and_return admin }
 
+
+
+  describe "new" do
+    it "builds a new rollover and renders :new" do
+      get :new
+      expect(assigns(:rollover)).to be_a_new Rollover
+      expect(response).to render_template :new
+    end
+
+    context "when given a user_id" do
+      let(:user) { create(:user) }
+      before { get :new, user_id: user.id }
+
+      it "sets the user on the new rollover" do
+        expect(assigns(:rollover).user).to eq user
+      end
+    end
+
+    context "when given a season_id" do
+      let(:season) { create(:season) }
+      before { get :new, season_id: season.slug }
+
+      it "sets the season on the new rollover" do
+        expect(assigns(:rollover).season).to eq season
+      end
+    end
+  end
+
+  describe 'create' do
+    describe "redirection" do
+      let(:season) { create(:season) }
+      let(:rollover) { double(:rollover, season: season) }
+      before do
+        allow(rollover).to receive(:skip_confirmation_notification!) { true }
+        allow(Rollover).to receive(:new) { rollover }
+      end
+
+      describe 'on successful save' do
+        it 'redirects to index' do
+          expect(rollover).to receive(:save).and_return true
+          post :create, { rollover: { box_size: 'standard' } }
+          expect(response).to redirect_to admin_season_rollovers_path(season)
+        end
+      end
+
+      describe 'on unsuccessful save' do
+        it 'returns to new' do
+          expect(rollover).to receive(:save).and_return false
+          post :create, { rollover: { box_size: 'standard' } }
+          expect(response).to render_template :new
+        end
+      end
+    end
+
+    describe "on success" do
+      let(:season) { create(:season) }
+      let(:user) { create(:user) }
+      let(:rollover_params) { { rollover: { season_id: season.id, user_id: user.id, box_size: 'large' } } }
+
+      it "creates a new rollover" do
+        expect{post :create, rollover_params}.to change{Rollover.count}.by(1)
+        rollover = Rollover.last
+        expect(rollover.season).to eq season
+        expect(rollover.user).to eq user
+        expect(rollover.box_size).to eq 'large'
+      end
+
+      it "does not send a confirmation email" do
+        expect{post :create, rollover_params}.to_not change{ActionMailer::Base.deliveries.count}
+      end
+    end
+  end
+
   describe 'create_multiple' do
     let!(:target_season) { create(:season) }
     let!(:original_season) { create(:season) }
