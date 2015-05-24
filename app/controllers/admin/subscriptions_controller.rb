@@ -17,7 +17,6 @@ class Admin::SubscriptionsController < Admin::BaseController
     @subscription = Subscription.new
     @subscription.season = Season.find_by_slug params[:season_id] if params[:season_id]
     @subscription.user = User.find_by_id params[:user_id] if params[:user_id]
-    render :new
   end
 
   def create
@@ -30,9 +29,30 @@ class Admin::SubscriptionsController < Admin::BaseController
     end
   end
 
+  def edit
+    @subscription = Subscription.find params[:id]
+    authorize_admin @subscription
+  end
+
+  def update
+    @subscription = Subscription.find params[:id]
+    authorize_admin @subscription
+
+    if @subscription.update_attributes(update_subscription_params)
+      flash[:success] = "Subscription updated successfully"
+      redirect_to admin_season_subscriptions_path(@subscription.season)
+    else
+      render :edit
+    end
+  end
+
   private
 
   def subscription_params
     params.require(:subscription).permit(:season_id, :user_id, :box_size, :skip_confirmation_email)
+  end
+
+  def update_subscription_params
+    params.require(:subscription).permit(:box_size)
   end
 end

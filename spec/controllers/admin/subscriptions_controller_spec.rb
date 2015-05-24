@@ -90,4 +90,28 @@ RSpec.describe Admin::SubscriptionsController, :type => :controller do
       end
     end
   end
+
+  describe 'update' do
+    let(:season) { create(:season) }
+    let(:subscription) { double(:subscription, season: season, class: Subscription) }
+    before do
+      allow(Subscription).to receive(:find) { subscription }
+    end
+
+    describe 'on successful update' do
+      it 'redirects to index' do
+        expect(subscription).to receive(:update_attributes).and_return true
+        put :update, { id: 1, subscription: { box_size: 'standard' } }
+        expect(response).to redirect_to admin_season_subscriptions_path(season)
+      end
+    end
+
+    describe 'on unsuccessful save' do
+      it 'returns to edit' do
+        expect(subscription).to receive(:update_attributes).and_return false
+        put :update, { id: 1, subscription: { box_size: 'standard' } }
+        expect(response).to render_template :edit
+      end
+    end
+  end
 end
