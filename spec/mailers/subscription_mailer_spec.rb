@@ -19,7 +19,7 @@ RSpec.describe SubscriptionMailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match("Congratulations #{subscription.user.given_name}!")
+      expect(mail.body.encoded).to match("Thanks #{subscription.user.given_name}!")
     end
   end
 end
