@@ -43,7 +43,7 @@ Rails.application.routes.draw do
 
     resources :subscriptions, only: [:new, :create]
 
-    resources :users, only: [:index, :edit, :update] do
+    resources :users, only: [:index, :new, :create, :edit, :update] do
       resources :subscriptions, only: [] do
         collection do
           get :index, to: :users_index
