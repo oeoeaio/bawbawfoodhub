@@ -1,0 +1,21 @@
+= form_for [:admin, @rollover] do |f|
+  .row
+    .small-12.medium-6.columns
+      =f.label :season_id
+      =f.collection_select :season_id, Season.all, :id, :name, {disabled: Season.where(signups_open: false).map(&:id) }, {disabled: %w(new create).exclude?(action_name)}
+
+    .small-12.medium-6.columns
+      =f.label :user_id
+      =f.collection_select :user_id, User.all, :id, :email, {}, {disabled: %w(new create).exclude?(action_name)}
+  .row
+    .small-12.medium-6.columns
+      =f.label :box_size
+      =f.select :box_size, options_for_select(Subscription::SIZES.map{ |k,v| [v[:name], k]})
+
+  .row
+    .small-12.columns
+      -if %w(new create).include? action_name
+        = submit_tag "Create"
+      -else
+        = submit_tag "Update"
+      = link_to "Cancel", :back, class: "button red"

@@ -3,9 +3,10 @@
     %h2 Rollovers
     %h5 For #{@season.name} (#{@rollovers.count} total)
   .small-12.medium-6.columns.text-right
+    = link_to "Create New", new_admin_rollover_path(season_id: @season), class: "button"
 
 
-=form_tag admin_season_rollovers_bulk_action_path(@season), method: :post do |f|
+=form_tag bulk_action_admin_season_rollovers_path(@season), method: :post do |f|
   = label_tag :bulk_action
   = select_tag :bulk_action, options_for_select([["Cancel Rollovers", "cancel"], ["Send Email Confirmations", "send"]]), include_blank: true, placeholder: "Select Action"
   = submit_tag "Perform Bulk Action (on selected rollovers)", class: "button red"
