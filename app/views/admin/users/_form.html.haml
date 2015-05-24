@@ -18,8 +18,11 @@
       .small-12.medium-6.columns
         &nbsp;
       .small-12.medium-6.columns
-        =f.check_box(:skip_initialisation, checked: true)
-        =f.label :skip_initialisation, "Skip Initialisation? (advised)"
+        =f.label :skip_initialisation, "Initialise? (not recommended)"
+        =f.radio_button :skip_initialisation, "yes", checked: true
+        =f.label :skip_initialisation_yes, "No"
+        =f.radio_button :skip_initialisation, "no"
+        =f.label :skip_initialisation_no, "Yes"
   .row
     .small-12.columns
       -if %w(new create).include? action_name

@@ -46,7 +46,7 @@ RSpec.describe Admin::UsersController, :type => :controller do
       end
 
       it "creates a new user without an initalised_at timestamp" do
-        user_params.merge!(skip_initialisation: true)
+        user_params.merge!(skip_initialisation: "yes")
         expect{post :create, { user: user_params } }.to change{User.count}.by(1)
         expect(assigns(:user).initialised_at).to be_nil
       end

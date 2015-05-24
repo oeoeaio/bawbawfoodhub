@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   after_save :initialise, if: :encrypted_password_changed?, unless: :skip_initialisation?
 
   def skip_initialisation?
-    initialised? || @skip_initialisation
+    initialised? || skip_initialisation == "yes"
   end
 
   def initialised?

@@ -48,7 +48,7 @@ RSpec.describe User, :type => :model do
         end
 
         context "when skip_initialisation is not set" do
-          before { user.skip_initialisation = true }
+          before { user.skip_initialisation = "yes" }
           it "does not set initialised_at" do
             expect{user.save}.to_not change{user.initialised_at}.from(nil)
           end
@@ -56,8 +56,8 @@ RSpec.describe User, :type => :model do
 
       end
       context "updating" do
-        let(:user) { create(:user, skip_initialisation: true)}
-        before { user.skip_initialisation = false }
+        let(:user) { create(:user, skip_initialisation: "yes")}
+        before { user.skip_initialisation = "no" }
 
         it "sets initialised_at if password is changed" do
           expect do
