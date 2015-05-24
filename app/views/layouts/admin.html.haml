@@ -1,0 +1,35 @@
+%html{ :lang => "en"}
+  %head
+    %meta{ :charset => "utf-8" }
+
+    %meta{ :name => "viewport", :content => "width=device-width, initial-scale=1.0" }
+
+    %title= content_for?(:title) ? yield(:title) : "Baw Baw Food Hub"
+
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = javascript_include_tag "vendor/modernizr"
+    = csrf_meta_tag
+
+    %link{ href: '//fonts.googleapis.com/css?family=Montserrat:400,700', rel: 'stylesheet', type: 'text/css' }
+    %link{ href: '//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900', rel: 'stylesheet', type: 'text/css' }
+    %link{ href: '//fonts.googleapis.com/css?family=Lato:100,300,400,700,900', rel: 'stylesheet', type: 'text/css' }
+
+  %body{ :style => "font-family: sans-serif" }
+    =render 'layouts/header'
+
+    = render 'layouts/admin_nav'
+
+    .flash
+      - if flash[:success]
+        .success= flash[:success]
+      - if flash[:notice]
+        .notice= flash[:notice]
+      -if flash[:alert]
+        .alert= flash[:alert]
+      -if flash[:error]
+        .error= flash[:error]
+    .row
+      .small-12.columns{ style: "padding-top: 10px" }
+        .row.content
+          = yield
