@@ -19,27 +19,26 @@
   =succeed "." do
     %strong= Subscription::SIZES[@subscription.box_size][:name]
 
-= link_to "CONTINUE WITH A #{Subscription::SIZES[@subscription.box_size][:name].upcase}", new_season_subscription_url(@season, raw_token: @raw_token, box_size: @subscription.box_size), class: "button red"
+= link_to "Continue With A #{Subscription::SIZES[@subscription.box_size][:name]}", new_season_subscription_url(@season, raw_token: @raw_token, box_size: @subscription.box_size), class: "button blue"
 
 %br
 
 %p
-  If you would like to change sizes can let us know your new preferred box size for winter here:
+  If you would like to change sizes, you can let us know your new preferred box size for here:
 
-= link_to "CHOOSE A DIFFERENT BOX SIZE", new_season_subscription_url(@season, raw_token: @raw_token), class: "button red"
+= link_to "Choose A Different Box Size", new_season_subscription_url(@season, raw_token: @raw_token), class: "button blue"
 
 %br
 
 %p Alternatively, you can cancel your subscription here:
 
-= link_to "PLEASE CANCEL MY SUBSCRIPTION", cancel_rollovers_url(raw_token: @raw_token), class: "button blue"
+= link_to "Please Cancel My Subscription", cancel_rollovers_url(raw_token: @raw_token), class: "button red"
 
 %p
   If we do not hear from you before the beginning of the season we will assume that you wish to continue your subscription for a
   =succeed "." do
     %strong= Subscription::SIZES[@subscription.box_size][:name]
 
-%br
 %br
 
 %p
