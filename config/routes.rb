@@ -41,7 +41,7 @@ Rails.application.routes.draw do
       post 'rollovers/bulk_action'
     end
 
-    resources :subscriptions, only: [:new, :create]
+    resources :subscriptions, only: [:new, :create, :edit, :update]
 
     resources :users, only: [:index, :new, :create, :edit, :update] do
       resources :subscriptions, only: [] do
