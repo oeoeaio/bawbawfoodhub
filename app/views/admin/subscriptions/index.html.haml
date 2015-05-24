@@ -1,14 +1,15 @@
 .row
-  .small-12.medium-12.columns
+  .small-12.medium-6.columns
+    %h2 Subscriptions
     - if @user
-      %h2 Subscriptions for #{@user.given_name} #{@user.surname} (#{@subscriptions.count} total)
+      %h5 For #{@user.given_name} #{@user.surname} (#{@subscriptions.count} total)
     - elsif @season
-      %h2 Subscriptions for #{@season.name} (#{@subscriptions.count} total)
-  .small-12.medium-4.columns
-- if @season
-  .row
-    .small-12.medium-12.columns
-      = link_to "New", new_admin_subscription_path(season_id: @season), class: "button"
+      %h5 For #{@season.name} (#{@subscriptions.count} total)
+  .small-12.medium-6.columns.text-right
+    - if @user
+      = link_to "Create New", new_admin_subscription_path(user_id: @user), class: "button"
+    - if @season
+      = link_to "Create New", new_admin_subscription_path(season_id: @season), class: "button"
       = link_to "Rollover This List", admin_season_rollovers_new_multiple_path(@season), class: "button red"
 %table.fullwidth
   %tr
@@ -34,11 +35,3 @@
       %td= Subscription::SIZES[subscription.box_size][:name]
       %td= subscription.created_at.try{ |d| d.strftime("%d/%m/%Y %H:%M:%S") }
       %th= link_to "Edit", edit_admin_subscription_path(subscription)
-
-.row
-  - if @user
-    =link_to "Back to Users", admin_users_path, class: "button left"
-  - if @season
-    =link_to "Back to Seasons", admin_seasons_path, class: "button left"
-.row
-  =link_to "Back to Dashboard", admin_root_path, class: "button left"
