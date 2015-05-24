@@ -1,11 +1,11 @@
 class Rollover < ActiveRecord::Base
+  include BoxSize
   belongs_to :season
-  belongs_to :subscription
-  delegate :user, to: :subscription
+  belongs_to :user
   devise :confirmable, reconfirmable: false
 
   validates :season, presence: true
-  validates :subscription, presence: true
+  validates :user, presence: true
 
   # Send confirmation instructions by email
   # This is an override of the devise method

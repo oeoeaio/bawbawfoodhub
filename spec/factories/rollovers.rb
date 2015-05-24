@@ -1,7 +1,8 @@
 FactoryGirl.define do
   factory :rollover do
     season
-    subscription
+    user
+    box_size { ['small', 'standard', 'large'].sample }
     confirmed_at Date.today.to_time
   end
 

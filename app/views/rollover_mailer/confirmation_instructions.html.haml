@@ -1,4 +1,4 @@
-%h2 Hi #{@subscription.user.given_name}!
+%h2 Hi #{@rollover.user.given_name}!
 
 %br
 
@@ -17,9 +17,9 @@
 %p
   Use this link to rollover your subscription for a
   =succeed "." do
-    %strong= Subscription::SIZES[@subscription.box_size][:name]
+    %strong= Rollover::SIZES[@rollover.box_size][:name]
 
-= link_to "Continue With A #{Subscription::SIZES[@subscription.box_size][:name]}", new_season_subscription_url(@season, raw_token: @raw_token, box_size: @subscription.box_size), class: "button blue"
+= link_to "Continue With A #{Rollover::SIZES[@rollover.box_size][:name]}", new_season_subscription_url(@season, raw_token: @raw_token, box_size: @rollover.box_size), class: "button blue"
 
 %br
 
@@ -37,7 +37,7 @@
 %p
   If we do not hear from you before the beginning of the season we will assume that you wish to continue your subscription for a
   =succeed "." do
-    %strong= Subscription::SIZES[@subscription.box_size][:name]
+    %strong= Rollover::SIZES[@rollover.box_size][:name]
 
 %br
 

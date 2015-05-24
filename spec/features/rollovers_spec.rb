@@ -33,13 +33,13 @@ RSpec.describe 'Responding to rollover emails', :type => :feature do
       end
 
       it "creates a new subscription based on rollover subscription" do
-        expect(page).to have_content "Thanks #{rollover.subscription.user.given_name}"
+        expect(page).to have_content "Thanks #{rollover.user.given_name}"
         expect(page).to have_content "You are now signed up for the #{rollover.season.name} season!"
         expect(page).to have_content "We will pack you a Large Box each Tuesday"
         subscription = Subscription.last
         expect(subscription.season).to eq rollover.season
         expect(subscription.box_size).to eq 'large'
-        expect(subscription.user).to eq rollover.subscription.user
+        expect(subscription.user).to eq rollover.user
       end
     end
   end

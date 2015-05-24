@@ -20,7 +20,7 @@ RSpec.describe SubscriptionsController, :type => :controller do
         get :new, params
         expect(assigns(:rollover)).to eq rollover
         expect(assigns(:subscription)).to be_a_new(Subscription)
-        expect(assigns(:subscription)[:box_size]).to eq rollover.subscription.box_size
+        expect(assigns(:subscription)[:box_size]).to eq rollover.box_size
       end
 
       context "and a box_size is also submitted" do
@@ -80,11 +80,9 @@ RSpec.describe SubscriptionsController, :type => :controller do
       end
 
       context "when a confirmation_token is submitted" do
-        let(:original_season) { create(:season) }
         let(:target_season) { create(:season) }
         let(:user) { create(:user) }
-        let(:subscription) { create(:subscription, season: original_season, user: user) }
-        let(:rollover) { create(:rollover, season: target_season, subscription: subscription) }
+        let(:rollover) { create(:rollover, season: target_season, user: user) }
         let(:params) { { season_id: target_season.slug, raw_token: "some_token" } }
 
         context "when the token maps to a real rollover object" do

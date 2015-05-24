@@ -6,12 +6,12 @@ class RolloverMailer < ActionMailer::Base
   helper ApplicationHelper
 
   def confirmation_instructions(rollover, raw_token)
-    @subscription = rollover.subscription
+    @rollover = rollover
     @season = rollover.season
     @raw_token = raw_token
     subject = "Signups for the #{@season.name} season of veggie boxes are open now!"
-    address = Mail::Address.new @subscription.user.email
-    address.display_name = "#{@subscription.user.given_name} #{@subscription.user.surname}"
+    address = Mail::Address.new @rollover.user.email
+    address.display_name = "#{@rollover.user.given_name} #{@rollover.user.surname}"
     mail(
     to: address.format,
     bcc: Rails.application.secrets.admin_email,

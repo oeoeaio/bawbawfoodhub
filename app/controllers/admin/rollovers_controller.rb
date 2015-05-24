@@ -16,7 +16,7 @@ class Admin::RolloversController < Admin::BaseController
     subscriptions = Subscription.where( id: params[:subscription_ids] )
 
     rollovers = subscriptions.map do |subscription|
-      rollover = Rollover.new(season: target_season, subscription: subscription)
+      rollover = Rollover.new(season: target_season, user: subscription.user, box_size: subscription.box_size)
       rollover.skip_confirmation_notification!
       rollover
     end
