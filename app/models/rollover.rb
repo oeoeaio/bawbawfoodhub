@@ -31,6 +31,7 @@ class Rollover < ActiveRecord::Base
   def status
     return "cancelled" if cancelled?
     return "confirmed" if confirmed?
+    return "unsent" if (confirmation_sent_at - created_at < 2.seconds)
     "unconfirmed"
   end
 
