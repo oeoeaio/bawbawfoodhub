@@ -8,7 +8,7 @@ class SubscriptionsController < ApplicationController
       params[:subscription] = { box_size: params[:box_size] }
       create_from_token
     else
-      @subscription = Subscription.new( box_size: @rollover.subscription.box_size )
+      @subscription = Subscription.new( box_size: @rollover && @rollover.subscription.box_size )
     end
   end
 
