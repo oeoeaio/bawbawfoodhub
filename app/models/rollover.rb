@@ -43,6 +43,10 @@ class Rollover < ActiveRecord::Base
     update_attribute(:cancelled_at, Time.now)
   end
 
+  def build_subscription
+    Subscription.new( user: user, season: season, box_size: box_size )
+  end
+
   protected
 
   # This is an override of the devise method

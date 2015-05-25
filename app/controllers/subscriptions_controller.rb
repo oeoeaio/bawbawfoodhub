@@ -112,11 +112,9 @@ class SubscriptionsController < ApplicationController
 
     if @rollover.persisted? # Found a valid rollover object
       existing_subscriptions = @rollover.user.subscriptions.where(season: @season).order(created_at: :asc)
-      @subscription = Subscription.new(
-      user: @rollover.user,
-      season: @rollover.season,
-      box_size: params[:subscription][:box_size]
-      )
+      @rollover.box_size = params[:subscription][:box_size]
+      @subscription = @rollover.build_subscription
+
       if existing_subscriptions.empty? || params[:confirmed]
         if @subscription.save
           render :success
