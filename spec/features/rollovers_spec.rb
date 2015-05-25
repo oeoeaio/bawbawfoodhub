@@ -12,7 +12,7 @@ RSpec.describe 'Responding to rollover emails', :type => :feature do
   describe "cancellation" do
     it "renders 'cancel' with the relevant rollover" do
       visit cancel_rollovers_path(raw_token: 'sometoken')
-      expect(page).to have_content "We have cancelled your subscription for the #{rollover.season.name} season."
+      expect(page).to have_content "Opt-out confirmed"
     end
   end
 

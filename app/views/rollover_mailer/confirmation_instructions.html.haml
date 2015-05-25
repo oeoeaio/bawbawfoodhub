@@ -19,27 +19,30 @@
   =succeed "." do
     %strong= Rollover::SIZES[@rollover.box_size][:name]
 
-= link_to "Continue With A #{Rollover::SIZES[@rollover.box_size][:name]}", new_season_subscription_url(@season, raw_token: @raw_token, box_size: @rollover.box_size), class: "button blue"
+.center
+  = link_to "Continue With A #{Rollover::SIZES[@rollover.box_size][:name]}", new_season_subscription_url(@season, raw_token: @raw_token, box_size: @rollover.box_size), class: "button green"
 
 %br
 
 %p
   If you would like to change sizes, you can let us know your new preferred box size for here:
 
-= link_to "Choose A Different Box Size", new_season_subscription_url(@season, raw_token: @raw_token), class: "button blue"
+.center
+  = link_to "Choose A Different Box Size", new_season_subscription_url(@season, raw_token: @raw_token), class: "button blue"
 
 %br
 
-%p Alternatively, you can cancel your subscription here:
+%p Alternatively, you can opt-out for #{@season.name} here:
 
-= link_to "Please Cancel My Subscription", cancel_rollovers_url(raw_token: @raw_token), class: "button red"
+.center
+  = link_to "I Wish To Opt-Out For #{@season.name}", cancel_rollovers_url(raw_token: @raw_token), class: "button red"
+
+%br
 
 %p
   If we do not hear from you before the beginning of the season we will assume that you wish to continue your subscription for a
   =succeed "." do
     %strong= Rollover::SIZES[@rollover.box_size][:name]
-
-%br
 
 %p
   Bear in mind that these links are only for you as a current subscriber and will only work once, so if you'd like to invite your friends/family to sign up as well, please send them to the public sign-up page for the

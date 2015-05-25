@@ -402,6 +402,11 @@ h4 {
     /*@editable*/
     text-align: left;
   }
+
+  .center {
+    text-align: center;
+  }
+
   a {
     /*@editable*/
     color: #6DC6DD;
@@ -425,6 +430,10 @@ h4 {
 
     &.blue {
       background-color: #008cba;
+    }
+
+    &.green {
+      background-color: #209348;
     }
   }
 }
