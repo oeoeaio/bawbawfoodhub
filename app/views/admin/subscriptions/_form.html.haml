@@ -10,7 +10,7 @@
   .row
     .small-12.medium-6.columns
       =f.label :box_size
-      =f.select :box_size, options_for_select(Subscription::SIZES.map{ |k,v| [v[:name], k]})
+      =f.select :box_size, Subscription::SIZES.map{ |k,v| [v[:name], k]}
     -if %w(new create).include? action_name
       .small-12.medium-6.columns
         =f.label :skip_confirmation_email, "Send A Confirmation Email?"

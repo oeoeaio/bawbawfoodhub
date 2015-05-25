@@ -10,7 +10,7 @@
   .row
     .small-12.medium-6.columns
       =f.label :box_size
-      =f.select :box_size, options_for_select(Subscription::SIZES.map{ |k,v| [v[:name], k]})
+      =f.select :box_size, Rollover::SIZES.map{ |k,v| [v[:name], k]}
 
   .row
     .small-12.columns
