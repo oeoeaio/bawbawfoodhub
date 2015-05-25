@@ -141,6 +141,50 @@ RSpec.describe Admin::RolloversController, :type => :controller do
     let!(:target_season) { create(:season) }
     let!(:rollover) { create(:rollover) }
 
+    describe "confirm" do
+      let!(:rollovers) { 3.times.map{ create(:rollover, confirmed_at: nil) } }
+      let(:params) { { rollover_ids: rollovers.map(&:id), season_id: target_season, bulk_action: 'confirm' } }
+      context "when all subscriptions are valid" do
+        it "confirms the rollovers submitted by creating new subscription" do
+          expect{
+            post :bulk_action, params
+          }.to change{Subscription.count}.by(3)
+          expect(flash[:success]).to eq "Confirmed 3 subscriptions"
+        end
+
+        it "confirms each rollover" do
+          expect{
+            post :bulk_action, params
+          }.to change{Rollover.where('confirmed_at IS NOT NULL').count}.by(3)
+        end
+
+        it "sends an email for each subscription" do
+          expect{
+            post :bulk_action, params
+          }.to change{ActionMailer::Base.deliveries.count}.by(3)
+        end
+      end
+
+      context "when not all subscriptions are valid" do
+        before do
+          allow_any_instance_of(Subscription).to receive(:save).and_return(false, true)
+        end
+
+        it "does not create subscriptions" do
+          expect{
+            post :bulk_action, params
+          }.to_not change{Subscription.count}
+          expect(flash[:error]).to eq "Could not confirm all subscriptions, aborted"
+        end
+
+        it "does not send emails" do
+          expect{
+            post :bulk_action, params
+          }.to_not change{ActionMailer::Base.deliveries.count}
+        end
+      end
+    end
+
     describe "cancel" do
       it "cancels the rollovers submitted" do
         expect{
@@ -151,7 +195,7 @@ RSpec.describe Admin::RolloversController, :type => :controller do
     end
 
     describe "send" do
-      it "send confirmatino emails for the rollovers submitted" do
+      it "send confirmation emails for the rollovers submitted" do
         expect{
           post :bulk_action, season_id: target_season, bulk_action: 'send', rollover_ids: [rollover.id]
         }.to change{ActionMailer::Base.deliveries.count}.by(1)

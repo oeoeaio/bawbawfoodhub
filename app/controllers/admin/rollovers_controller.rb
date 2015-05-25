@@ -49,6 +49,18 @@ class Admin::RolloversController < Admin::BaseController
   def bulk_action
     rollovers = Rollover.where(id: params[:rollover_ids])
     case params[:bulk_action]
+    when 'confirm'
+      Subscription.transaction do
+        subscriptions = rollovers.map(&:build_subscription)
+        subscriptions.each{ |s| s.skip_confirmation_email = "yes" }
+        if subscriptions.all?(&:save)
+          rollovers.each(&:confirm!)
+          subscriptions.each{ |s| s.send(:send_confirmation) }
+          flash[:success] = "Confirmed #{subscriptions.count} subscriptions"
+        else
+          flash[:error] = "Could not confirm all subscriptions, aborted"
+        end
+      end
     when 'cancel'
       rollovers.each(&:cancel)
       flash[:success] = "Cancelled #{rollovers.count} rollovers"
