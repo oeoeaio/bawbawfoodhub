@@ -2,7 +2,7 @@ class Subscription < ActiveRecord::Base
   include BoxSize
   belongs_to :season
   belongs_to :user
-  validate :ensure_season_is_open
+  validate :ensure_season_is_open, on: :create
   validates :season, presence: true
   validates :user, presence: true
   validates :box_size, inclusion: { in: SIZES.keys, :message => "must be selected" }
