@@ -19,6 +19,7 @@
       %th Given Name
       %th Surname
       %th Email
+      %th Box Size
       %th Status
     - @rollovers.each do |rollover|
       %tr
@@ -26,4 +27,5 @@
         %td= rollover.user.given_name
         %td= rollover.user.surname
         %td= rollover.user.email
+        %td= Rollover::SIZES[rollover.box_size][:name]
         %td= rollover.status
