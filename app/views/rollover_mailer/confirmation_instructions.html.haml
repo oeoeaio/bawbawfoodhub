@@ -3,7 +3,7 @@
 %br
 
 %h3
-  The #{@season.name} begins very soon and we'd love for you to join us! It will run for #{@season.pack_days.count} weeks in total, from the
+  The #{@season.name} season begins very soon and we'd love for you to join us! It will run for #{@season.pack_days.count} weeks in total, from the
   %strong= readable_date(@season.first_pack_day.pack_date)
   until the
   =succeed "." do
