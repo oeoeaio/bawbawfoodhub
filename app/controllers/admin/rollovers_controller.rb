@@ -52,7 +52,10 @@ class Admin::RolloversController < Admin::BaseController
     when 'confirm'
       Subscription.transaction do
         subscriptions = rollovers.map(&:build_subscription)
-        subscriptions.each{ |s| s.skip_confirmation_email = "yes" }
+        subscriptions.each do |subscription|
+          subscription.skip_confirmation_email = "yes"
+          subscription.auto_rollover = true
+        end
         if subscriptions.all?(&:save)
           rollovers.each(&:confirm!)
           subscriptions.each{ |s| s.send(:send_confirmation) }

@@ -163,6 +163,12 @@ RSpec.describe Admin::RolloversController, :type => :controller do
             post :bulk_action, params
           }.to change{ActionMailer::Base.deliveries.count}.by(3)
         end
+
+        it "sets auto_rollover on each subscription to true" do
+          Subscription.last(3).each do |subscription|
+            expect(subscription.auto_rollover?).to be true
+          end
+        end
       end
 
       context "when not all subscriptions are valid" do

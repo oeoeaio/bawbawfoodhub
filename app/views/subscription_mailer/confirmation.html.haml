@@ -1,9 +1,22 @@
-%h2 Thanks #{@subscription.user.given_name}!
+- if @subscription.auto_rollover?
+  %h2 Hi #{@subscription.user.given_name}!
+-else
+  %h2 Thanks #{@subscription.user.given_name}!
+
+
 
 %br
 
 %h3
   You are now signed up for the #{@season.name} season!
+
+- if @subscription.auto_rollover?
+  .callout
+    %p.offset-bottom
+      Your subscription has been rolled over to the #{@season.name} season because we have not heard from you otherwise.
+      Please get in touch with us as soon as possible via
+      %strong info@bawbawfoodhub.org.au
+      if you wish to opt out or to change your default box size.
 
 %p
   We will pack you a #{Subscription::SIZES[@subscription.box_size][:name]} each Tuesday between the
