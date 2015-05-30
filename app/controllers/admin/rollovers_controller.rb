@@ -49,12 +49,12 @@ class Admin::RolloversController < Admin::BaseController
   def bulk_action
     rollovers = Rollover.where(id: params[:rollover_ids])
     case params[:bulk_action]
-    when 'confirm'
+    when 'confirm', 'auto-confirm'
       Subscription.transaction do
         subscriptions = rollovers.map(&:build_subscription)
         subscriptions.each do |subscription|
           subscription.skip_confirmation_email = "yes"
-          subscription.auto_rollover = true
+          subscription.auto_rollover = true if params[:bulk_action] == 'auto-confirm'
         end
         if subscriptions.all?(&:save)
           rollovers.each(&:confirm!)

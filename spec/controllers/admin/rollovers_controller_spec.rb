@@ -164,10 +164,14 @@ RSpec.describe Admin::RolloversController, :type => :controller do
           }.to change{ActionMailer::Base.deliveries.count}.by(3)
         end
 
-        it "sets auto_rollover on each subscription to true" do
-          Subscription.last(3).each do |subscription|
-            expect(subscription.auto_rollover?).to be true
+        it "does not set auto_rollover on each subscription" do
+          allow(Rollover).to receive(:where) { rollovers }
+          rollovers.each do |rollover|
+            subscription = create(:subscription)
+            allow(rollover).to receive(:build_subscription) { subscription}
+            expect(subscription).to_not receive(:auto_rollover=)
           end
+          post :bulk_action, params
         end
       end
 
@@ -188,6 +192,21 @@ RSpec.describe Admin::RolloversController, :type => :controller do
             post :bulk_action, params
           }.to_not change{ActionMailer::Base.deliveries.count}
         end
+      end
+    end
+
+
+    describe "auto-confirm" do
+      let!(:rollovers) { 3.times.map{ create(:rollover, confirmed_at: nil) } }
+      let(:params) { { rollover_ids: rollovers.map(&:id), season_id: target_season, bulk_action: 'auto-confirm' } }
+      it "sets auto_rollover on each subscription to true" do
+        allow(Rollover).to receive(:where) { rollovers }
+        rollovers.each do |rollover|
+          subscription = create(:subscription)
+          allow(rollover).to receive(:build_subscription) { subscription }
+          expect(subscription).to receive(:auto_rollover=).with(true)
+        end
+        post :bulk_action, params
       end
     end
 

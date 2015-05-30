@@ -15,7 +15,7 @@ class Subscription < ActiveRecord::Base
   attr_accessor :auto_rollover
 
   def auto_rollover?
-    auto_rollover == true
+    !!auto_rollover
   end
 
   private
