@@ -31,7 +31,7 @@ gem 'haml'
 gem 'foundation-rails', '~> 5.4.5.0'
 gem 'font-awesome-sass'
 gem 'jquery-turbolinks'
-gem 'pundit', '~> 0.3.0'
+gem 'pundit', '~> 1.0.1'
 gem 'devise', '~> 3.5.2'
 gem 'roadie-rails', '~> 1.0.4'
 
