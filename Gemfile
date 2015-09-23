@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.1.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.0'
+gem 'rails', '~> 4.2.4'
 # Use postgres as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
@@ -32,7 +32,7 @@ gem 'foundation-rails', '~> 5.4.5.0'
 gem 'font-awesome-sass'
 gem 'jquery-turbolinks'
 gem 'pundit', '~> 0.3.0'
-gem 'devise', '~> 3.4.1'
+gem 'devise', '~> 3.5.2'
 gem 'roadie-rails', '~> 1.0.4'
 
 group :development, :test do

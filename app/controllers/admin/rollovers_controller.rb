@@ -57,7 +57,7 @@ class Admin::RolloversController < Admin::BaseController
           subscription.auto_rollover = true if params[:bulk_action] == 'auto-confirm'
         end
         if subscriptions.all?(&:save)
-          rollovers.each(&:confirm!)
+          rollovers.each(&:confirm)
           subscriptions.each{ |s| s.send(:send_confirmation) }
           flash[:success] = "Confirmed #{subscriptions.count} subscriptions"
         else

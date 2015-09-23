@@ -12,7 +12,7 @@ RSpec.describe Rollover, :type => :model do
       rollover = Rollover.new(season: create(:season), user: create(:user), box_size: 'large')
       mail_message_mock = double(:mail_message)
       expect(RolloverMailer).to receive(:confirmation_instructions).once { mail_message_mock }
-      expect(mail_message_mock).to receive(:deliver).once
+      expect(mail_message_mock).to receive(:deliver_now).once
       rollover.save!
     end
   end

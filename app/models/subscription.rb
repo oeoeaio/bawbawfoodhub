@@ -26,7 +26,7 @@ class Subscription < ActiveRecord::Base
 
   def send_confirmation
     # begin
-      mail = SubscriptionMailer.confirmation(self).deliver
+      mail = SubscriptionMailer.confirmation(self).deliver_now
     # rescue SomethingError
     #   errors.add(:email, "could not be delivered to")
     # end
