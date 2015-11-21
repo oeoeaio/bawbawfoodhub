@@ -25,16 +25,14 @@
   =succeed "." do
     %strong= readable_date(@season.last_pack_day.pack_date)
   Unless you have made other arrangements with us, you will need to collect your box on Tuesdays between 3pm and 6pm,
-  from our 
-  %strong new venue
-  at Unit 4, 133 North Road, Warragul.
+  from our venue at Unit 4, 133 North Road, Warragul.
 
--# - unless Date.today > Date.new(2015, 01, 13)
--#   %p.offset-bottom
--#     Bear in mind that we will be taking a break over Christmas and the new year, so there will be no pack on either the
--#     %strong 30th of December
--#     or the
--#     %strong 6th of January.
+- unless Date.today > Date.new(2016, 01, 11)
+  %p.offset-bottom
+    Bear in mind that we will be taking a break over Christmas and the new year, so there will be no pack on either the
+    %strong 29th of December
+    or the
+    %strong 5th of January.
 
 %p
   Please don't hesitate to get in touch with us via
