@@ -19,7 +19,7 @@
         %td= subscription.user.surname
         %td= subscription.user.email
         %td= Subscription::SIZES[subscription.box_size][:name]
-        %td= check_box_tag 'subscription_ids[]', subscription.id, true
+        %td= check_box_tag 'subscription_ids[]', subscription.id, false
 
   = submit_tag "Create Rollover List", class: "button red left"
 
