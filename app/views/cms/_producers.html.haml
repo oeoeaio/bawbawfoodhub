@@ -4,7 +4,7 @@
       %li
         %a{ href: producer_page.full_path }
           .thumbnail{ 'data-equalizer-watch' => true }
-            - file = cms_page_content(:header, producer_page)
+            - file = cms_block_content(:header, producer_page)
             - if file
               %img{ src: "#{file.file.url}", alt: "#{producer_page.label}"}
             - else

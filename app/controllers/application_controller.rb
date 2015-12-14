@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   private
   def load_cms_context
-      @cms_site = Cms::Site.first
+      @cms_site = Comfy::Cms::Site.first
   end
 
   def unauthorized
