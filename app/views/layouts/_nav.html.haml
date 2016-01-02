@@ -1,11 +1,11 @@
-.contain-to-grid
+.fixed
   %nav.top-bar{ role: "navigation", 'data-topbar' => true }
     %ul.title-area
       %li.name
         %h1
           %a{ href:"#{root_path}" }
             =icon('home')
-            HOME
+            BAWBAWFOODHUB
       %li.toggle-topbar.menu-icon
         %a{ href:"#" }
           %span
@@ -17,7 +17,7 @@
               %li.has-dropdown
                 %a{ href:"#{page.children.published.first.full_path}" }
                   %i{ class: "#{icon_class(page.label)}" }
-                  = page.label.upcase
+                  = page.label
                 %ul.dropdown
                   - page.children.published.each do |child_page|
                     %li
