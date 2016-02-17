@@ -34,6 +34,7 @@ gem 'jquery-turbolinks'
 gem 'pundit', '~> 0.3.0'
 gem 'devise', '~> 3.4.1'
 gem 'roadie-rails', '~> 1.0.4'
+gem 'roo'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
