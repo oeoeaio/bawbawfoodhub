@@ -37,6 +37,8 @@ Rails.application.routes.draw do
         collection do
           get :new_multiple
           put :create_multiple
+          get :new_multiple_from_csv
+          post :create_multiple_from_csv
           post :bulk_action
         end
       end

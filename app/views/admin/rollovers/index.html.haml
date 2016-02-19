@@ -3,6 +3,7 @@
     %h2 Rollovers
     %h5 For #{@season.name} (#{@rollovers.count} total)
   .small-12.medium-6.columns.text-right
+    = link_to "Upload CSV", new_multiple_from_csv_admin_season_rollovers_path(season_id: @season), class: "button"
     = link_to "Create New", new_admin_rollover_path(season_id: @season), class: "button"
 
 

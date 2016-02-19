@@ -1,0 +1,15 @@
+
+= render 'upload_error_messages'
+
+.row
+  .small-12.columns
+    %h2 Upload a Rollover List (CSV)
+= form_for :rollovers, url: create_multiple_from_csv_admin_season_rollovers_path(@season) do |f|
+  .row
+    .small-12.columns
+      =f.label :file
+      =f.file_field :file
+  .row
+    .small-12.columns
+      = submit_tag "Upload"
+      = link_to "Cancel", :back, class: "button red"

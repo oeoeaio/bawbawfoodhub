@@ -24,6 +24,27 @@ class Admin::RolloversController < Admin::BaseController
     end
   end
 
+  def create_multiple_from_csv
+    file = params[:rollovers][:file]
+    if file && file.content_type == "text/csv"
+      importer = RolloverImporter.new(@season, file)
+      importer.import!
+
+      flash[:success] = "Created #{importer.created_count} rollovers"
+
+      if importer.invalid_emails.empty? && importer.ignored_emails.empty?
+        redirect_to admin_season_rollovers_path(@season)
+      else
+        @invalid_emails = importer.invalid_emails
+        @ignored_emails = importer.ignored_emails
+        render :new_multiple_from_csv
+      end
+    else
+      flash[:error] = "Invalid file format: please provide a csv"
+      redirect_to multiple_new_from_csv_admin_rollover_path(@season)
+    end
+  end
+
   def new_multiple
     @subscriptions = Subscription.where(season: @season).order(created_at: :desc)
   end

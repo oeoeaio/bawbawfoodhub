@@ -6,6 +6,7 @@ class Rollover < ActiveRecord::Base
 
   validates :season, presence: true
   validates :user, presence: true
+  validates :box_size, inclusion: { in: SIZES.keys, :message => "must be selected" }
 
   # Send confirmation instructions by email
   # This is an override of the devise method
