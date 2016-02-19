@@ -4,6 +4,7 @@ class SubscriptionsController < ApplicationController
   before_filter :validate_rollover_token, only: [:new]
 
   def new
+    # We only actually get here if we are have a valid token
     if params[:box_size] && Subscription::SIZES.keys.include?(params[:box_size])
       params[:subscription] = { box_size: params[:box_size] }
       create_from_token
@@ -135,6 +136,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def invalid_rollover_token
+    flash.now[:error] = "Invalid link used, perhaps you have already signed up?" if params[:raw_token]
     @user = User.new
     @subscription = Subscription.new
     render :new
