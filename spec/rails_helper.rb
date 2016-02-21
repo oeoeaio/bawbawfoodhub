@@ -49,3 +49,13 @@ RSpec.configure do |config|
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
 end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    # Test framework:
+    with.test_framework :rspec
+
+    # Library:
+    with.library :rails
+  end
+end

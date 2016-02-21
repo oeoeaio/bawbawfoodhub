@@ -39,14 +39,14 @@ gem 'httparty'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
-  gem 'factory_girl_rails'
-  gem 'faker', '~> 1.4.3'
+  gem 'factory_girl_rails', '~> 4.6'
+  gem 'faker', '~> 1.6'
   gem 'pry-debugger'
 end
 
 group :test do
-  gem 'shoulda-matchers', require: false
-  gem 'capybara', '~> 2.4.4'
+  gem 'shoulda-matchers', '~> 3.1', require: false
+  gem 'capybara', '~> 2.4'
 end
 
 # Use ActiveModel has_secure_password
