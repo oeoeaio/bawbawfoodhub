@@ -18,7 +18,7 @@ RSpec.describe RolloverImporter do
 
     before do
       allow(importer).to receive(:csv_rows) { rows_mock }
-      expect{importer.import!}.to_not change{ ActionMailer::Base.deliveries.count }.from(0)
+      expect{importer.import!}.to_not change{ ActionMailer::Base.deliveries.count }
     end
 
     it "creates new users" do

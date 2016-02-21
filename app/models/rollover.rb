@@ -18,7 +18,7 @@ class Rollover < ActiveRecord::Base
       generate_confirmation_token!
     end
 
-    RolloverMailer.confirmation_instructions(self, @raw_confirmation_token).deliver
+    RolloverMailer.confirmation_instructions(self, @raw_confirmation_token).deliver_now
   end
 
   def reset_confirmation_token!(raw)
