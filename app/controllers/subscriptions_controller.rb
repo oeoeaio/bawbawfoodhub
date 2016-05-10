@@ -83,6 +83,7 @@ class SubscriptionsController < ApplicationController
   def create_for_new_user
     @subscription = Subscription.new new_user_subscription_params
     if @subscription.save
+      AddUserToMailchimpJob.perform_later(@subscription.user)
       render :success
     else
       @user = User.new user_params
