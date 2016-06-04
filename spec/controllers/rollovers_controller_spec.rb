@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 RSpec.describe RolloversController, :type => :controller do
   describe 'cancel' do
     context "when a token is submitted" do
