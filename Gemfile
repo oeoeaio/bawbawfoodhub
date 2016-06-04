@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby "2.3.1"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 4.2', '>= 4.2.6'
@@ -32,7 +33,7 @@ gem 'foundation-rails', '~> 5.4.5.0'
 gem 'font-awesome-sass'
 gem 'jquery-turbolinks'
 gem 'pundit', '~> 1.0'
-gem 'devise', '~> 3.4.1'
+gem 'devise', '~> 3.5', '>= 3.5.2'
 gem 'roadie-rails', '~> 1.1'
 gem 'roo'
 gem 'httparty'
@@ -41,7 +42,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'factory_girl_rails', '~> 4.6'
   gem 'faker', '~> 1.6'
-  gem 'pry-debugger'
+  gem 'pry-byebug'
 end
 
 group :test do

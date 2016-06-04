@@ -11,6 +11,7 @@ capybara-*.html
 rerun.txt
 pickle-email-*.html
 .DS_Store
+.byebug_history
 
 # TODO Comment out this rules if you are OK with secrets been uploaded to the repo
 config/initializers/secret_token.rb
