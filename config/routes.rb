@@ -29,7 +29,7 @@ Rails.application.routes.draw do
       resources :pack_days
 
       resources :subscriptions, only: [] do
-        get :index, to: :seasons_index, on: :collection
+        get :index, action: :seasons_index, on: :collection
       end
 
       # Rollovers
@@ -49,7 +49,7 @@ Rails.application.routes.draw do
 
     resources :users, only: [:index, :new, :create, :edit, :update] do
       resources :subscriptions, only: [] do
-        get :index, to: :users_index, on: :collection
+        get :index, action: :users_index, on: :collection
       end
     end
   end
