@@ -11,10 +11,9 @@
 * file per style scope.
 *
 *= require_self
-*= require ./application/foundation_and_overrides
 *= require_tree ./application
-
 */
 
+@import "application/foundation_and_overrides";
 @import "font-awesome-sprockets";
 @import "font-awesome";

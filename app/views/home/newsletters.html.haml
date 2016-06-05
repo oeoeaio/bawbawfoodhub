@@ -1,0 +1,17 @@
+.row
+  .small-12.columns
+    %h2 Latest Newsletter
+    %iframe{:allowfullscreen => "", height: "600", width: '100%', :frameborder => "0", :src => @campaigns.first["long_archive_url"], :style => "border:0" }
+
+.newsletters
+  .row
+    .small-12.columns
+      %h2 Previous Newsletters
+  - @campaigns.each do |campaign|
+    .row.newsletter
+      .small-4.medium-2.columns
+        = campaign["send_time"].to_date.strftime("%d/%m/%Y")
+        -
+      .small-8.medium-10.columns
+        %a{ href: campaign["long_archive_url"] }
+          = campaign["settings"]["subject_line"]

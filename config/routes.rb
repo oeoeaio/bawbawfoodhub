@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   devise_for :users
   # devise_for :rollovers, skip: :confirmations # , controllers: { confirmations: 'rollover_confirmations' }
 
+  get 'newsletters', to: 'home#newsletters', as: 'newsletters'
+
   resources :seasons, only: [:show] do
     #Subscriptions
     resources :subscriptions, only: [:new, :create]

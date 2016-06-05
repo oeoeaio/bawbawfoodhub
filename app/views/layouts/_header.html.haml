@@ -1,17 +1,9 @@
-.header
-  .auth
-    - if user_signed_in?
-      = link_to user_root_path do
-        = icon('user')
-        = current_user.email
-      |
-      = link_to destroy_user_session_path, method: :delete, class: "logout" do
-        Logout
-    - else
-      = link_to new_user_session_path, class: "login" do
-        = icon('lock')
-        Login
-  .title
-    .row
-      .small-12.columns.center
-        %img#logo{ src: 'assets/bbfh-logo-white.svg' }
+- header_class = root_path? ? "full" : ""
+.header{ class: header_class }
+  .row
+    .small-12.columns.text-center
+      %a{ href:"#{root_path}" }
+        %img#logo{ src: '/assets/bbfh-logo-white.svg' }
+  .row#scroll-for-more
+    .small-12-columns.text-center
+      = icon('chevron-down')

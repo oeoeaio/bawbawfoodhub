@@ -1,0 +1,70 @@
+=shaded-background-image($image, $shading)
+  background: $shading
+  background-image: image-url($image)
+  background-image: -webkit-gradient(linear, left top, left bottom, from($shading), to($shading)), image-url($image) /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, $shading, $shading), image-url($image) /* Chrome 10+, Saf5.1+ */
+  background-image: -moz-linear-gradient(top, $shading, $shading), image-url($image) /* FF3.6+ */
+  background-image: -ms-linear-gradient(top, $shading, $shading), image-url($image) /* IE10 */
+  background-image: -o-linear-gradient(top, $shading, $shading), image-url($image) /* Opera 11.10+ */
+  background-image: linear-gradient(to bottom, $shading, $shading), image-url($image) /* W3C */
+
+=background-image($image)
+  background-image: image-url($image)
+  &.shaded
+    +shaded-background-image($image, rgba(0, 0, 0, 0.5))
+    background-size: cover
+    background-position: center
+    &:hover
+      +shaded-background-image($image, rgba(0, 0, 0, 0.4))
+      background-size: cover
+      background-position: center
+
+.lush-panel
+
+  .button
+    &.red
+      background-color: #d63e3e
+      &:hover
+        background-color: darken(#d63e3e, 10)
+
+  i.big
+    font-size: 15em
+
+  padding-top: 5vh
+  font-size: 1.1em
+  line-height: 1.5em
+  color: #ffffff
+  font-family: 'Lato', 'Source Sans Pro', 'sans-serif'
+  font-weight: 300
+  padding-bottom: 5vh
+  h1, h2, h3, h4, h5, h6
+    color: #ffffff
+    font-family: 'Lato', 'Source Sans Pro', 'sans-serif'
+  h1
+    font-weight: 100
+    font-size: 3em
+  h2
+    font-weight: 100
+  h3
+    font-weight: 300
+  p
+    font-size: 1em
+    line-height: 1.5em
+    font-weight: 300
+
+
+
+  &.broccoli
+    +background-image('broccoli.jpg')
+
+  &.apples
+    +background-image('apples.jpg')
+
+  &.quinces
+    +background-image('quinces.jpg')
+
+  &.capsicums
+    +background-image('capsicums.jpg')
+
+  &.planting
+    +background-image('planting.jpg')

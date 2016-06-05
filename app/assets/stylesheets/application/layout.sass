@@ -1,55 +1,25 @@
 .header
   min-height: 150px
   padding-bottom: 2em
-  background-image: image-url('layout/headerbg.jpg')
+  background-image: image-url('layout/hero-lettuce.jpg')
   background-size: cover
+  background-position: center
   #logo
-    width: 40vw
-    height: 40vw
-  .auth
-    text-align: right
-    padding: 5px
-    color: #ffffff
-    a
+    width: 40vh
+    height: 40vh
+  #scroll-for-more
+    display: none
+  &.full
+    height: calc(100vh - 45px)
+    #logo
+      margin-top: 8vh
+      width: 70vh
+      height: 70vh
+      max-width: 95vw
+    #scroll-for-more
       color: #ffffff
-  .title
-    text-align: center
-    .row
-      margin-top: 20px
-    .big a
-      @media all and (max-width: 480px)
-        font-size: 2.0em
-      @media all and (min-width: 480px)
-        font-size: 2.5em
-      @media all and (min-width: 768px)
-        font-size: 3.5em
-      @media all and (min-width: 1024px)
-        font-size: 4.5em
-      font-weight: bold
-      font-family: 'Montserrat', 'sans-serif'
-      color: #ffffff
-    #tagline
-      @media all and (max-width: 480px)
-        font-size: 1em
-      @media all and (min-width: 480px)
-        font-size: 1.2em
-      @media all and (min-width: 768px)
-        font-size: 1.4em
-      font-size: 1.4em
-      font-family: 'Montserrat', 'sans-serif'
-      color: #ffffff
-.nav-bar
-  background-color: #209348
-  .button
-    padding: 0.8em
-    margin: 0px
-    font-size: 1.1em
-    background-color: #209348
-    font-family: 'Montserrat', 'sans-serif'
-    &:hover
-      background-color: #187638
-    &.dropdown
-      padding-right: 2.0em
+      font-size: 4rem
+      display: inline
 
 .footer
   padding: 2em 0em

@@ -1,30 +1,51 @@
-.contain-to-grid
-  %nav.top-bar{ role: "navigation", 'data-topbar' => true }
-    %ul.title-area
-      %li.name
-        %h1
-          %a{ href:"#{root_path}" }
-            =icon('home')
-            HOME
-      %li.toggle-topbar.menu-icon
-        %a{ href:"#" }
-          %span
-    %section.top-bar-section
-      %ul.left
-        - if @cms_site
-          - @cms_site.pages.root.children.published.select{ |p| p.slug.in? ['about','local-food','get-involved','resources','producers'] }.each do |page|
-            - if page.children.published.any?
-              %li.has-dropdown
-                %a{ href:"#{page.children.published.first.full_path}" }
-                  %i{ class: "#{icon_class(page.label)}" }
-                  = page.label.upcase
-                %ul.dropdown
-                  - page.children.published.each do |child_page|
-                    %li
-                      %a{ href: "#{child_page.full_path}" }
-                        = child_page.label
-            - else
+%nav.top-bar{ role: "navigation", 'data-topbar' => true }
+  %ul.title-area
+    %li.name
+      %h1
+        %a{ href:"#{root_path}" }
+          %i.bbfh-sprout
+          HOME
+    %li.toggle-topbar.menu-icon
+      %a{ href:"#" }
+        %span
+  %section.top-bar-section
+    %ul.right
+      %li
+        %a{ href: "about_path" } About
+      %li
+        %a{ href: "about_path" } Get Involved
+      %li
+        %a{ href: "about_path" } Producers
+      %li
+        %a{ href: "about_path" } Questions?
+        - if user_signed_in?
+          %li.has-dropdown.auth
+            = link_to user_root_path do
+              = icon('user')
+              My Account
+            %ul.dropdown
               %li
-                %a{ href: "#{page.full_path}" }
-                  %i{ class: "#{icon_class(page.label)}" }
-                  = page.label.upcase
+                = link_to destroy_user_session_path, method: :delete, class: "logout" do
+                  Logout
+        - else
+          %li.auth
+            = link_to new_user_session_path, class: "login" do
+              = icon('lock')
+              Login
+-# - if @cms_site
+-#   - @cms_site.pages.root.children.published.select{ |p| p.slug.in? ['about','local-food','get-involved','resources','producers'] }.each do |page|
+-#     - if page.children.published.any?
+-#       %li
+-#         %a{ href:"#{page.children.published.first.full_path}" }
+-#           %i{ class: "#{icon_class(page.label)}" }
+-#           = page.label.upcase
+-#         %ul.dropdown
+-#           - page.children.published.each do |child_page|
+-#             %li
+-#               %a{ href: "#{child_page.full_path}" }
+-#                 = child_page.label
+-#     - else
+-#       %li
+-#         %a{ href: "#{page.full_path}" }
+-#           %i{ class: "#{icon_class(page.label)}" }
+-#           = page.label.upcase

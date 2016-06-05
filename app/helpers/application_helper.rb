@@ -38,6 +38,10 @@ module ApplicationHelper
     end
   end
 
+  def root_path?
+    request.path == root_path
+  end
+
   def producer_pages
     @cms_site.pages.find_by_full_path('/producers').children.
     published.where("label != 'Summary'")
