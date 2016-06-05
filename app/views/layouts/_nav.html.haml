@@ -10,42 +10,29 @@
         %span
   %section.top-bar-section
     %ul.right
-      %li
-        %a{ href: "about_path" } About
-      %li
-        %a{ href: "about_path" } Get Involved
-      %li
-        %a{ href: "about_path" } Producers
+      - if @cms_site
+        - if cms_page('about').present?
+          %li
+            %a{ href: cms_page('about').full_path } About
+        - if cms_page('get-involved').present?
+          %li
+            %a{ href: cms_page('get-involved').full_path } Get Involved
+        - if cms_page('producers').present?
+          %li
+            %a{ href: cms_page('producers').full_path } Producers
       %li
         %a{ href: "about_path" } Questions?
-        - if user_signed_in?
-          %li.has-dropdown.auth
-            = link_to user_root_path do
-              = icon('user')
-              My Account
-            %ul.dropdown
-              %li
-                = link_to destroy_user_session_path, method: :delete, class: "logout" do
-                  Logout
-        - else
-          %li.auth
-            = link_to new_user_session_path, class: "login" do
-              = icon('lock')
-              Login
--# - if @cms_site
--#   - @cms_site.pages.root.children.published.select{ |p| p.slug.in? ['about','local-food','get-involved','resources','producers'] }.each do |page|
--#     - if page.children.published.any?
--#       %li
--#         %a{ href:"#{page.children.published.first.full_path}" }
--#           %i{ class: "#{icon_class(page.label)}" }
--#           = page.label.upcase
--#         %ul.dropdown
--#           - page.children.published.each do |child_page|
--#             %li
--#               %a{ href: "#{child_page.full_path}" }
--#                 = child_page.label
--#     - else
--#       %li
--#         %a{ href: "#{page.full_path}" }
--#           %i{ class: "#{icon_class(page.label)}" }
--#           = page.label.upcase
+      - if user_signed_in?
+        %li.has-dropdown.auth
+          = link_to user_root_path do
+            = icon('user')
+            My Account
+          %ul.dropdown
+            %li
+              = link_to destroy_user_session_path, method: :delete, class: "logout" do
+                Logout
+      - else
+        %li.auth
+          = link_to new_user_session_path, class: "login" do
+            = icon('lock')
+            Login

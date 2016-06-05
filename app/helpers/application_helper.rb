@@ -21,25 +21,12 @@ module ApplicationHelper
     season || Season.order(created_at: :desc).limit(1).last
   end
 
-  def icon_class(label)
-    case label
-    when "About"
-      'fa fa-users'
-    when "Local Food"
-      'bbfh-eggplant'
-    when "Get Involved"
-      'fa fa-exchange'
-    when "Resources"
-      'fa fa-book'
-    when "Producers"
-      'bbfh-producer'
-    else
-      ''
-    end
-  end
-
   def root_path?
     request.path == root_path
+  end
+
+  def cms_page(slug)
+    @cms_site.pages.root.children.published.find_by(slug: slug)
   end
 
   def producer_pages
