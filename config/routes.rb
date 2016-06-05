@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   get 'newsletters', to: 'home#newsletters', as: 'newsletters'
 
+  get 'questions', to: 'home#questions', as: 'questions'
+
   resources :seasons, only: [:show] do
     #Subscriptions
     resources :subscriptions, only: [:new, :create]
@@ -54,6 +56,12 @@ Rails.application.routes.draw do
         get :index, action: :users_index, on: :collection
       end
     end
+
+    resources :faq_groups do
+      resources :faqs, only: :index
+    end
+
+    resources :faqs, only: [:new, :create, :edit, :update]
   end
 
   comfy_route :cms_admin, :path => '/cms'

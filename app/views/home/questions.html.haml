@@ -1,0 +1,21 @@
+.row
+  .small-12.columns
+    %h2 Questions Answered
+    %p
+      We've done our best to answer any questions you might have, but it you can't find the answer you're looking for, feel free to get in touch with us via the
+      = succeed "." do
+        = link_to "contact page", contact_path
+
+%ul.accordion{ data: { accordion: true } }
+  - @faq_groups.each do |faq_group|
+    %li.accordion-navigation
+      %a{:href => "#faq_group_#{faq_group.id}"}
+        = faq_group.title
+      .content{ id: "faq_group_#{faq_group.id}" }
+        %ul.accordion{ data: { accordion: true } }
+          - faq_group.faqs.each do |faq|
+            %li.accordion-navigation
+              %a{:href => "#faq_#{faq.id}"}
+                = faq.question
+              .content{ id: "faq_#{faq.id}" }
+                = faq.answer

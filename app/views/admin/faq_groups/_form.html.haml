@@ -1,0 +1,11 @@
+= form_for [:admin, @faq_group] do |f|
+  .row
+    .small-12.columns
+      =f.label :title
+      =f.text_field :title
+  .row
+    .small-12.columns
+      -if %w(new create).include? action_name
+        = submit_tag "Create"
+      -else
+        = submit_tag "Update"

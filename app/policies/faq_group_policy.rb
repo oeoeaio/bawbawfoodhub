@@ -1,0 +1,2 @@
+class FaqGroupPolicy < ApplicationPolicy
+end

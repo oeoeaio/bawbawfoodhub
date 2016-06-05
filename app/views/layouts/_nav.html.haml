@@ -20,8 +20,9 @@
         - if cms_page('producers').present?
           %li
             %a{ href: cms_page('producers').full_path } Producers
-      %li
-        %a{ href: "about_path" } Questions?
+        - if Faq.any?
+          %li
+            %a{ href: questions_path } Questions?
       - if user_signed_in?
         %li.has-dropdown.auth
           = link_to user_root_path do

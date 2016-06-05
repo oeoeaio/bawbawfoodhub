@@ -1,0 +1,21 @@
+= form_for [:admin, @faq] do |f|
+  .row
+    .small-12.columns
+      =f.label :faq_group_id, "Group"
+      =f.collection_select :faq_group_id, FaqGroup.order(title: :asc).all, :id, :title, { }, {disabled: %w(new create).exclude?(action_name)}
+  .row
+    .small-12.columns
+      =f.label :question
+      =f.text_field :question
+  .row
+    .small-12.columns
+      =f.label :answer
+      =f.text_area :answer
+
+  .row
+    .small-12.columns
+      -if %w(new create).include? action_name
+        = submit_tag "Create"
+      -else
+        = submit_tag "Update"
+      = link_to "Cancel", :back, class: "button red"

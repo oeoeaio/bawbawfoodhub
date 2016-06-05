@@ -1,0 +1,16 @@
+.row
+  .small-12.medium-6.columns
+    %h2 FAQs
+    %h5 For #{@faq_group.title} (#{@faqs.count} total)
+  .small-12.medium-6.columns.text-right
+    = link_to "Create New", new_admin_faq_path(faq_group_id: @faq_group), class: "button"
+%table.fullwidth
+  %tr
+    %th Question
+    %th Answer
+    %th Edit
+  - @faqs.each do |faq|
+    %tr
+      %td= faq.question
+      %td= faq.answer
+      %th= link_to "Edit", edit_admin_faq_path(faq)

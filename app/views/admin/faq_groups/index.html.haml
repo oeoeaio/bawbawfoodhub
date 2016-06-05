@@ -1,0 +1,21 @@
+.row
+  .small-6.columns
+    %h2 FAQs
+  .small-6.columns.text-right
+    = link_to "Create New Group", new_admin_faq_group_path, class: 'button'
+
+%table.fullwidth
+  %tr
+    %th Title
+    %th FAQs
+    %th
+  - @faq_groups.each do |faq_group|
+    %tr
+      %td= faq_group.title
+
+      %td
+        = faq_group.faqs.count
+        = precede "(" do
+          =succeed ")" do
+            =link_to "list", admin_faq_group_faqs_path(faq_group)
+      %td= link_to "Edit", edit_admin_faq_group_path(faq_group)

@@ -41,7 +41,7 @@
 // We use these to control various global styles
 // $body-bg: #fff;
 // $body-font-color: #222;
-// $body-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$body-font-family: 'Lato', 'Source Sans Pro', sans-serif;
 // $body-font-weight: normal;
 // $body-font-style: normal;
 
@@ -222,12 +222,12 @@
 // $include-html-accordion-classes: $include-html-classes;
 
 // $accordion-navigation-padding: rem-calc(16);
-// $accordion-navigation-bg-color: #efefef  ;
+$accordion-navigation-bg-color: #ffffff  ;
 // $accordion-navigation-hover-bg-color: scale-color($accordion-navigation-bg-color, $lightness: -5%);
 // $accordion-navigation-active-bg-color: scale-color($accordion-navigation-bg-color, $lightness: -3%);
 // $accordion-navigation-font-color: #222;
-// $accordion-navigation-font-size: rem-calc(16);
-// $accordion-navigation-font-family: $body-font-family;
+$accordion-navigation-font-size: rem-calc(20);
+$accordion-navigation-font-family: $body-font-family;
 
 // $accordion-content-padding: $column-gutter/2;
 // $accordion-content-active-bg-color: #fff;
