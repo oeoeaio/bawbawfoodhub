@@ -12,8 +12,13 @@
     %ul.right
       - if @cms_site
         - if cms_page('about').present?
-          %li
-            %a{ href: cms_page('about').full_path } About
+          - children = cms_page('about').children.published
+          %li.has-dropdown
+            %a{ href: children.first.full_path } About
+            %ul.dropdown
+              - children.each do |child_page|
+                %li
+                  %a{ href: child_page.full_path }= child_page.label
         - if cms_page('get-involved').present?
           %li
             %a{ href: cms_page('get-involved').full_path } Get Involved

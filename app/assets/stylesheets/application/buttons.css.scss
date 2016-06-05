@@ -1,0 +1,9 @@
+.button {
+  &.red {
+    background-color: #d63e3e;
+
+    &:hover {
+      background-color: darken(#d63e3e, 10);
+    }
+  }
+}
