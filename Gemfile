@@ -29,7 +29,7 @@ gem 'spring', '~> 1.6', group: :development
 
 gem 'comfortable_mexican_sofa', '~> 1.11.0'
 gem 'haml'
-gem 'foundation-rails', '~> 5.4.5.0'
+gem 'foundation-rails', '~> 5.5.3'
 gem 'font-awesome-sass'
 gem 'jquery-turbolinks'
 gem 'pundit', '~> 1.0'
