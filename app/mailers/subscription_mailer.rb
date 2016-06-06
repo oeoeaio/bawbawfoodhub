@@ -9,7 +9,7 @@ class SubscriptionMailer < ActionMailer::Base
   def confirmation(subscription)
     @subscription = subscription
     @season = subscription.season
-    @subject = "Thanks! You are now signed up for the #{subscription.season.name} season of veggie boxes from Baw Baw Food Hub"
+    @subject = "Thanks! You'll be receiving a #{subscription.frequency} #{Subscription::SIZES[subscription.box_size][:name]} from the Baw Baw Food Hub!"
     address = Mail::Address.new subscription.user.email
     address.display_name = "#{subscription.user.given_name} #{subscription.user.surname}"
     mail(
