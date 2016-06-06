@@ -3,7 +3,7 @@
   .row
     .small-12.columns.text-center
       %a{ href:"#{root_path}" }
-        %img#logo{ src: '/assets/bbfh-logo-white.svg' }
+        = image_tag 'bbfh-logo-white.svg', id: 'logo'
   .row#scroll-for-more
     .small-12-columns.text-center
       = icon('chevron-down')
