@@ -1,10 +1,46 @@
 - if @season.signups_open?
 
-  = @cms_site.pages.find_by(slug: 'current-season-introduction').content.html_safe
+  %h2 Weekly (or Fortnightly) Veggie Boxes
 
-  = link_to "Signup now!", new_season_subscription_path(@season), class: "button red left"
+  %ul.accordion{ data: { accordion: true } }
+    %li.accordion-navigation
+      %a{:href => "#casuals"}
+        Can I order a one-off box, or do I need get one every week?
+      .content#casuals
+        .row
+          .small-12.medium-8.columns
+            We offer "casual" versions of all box sizes, which are available for purchase through our
+            = link_to "online store", "https://openfoodnetwork.org.au/bawbawfoodhub/shop", target: "_blank"
+            as and when you want one. There is no need to 'sign up' for a casual box, but they cost $3.00 more than a subscriber box.
+          .small-12.medium-4.columns.text-right
+            = link_to "I'd like a casual box", "https://openfoodnetwork.org.au/bawbawfoodhub/shop", target: "_blank", class: "button"
 
-  = link_to "Take me to the Online Store >", "https://openfoodnetwork.org.au/bawbawfoodhub/shop", target: "_blank", class: "button right"
+  %ul.accordion{ data: { accordion: true } }
+    %li.accordion-navigation
+      %a{:href => "#anybody"}
+        Can anybody order a box?
+      .content#anybody
+        Absolutely. Subscriptions are open to everyone, so feel free so invite your friends and family members to sign up for a box.
+
+  %ul.accordion{ data: { accordion: true } }
+    %li.accordion-navigation
+      %a{:href => "#collection"}
+        Where can I collect my box? Can I have it delivered?
+      .content#collection
+        %p Boxes are available for collection from our venue at Unit 4, 133 North Road, Warragul, between 3pm and 6pm on Tuesdays.
+
+        %p We also offer delivery to Warragul and Drouin for a $5.00 fee. Simply select the delivery option on the next page if you would like your box delivered.
+
+  %ul.accordion{ data: { accordion: true } }
+    %li.accordion-navigation
+      %a{:href => "#timing"}
+        When will I receive my first box?
+      .content#timing
+        We pack every box to order, and so we need some lead time to harvest produce and place orders with our other local growers. To receive a box on Tuesday, you will need to sign up before midday on Sunday.
+
+  %br
+
+  = link_to "Signup Now!", new_season_subscription_path(@season), class: "button red"
 
 - else
   %h2 Sorry!

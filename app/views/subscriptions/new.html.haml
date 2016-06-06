@@ -1,15 +1,16 @@
 -# render 'shared/error_messages', target: @subscription
 
-.row
-  .small-8.columns.small-centered.text-center
-    %h2 Signing up for #{@season.name}
+- @body_attributes = { 'data-no-turbolink' => true }
 
-    %p
-      The #{@season.name} season will run from the
-      %strong= readable_date(@season.first_pack_day.pack_date)
-      until the
-      =succeed "." do
-        %strong= readable_date(@season.last_pack_day.pack_date)
+:coffeescript
+  $(document).on 'page:change page:ready', ->
+    $('#address').toggle($("#subscription_delivery").val() == "true")
+    $('#subscription_delivery').on 'change', ->
+      $('#address').toggle($("#subscription_delivery").val() == "true")
+
+    $('#subscription_frequency').on 'change', ->
+      $('#week-fn').text($("#subscription_frequency").val().replace("ly",""))
+
 
 =form_for ([@season, @subscription]) do |f|
   .row
@@ -31,8 +32,21 @@
     .row
       .small-12.columns.text-center
         %p
-          Remember that you can always change your box size at a later date, as long as you let us know by
+          You can always change your box size at a later date, as long as you let us know by
           %strong Sunday evening.
+
+  .row
+    .small-12.columns
+      %h2 Box Options
+  .row
+    .small-12.medium-6.columns{ class: "#{error_class(@subscription,:delivery)}" }
+      =f.label :delivery, "Collection or Delivery?"
+      =f.select :delivery, [['Collection from 4/133 North Road, Warragul (Free)', false],['Delivery to Warragul or Drouin ($5.00)', true]]
+      = first_error_for @subscription, :delivery
+    .small-12.medium-6.columns{ class: "#{error_class(@subscription,:frequency)}" }
+      =f.label :frequency, "Weekly or Fortnightly?"
+      =f.select :frequency, [['Weekly', 'weekly'],['Fortnightly', 'fortnightly']]
+      = first_error_for @user, :frequency
 
   - if @raw_token
     = hidden_field_tag :raw_token, @raw_token
@@ -73,23 +87,39 @@
           =uf.label :password_confirmation
           =uf.password_field :password_confirmation
           = first_error_for @user, :password_confirmation
+
+  #address
+    .row
+      .small-12.columns{ class: "#{error_class(@subscription,:street_address)}" }
+        =f.label :street_address, "Street Address (For Delivery)"
+        =f.text_field :street_address
+        = first_error_for @subscription, :street_address
+    .row
+      .small-12.medium-6.columns{ class: "#{error_class(@subscription,:town)}" }
+        =f.label :town
+        =f.text_field :town
+        = first_error_for @subscription, :town
+      .small-12.medium-6.columns{ class: "#{error_class(@subscription,:postcode)}" }
+        =f.label :postcode
+        =f.text_field :postcode
+        = first_error_for @subscription, :postcode
   %br
   .row
     .small-12.columns.text-center
       %p
-        Your first pickup time for this season will be Tuesday the
+        Your first pickup time will be Tuesday the
         %strong= readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date)
         between 3pm and 6pm.
   .row
     .small-8.small-centered.columns.text-center
       %p
         By clicking 'Sign up' you acknowledge that you are responsible for collecting a vegetable box of your nominated size
-        %strong each week
+        %strong each
+        %strong#week-fn week
         from the
         %strong= readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date)
-        until the
-        =succeed "." do
-          %strong= readable_date(@season.last_pack_day.pack_date)
+        onwards.
+
   %br
   .row
     .small-4.small-centered.columns.text-center

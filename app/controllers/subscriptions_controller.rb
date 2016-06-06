@@ -73,11 +73,11 @@ class SubscriptionsController < ApplicationController
   end
 
   def new_user_subscription_params
-    params.require(:subscription).permit(:box_size, user_attributes: [:given_name, :surname, :email, :phone, :password, :password_confirmation]).merge season: @season
+    params.require(:subscription).permit(:box_size, :delivery, :frequency, :street_address, :town, :postcode, user_attributes: [:given_name, :surname, :email, :phone, :password, :password_confirmation]).merge season: @season
   end
 
   def existing_user_subscription_params
-    params.require(:subscription).permit(:box_size).merge season: @season
+    params.require(:subscription).permit(:box_size, :delivery, :frequency, :street_address, :town, :postcode).merge season: @season
   end
 
   def create_for_new_user

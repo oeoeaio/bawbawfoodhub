@@ -22,6 +22,8 @@
       %th Phone
     %th Box Size
     %th Subscription Date
+    %th Delivery?
+    %th Frequency
     %th Edit
   - @subscriptions.each do |subscription|
     %tr
@@ -34,4 +36,11 @@
         %td= subscription.user.phone
       %td= Subscription::SIZES[subscription.box_size][:name]
       %td= subscription.created_at.try{ |d| d.strftime("%d/%m/%Y %H:%M:%S") }
+      %td
+        - if subscription.delivery?
+          %span.has-tip{ 'data-tooltip' => true, 'aria-haspopup' => true, title: subscription.full_address }
+            Yes
+        - else
+          No
+      %td= subscription.frequency.capitalize
       %th= link_to "Edit", edit_admin_subscription_path(subscription)

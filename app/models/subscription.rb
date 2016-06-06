@@ -6,6 +6,9 @@ class Subscription < ActiveRecord::Base
   validates :season, presence: true
   validates :user, presence: true
   validates :box_size, inclusion: { in: SIZES.keys, :message => "must be selected" }
+  validates :street_address, presence: true, if: :delivery?
+  validates :town, presence: true, if: :delivery?
+  validates :postcode, presence: true, if: :delivery?
 
   accepts_nested_attributes_for :user
 
@@ -16,6 +19,10 @@ class Subscription < ActiveRecord::Base
 
   def auto_rollover?
     !!auto_rollover
+  end
+
+  def full_address
+    [street_address,town,postcode].join(",")
   end
 
   private

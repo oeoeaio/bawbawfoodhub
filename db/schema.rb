@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160605105307) do
+ActiveRecord::Schema.define(version: 20160605155939) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -196,11 +196,16 @@ ActiveRecord::Schema.define(version: 20160605105307) do
   add_index "seasons", ["slug"], name: "index_seasons_on_slug", unique: true, using: :btree
 
   create_table "subscriptions", force: :cascade do |t|
-    t.integer  "season_id",                           null: false
-    t.integer  "user_id",                             null: false
-    t.string   "box_size",   limit: 255, default: "", null: false
+    t.integer  "season_id",                                     null: false
+    t.integer  "user_id",                                       null: false
+    t.string   "box_size",       limit: 255, default: "",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "frequency",                  default: "weekly", null: false
+    t.boolean  "delivery",                   default: false,    null: false
+    t.string   "street_address"
+    t.string   "town"
+    t.string   "postcode"
   end
 
   add_index "subscriptions", ["season_id"], name: "index_subscriptions_on_season_id", using: :btree
