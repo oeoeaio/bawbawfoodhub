@@ -11,9 +11,10 @@
 * file per style scope.
 *
 *= require_self
-*= require_tree ./application
+*= require erb/img-column
 */
 
-@import "application/foundation_and_overrides";
+@import "foundation_and_overrides";
+@import "application/*";
 @import "font-awesome-sprockets";
 @import "font-awesome";

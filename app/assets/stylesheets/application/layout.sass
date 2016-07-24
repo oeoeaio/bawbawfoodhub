@@ -10,6 +10,8 @@
     min-width: 250px
     width: 40vh
     height: 40vh
+    max-height: 90wv
+    max-width: 90wv
   #scroll-for-more
     display: none
   &.full
@@ -20,12 +22,20 @@
       min-width: 300px
       width: 70vh
       height: 70vh
-      max-height: 95vw
-      max-width: 95vw
+      max-height: 90vw
+      max-width: 90vw
     #scroll-for-more
       color: #ffffff
       font-size: 4rem
       display: inline
+
+.top-bar-section
+  ul li
+    > a
+      .button.red
+        @extend .button.red
+        font-size: 0.65rem
+
 
 .footer
   padding: 2em 0em

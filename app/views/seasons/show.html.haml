@@ -2,6 +2,21 @@
 
   %h2 Weekly (or Fortnightly) Veggie Boxes
 
+
+  %ul.accordion{ data: { accordion: true } }
+    %li.accordion-navigation
+      %a{:href => "#in-the-box"}
+        What's in the box?
+      .content#in-the-box
+        %p Veggies! We source seasonal vegetables as locally as we possibly can which usually means they are grown in Gippsland. At certain times of the year (esp. late winter, early spring) we do source some produce from further away.
+
+        %p All produce is certified organic, except where it comes from some of our trusted smaller local growers, who grow in an ecologically sensitive way, but are not certified.
+
+        %p
+          We send out a rough idea of what sort of veggies will be in the boxes in our newsletter each week. You can signup to our newsletter on the
+          = succeed "." do
+            = link_to "home page", root_path
+
   %ul.accordion{ data: { accordion: true } }
     %li.accordion-navigation
       %a{:href => "#casuals"}
@@ -25,18 +40,13 @@
   %ul.accordion{ data: { accordion: true } }
     %li.accordion-navigation
       %a{:href => "#collection"}
-        Where can I collect my box? Can I have it delivered?
+        When and where can I collect my box? Can I have it delivered?
       .content#collection
         %p Boxes are available for collection from our venue at Unit 4, 133 North Road, Warragul, between 3pm and 6pm on Tuesdays.
 
         %p We also offer delivery to Warragul and Drouin for a $5.00 fee. Simply select the delivery option on the next page if you would like your box delivered.
 
-  %ul.accordion{ data: { accordion: true } }
-    %li.accordion-navigation
-      %a{:href => "#timing"}
-        When will I receive my first box?
-      .content#timing
-        We pack every box to order, and so we need some lead time to harvest produce and place orders with our other local growers. To receive a box on Tuesday, you will need to sign up before midday on Sunday.
+        %p We pack every box to order, and so we need some lead time to harvest produce and place orders with our other local growers. To receive a box on Tuesday, you will need to sign up before midday on Sunday.
 
   %br
 

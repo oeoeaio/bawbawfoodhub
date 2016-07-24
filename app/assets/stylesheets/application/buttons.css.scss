@@ -1,5 +1,3 @@
-@import "foundation/components/buttons";
-
 .button {
   &.red {
     background-color: #d63e3e;
@@ -12,5 +10,18 @@
 
 input[type="submit"] {
   @include button();
-  &.red { @extend .button.red }
+  &.red { @extend .button.red; }
+}
+
+.top-bar-section {
+  ul li {
+    > a {
+      &.button {
+        border-radius: 8px;
+        padding-top: 0.2rem;
+        &.red { @extend .button.red; }
+        &:hover { color: #fff; }
+      }
+    }
+  }
 }

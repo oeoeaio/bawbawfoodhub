@@ -28,6 +28,8 @@
         - if Faq.any?
           %li
             %a{ href: questions_path } Questions?
+      %li.has_form
+        %a.button.radius.red{ href: season_path(current_season) } Sign Up
       - if user_signed_in?
         %li.has-dropdown.auth
           = link_to user_root_path do
