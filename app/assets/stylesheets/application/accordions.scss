@@ -1,0 +1,11 @@
+.accordion-navigation {
+  > a:before {
+    @extend .fa;
+    content: '\f054';
+  }
+  &.active {
+    > a:before {
+      content: '\f078';
+    }
+  }
+}

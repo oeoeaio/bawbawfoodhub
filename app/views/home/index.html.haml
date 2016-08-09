@@ -1,19 +1,94 @@
-.row{ 'data-equalizer' => true }
-  .small-12.medium-12.large-6.columns
-    .callout{ 'data-equalizer-watch' => true }
-      %h3 You are invited to signup to our #{current_season.name} season of vegetable boxes!
-      %p Signups are now open, and we'd love it if you joined us for a season of delicious local produce.
-      %p We have three box sizes available ($22, $32 and $47 for subscribers only) and a growing list of locally produced extras for you to choose from.
-      = link_to "Signup Now!", season_path(current_season), class: "button red"
+.lush-panel.capsicums.shaded#signup
+  .row
+    .small-12.medium-6.columns.text-center
+      %h2 Tuesday Veggie Boxes
+      %h3
+        %i.bbfh-sprout
+        Three sizes (S, M, L)
+      %h3
+        %i.bbfh-sprout
+        Local + Organic
+      %h3
+        %i.bbfh-sprout
+        Weekly or Fortnightly
+      %h3
+        %i.bbfh-sprout
+        Pickup or Delivered
+      %br
+      %a.button.radius.red{ href: new_season_subscription_path(current_season) }
+        Signup Now
+        =icon('arrow-right')
+    .medium-6.show-for-medium-up.columns.text-center
+      &nbsp;
 
-  .small-12.medium-12.large-6.columns
-    .image-content.broccoli.shaded{ 'data-equalizer-watch' => true }
-      .content
-        %h2 New to this?
-        %p We pack boxes of fresh, local and organic produce for our customers each week.
-        %a.button{ href: '/local-food/weekly-veggie-boxes' }
-          Find out more!
+.lush-panel.apples.shaded#online-shop
+  .row
+    .medium-6.show-for-medium-up.columns.text-center
+      &nbsp;
+    .small-12.medium-6.columns.text-center
+      %h2 Online Shop
+      %h3
+        %i.bbfh-sprout
+        Casual (one-off) boxes
+      %h3
+        %i.bbfh-sprout
+        Fruit, Yoghurt, Bread
+      %h3
+        %i.bbfh-sprout
+        Cheese, Preserves and more!
+      %br
+      %a.button.radius{ href: "https://openfoodnetwork.org.au/bawbawfoodhub/shop", target: '_blank' }
+        Online Shop
+        =icon('arrow-right')
 
-.row
-  .small-12.columns
-    = @cms_site.pages.root.content.html_safe
+.lush-panel.broccoli.shaded#newsletters
+  .row
+    .small-12.medium-6.columns.text-center
+      %h2 Newsletters
+      %h3
+        %i.bbfh-sprout
+        Upcoming Events
+      %h3
+        %i.bbfh-sprout
+        Farm and Produce Updates
+      %h3
+        %i.bbfh-sprout
+        What's in the box?
+      %br
+      %a.button.radius{ href: newsletters_path }
+        Browse Newsletter Archive
+        =icon('arrow-right')
+    .small-12.medium-6.columns.text-center
+      %h2 Join Our Mailing List
+      %form#mc-embedded-subscribe-form.validate{:action => "//facebook.us8.list-manage.com/subscribe/post?u=87d56e29d660188ebfd3e03ce&id=3bd359d80a", :method => "post", :name => "mc-embedded-subscribe-form", :novalidate => "", :target => "_blank"}
+        .small-8.small-centered.columns
+          %input#mce-FNAME{:name => "FNAME", :type => "text", :value => "", placeholder: "Given Name"}/
+          %input#mce-LNAME{:name => "LNAME", :type => "text", :value => "", placeholder: "Surname"}/
+          %input#mce-EMAIL.required.email{:name => "EMAIL", :type => "email", :value => "", placeholder: "Your email"}/
+          %div{:style => "position: absolute; left: -5000px;"}
+            %input{:name => "b_87d56e29d660188ebfd3e03ce_3bd359d80a", :tabindex => "-1", :type => "text", :value => ""}/
+          %input#mc-embedded-subscribe.button.radius.expand.red{:name => "subscribe", :type => "submit", :value => "Subscribe"}/
+
+.lush-panel.planting.shaded#join-the-movement
+  .row
+    .medium-6.show-for-medium-up.columns.text-center
+      &nbsp;
+    .small-12.medium-6.columns.text-center
+      %h2 Join the Movement
+      %p We're a passionate collective of growers, makers and eaters working to strengthen our local food economy, to support local growers and to improve access to high quality, nutritious food. We believe that the availability of local, ecologically produced food is an essential pre-condition for a happy, healthy, thriving community.
+      %br
+      %a.button.radius{ href: cms_page('get-involved').full_path }
+        Find out more
+        =icon('arrow-right')
+
+.lush-panel.quinces.shaded#where-to-find-us
+  .row
+    .small-12.medium-6.columns.text-center
+      %h2 Where to find us
+      %h3 Tuesdays only, 3pm-6pm
+      %h3 @
+      %h3 4/133 North Road, Warragul
+      %p (Behind the Pet Emporium)
+    .small-12.medium-6.columns.text-center
+      .small-12.small-centered.columns
+        %iframe{:allowfullscreen => "", height: "400", width: '100%', :frameborder => "0", :src => "https://www.google.com/maps/embed/v1/place?key=#{Rails.application.secrets.google["api_key"]}&q=Baw+Baw+Food+Hub,Warragul+Australia", :style => "border:0" }

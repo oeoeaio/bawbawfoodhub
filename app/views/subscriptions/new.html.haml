@@ -11,20 +11,29 @@
     $('#subscription_frequency').on 'change', ->
       $('#week-fn').text($("#subscription_frequency").val().replace("ly",""))
 
+    $(".size-selector").on 'change', ->
+      selector = $(this)
+      $('.size-option').each (i,e) ->
+        $(e).toggleClass('selected', e.contains(selector.get(0)))
+
+
 
 =form_for ([@season, @subscription]) do |f|
-  .row
+  .row.offset-bottom
     .small-8.columns.small-centered.text-center
-      %h2 Choose A Box Size
+      %h2 Select A Box Size
+      Got Questions? We can
+      = succeed '!' do
+        = link_to 'help', questions_path, target: '_blank'
   .row{ 'data-equalizer' => true }
     - Subscription::SIZES.each do |key,box|
-      .small-12.medium-4.columns.text-center.chunky
+      .small-12.medium-4.columns.text-center.size-option.chunky
         .panel
           .offset-bottom{ 'data-equalizer-watch' => true }
             %h4= "#{box[:name]} (#{box[:price]})"
             %p= box[:desc]
-          =f.radio_button :box_size, key
-          =f.label :box_size, "Choose", value: key, class: 'button'
+          =f.radio_button :box_size, key, class: 'size-selector'
+          =f.label :box_size, "Select", value: key, class: 'button radius red'
 
     .row
       .small-12.columns.text-center
@@ -46,7 +55,7 @@
     .small-12.medium-6.columns{ class: "#{error_class(@subscription,:frequency)}" }
       =f.label :frequency, "Weekly or Fortnightly?"
       =f.select :frequency, [['Weekly', 'weekly'],['Fortnightly', 'fortnightly']]
-      = first_error_for @user, :frequency
+      = first_error_for @subscription, :frequency
 
   - if @raw_token
     = hidden_field_tag :raw_token, @raw_token
@@ -55,7 +64,7 @@
     %br
     .row
       .small-12.columns
-        %h2 Your details
+        %h2 Your Details
     =f.fields_for :user, @user do |uf|
       .row
         .small-12.medium-6.columns{ class: "#{error_class(@user,:given_name)}" }
@@ -79,7 +88,7 @@
         .small-12.medium-6.columns{ class: "#{error_class(@user,:password)}" }
           =uf.label :password do
             Password
-            %span.has-tip{ 'data-tooltip' => true, 'aria-haspopup' => true, title: "A password is required so that you can update your info later and subscribe to subsequent seasons with the same account." }
+            %span.has-tip{ 'data-tooltip' => true, 'aria-haspopup' => true, title: "A password is required so that you can update your subscription details and your personal information." }
               (Why?)
           =uf.password_field :password
           = first_error_for @user, :password
@@ -113,7 +122,7 @@
   .row
     .small-8.small-centered.columns.text-center
       %p
-        By clicking 'Sign up' you acknowledge that you are responsible for collecting a vegetable box of your nominated size
+        By clicking 'Complete Sign Up' you acknowledge that you are responsible for collecting a vegetable box of your nominated size
         %strong each
         %strong#week-fn week
         from the
@@ -123,4 +132,56 @@
   %br
   .row
     .small-4.small-centered.columns.text-center
-      = submit_tag "Sign up!", class: 'button red'
+      = submit_tag "Complete Sign Up", class: 'button radius red'
+
+%br
+%h2 Got Questions?
+%h4
+  Here are some we get asked a lot, and you can find more in our
+  = succeed '.' do
+    = link_to "questions section", questions_path, target: '_blank'
+
+%ul.accordion{ data: { accordion: true } }
+  %li.accordion-navigation
+    %a{:href => "#in-the-box"}
+      What's in the veggie boxes?
+    .content#in-the-box
+      %p
+        Veggies! We send out a rough idea of what sort of veggies will be in the boxes in our newsletter each week. You can signup to our newsletter on the
+        = succeed "," do
+          = link_to "home page", root_path
+        and you can check out our
+        = link_to "archives", newsletters_path
+        for past newsletters.
+
+      %p  We source seasonal vegetables as locally as we possibly can which usually means they are grown in Gippsland. At certain times of the year (esp. late winter, early spring) we do source some produce from further away.
+
+      %p All produce is certified organic, except where it comes from some of our trusted smaller local growers, who grow in an ecologically sensitive way, but are not certified.
+
+  %li.accordion-navigation
+    %a{:href => "#casuals"}
+      Can I order a one-off box, or do I need get one every week?
+    .content#casuals
+      .row
+        .small-12.medium-8.columns
+          We offer "casual" versions of all box sizes, which are available for purchase through our
+          = link_to "online store", "https://openfoodnetwork.org.au/bawbawfoodhub/shop", target: "_blank"
+          as and when you want one. There is no need to 'sign up' for a casual box, but they cost $3.00 more than a subscriber box.
+        .small-12.medium-4.columns.text-right
+          = link_to "I'd like a casual box", "https://openfoodnetwork.org.au/bawbawfoodhub/shop", target: "_blank", class: "button"
+
+  %li.accordion-navigation
+    %a{:href => "#anybody"}
+      Can anybody order a box?
+    .content#anybody
+      Absolutely. Subscriptions are open to everyone.
+
+  %li.accordion-navigation
+    %a{:href => "#collection"}
+      When and where can I collect my box? Can I have it delivered?
+    .content#collection
+      %p Boxes are available for collection from our venue at Unit 4, 133 North Road, Warragul, between 3pm and 6pm on Tuesdays.
+
+      %p We also offer delivery to Warragul and Drouin for a $5.00 fee. Simply select the delivery option on the signup page if you would like your box delivered.
+
+      %p We pack every box to order, and so we need some lead time to harvest produce and place orders with our other local growers. To receive a box on Tuesday, you will need to sign up before midday on Sunday.

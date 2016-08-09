@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   get 'questions', to: 'home#questions', as: 'questions'
 
-  resources :seasons, only: [:show] do
+  resources :seasons, only: [] do
     #Subscriptions
     resources :subscriptions, only: [:new, :create]
     get 'subscriptions/success', to: 'subscriptions#success'

@@ -7,7 +7,7 @@ RSpec.describe SubscriptionMailer do
     let(:mail) { SubscriptionMailer.confirmation(subscription) }
 
     it 'renders the subject' do
-      expect(mail.subject).to eq "Thanks! You are now signed up for the #{season.name} season of veggie boxes from Baw Baw Food Hub"
+      expect(mail.subject).to eq "Thanks! You'll be receiving a weekly Large Box from the Baw Baw Food Hub!"
     end
 
     it 'renders the receiver email' do
