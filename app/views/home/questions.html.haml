@@ -18,4 +18,4 @@
               %a{:href => "#faq_#{faq.id}"}
                 = faq.question
               .content{ id: "faq_#{faq.id}" }
-                = faq.answer
+                = faq.answer.html_safe
