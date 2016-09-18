@@ -19,7 +19,6 @@
 
   %body{ {:style => "font-family: sans-serif" }, @body_attributes || {} }
     = render 'layouts/nav'
-    = render 'layouts/header'
 
     .flash
       - if flash[:success]
@@ -30,6 +29,8 @@
         .alert= flash[:alert]
       -if flash[:error]
         .error= flash[:error]
+
+    = render 'layouts/header'
 
     - if root_path?
       = yield
