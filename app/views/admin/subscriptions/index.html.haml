@@ -11,36 +11,5 @@
     - if @season
       = link_to "Create New", new_admin_subscription_path(season_id: @season), class: "button"
       = link_to "Rollover This List", new_multiple_admin_season_rollovers_path(@season), class: "button red"
-%table.fullwidth
-  %tr
-    - if @user
-      %th Season
-    - elsif @season
-      %th Given Name
-      %th Surname
-      %th Email
-      %th Phone
-    %th Box Size
-    %th Subscription Date
-    %th Delivery?
-    %th Frequency
-    %th Edit
-  - @subscriptions.each do |subscription|
-    %tr
-      - if @user
-        %td= subscription.season.name
-      - elsif @season
-        %td= subscription.user.given_name
-        %td= subscription.user.surname
-        %td= subscription.user.email
-        %td= subscription.user.phone
-      %td= Subscription::SIZES[subscription.box_size][:name]
-      %td= subscription.created_at.try{ |d| d.strftime("%d/%m/%Y %H:%M:%S") }
-      %td
-        - if subscription.delivery?
-          %span.has-tip{ 'data-tooltip' => true, 'aria-haspopup' => true, title: subscription.full_address }
-            Yes
-        - else
-          No
-      %td= subscription.frequency.capitalize
-      %th= link_to "Edit", edit_admin_subscription_path(subscription)
+
+= render 'table'
