@@ -22,7 +22,10 @@
   Tuesday from the
   %strong= readable_date(@season.first_pack_day_with_lead_time_after(@subscription.created_at).pack_date)
   onwards.
-  Unless you have made other arrangements with us, you will need to collect your box on Tuesdays between 3pm and 6pm, from our venue at Unit 4, 133 North Road, Warragul.
+  - if @subscription.delivery?
+    Unless we hear from you otherwise before midday on Sunday, we will deliver your box to your address (#{@subscription.full_address}), on Tuesdays between 3pm and 6pm.
+  - else
+    Unless you have made other arrangements with us, you will need to collect your box on Tuesdays between 3pm and 6pm, from our venue at Unit 4, 133 North Road, Warragul.
 
 - unless Date.today > Date.new(2016, 01, 11)
   %p.offset-bottom
@@ -40,7 +43,7 @@
 %h3 Payment
 %p.offset-bottom
   - if @subscription.delivery?
-    As we will be delivering your box, we ask that you pay for it in advance by transferring the amount for your box (#{Subscription::SIZES[@subscription.box_size][:price]}) into our bank account with your name as the description.
+    As we will be delivering your box, we ask that you pay for it in advance by transferring the amount for your box (#{Subscription::SIZES[@subscription.box_size][:price]}) plus the $5 delivery fee into our bank account with your name as the description.
 
     If you are also paying for extras ordered through our
     = succeed "," do
@@ -64,7 +67,9 @@
 %p
   Sunday midday is the
   %strong cut-off time
-  for box cancellations each week. While we always prefer that you find a friend or family member to come and get your box for you when you cannot, we understand that this is not always possible.
+  for box cancellations each week.
+  - unless @subscription.delivery?
+    While we always prefer that you find a friend or family member to come and get your box for you when you cannot, we understand that this is not always possible.
 %p
   If you
   %strong need

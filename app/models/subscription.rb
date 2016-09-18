@@ -22,7 +22,7 @@ class Subscription < ActiveRecord::Base
   end
 
   def full_address
-    [street_address,town,postcode].join(",")
+    [street_address,town,postcode].join(", ")
   end
 
   private
