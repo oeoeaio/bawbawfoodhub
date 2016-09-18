@@ -6,6 +6,8 @@ class Subscription < ActiveRecord::Base
   validates :season, presence: true
   validates :user, presence: true
   validates :box_size, inclusion: { in: SIZES.keys, :message => "must be selected" }
+  validates :frequency, presence: true, inclusion: { in: ['weekly','fortnightly'], message: 'must be either weekly or fortnightly' }
+  validates :delivery, inclusion: { in: [true, false], message: 'cannot be blank' }
   validates :street_address, presence: true, if: :delivery?
   validates :town, presence: true, if: :delivery?
   validates :postcode, presence: true, if: :delivery?
