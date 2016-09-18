@@ -5,10 +5,10 @@
   %b= @user.email
   already exists, but the password you entered was not correct.
 
-%p If this is you, and you would like to continue with signup using this account, please enter your password below.
+%p If this is you, and you would like to continue with sign-up using this account, please enter your password below.
 
 =form_for ([@season, @subscription]) do |f|
-  = f.hidden_field :box_size
+  = render 'hidden_subscription_fields', f: f
 
   =f.fields_for :user, @user do |uf|
     =uf.hidden_field :email
@@ -24,9 +24,9 @@
     .small-12.medium-6.columns
       .row
         .small-12.columns
-          = submit_tag "Confirm Password", class: 'button red left'
+          = submit_tag "Confirm Password", class: 'button radius red left'
         .small-12.columns
           = link_to "Forgot your password?", new_user_password_path
     .small-12.medium-6.columns
-      =link_to "Use a different email address", new_season_subscription_path(@season), class: 'button right'
+      =link_to "Use a different email address", new_season_subscription_path(@season), class: 'button radius right'
   .row

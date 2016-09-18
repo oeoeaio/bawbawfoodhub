@@ -1,0 +1,7 @@
+= f.hidden_field :box_size
+= f.hidden_field :delivery
+= f.hidden_field :frequency
+- if @subscription.delivery?
+  = f.hidden_field :street_address
+  = f.hidden_field :town
+  = f.hidden_field :postcode

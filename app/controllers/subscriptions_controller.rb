@@ -104,8 +104,13 @@ class SubscriptionsController < ApplicationController
         render :new
       end
     else
-      @existing_subscription = existing_subscriptions.last
-      render :confirm
+      if @subscription.valid?
+        @existing_subscription = existing_subscriptions.last
+        render :confirm
+      else
+        @user = current_user
+        render :new
+      end
     end
   end
 

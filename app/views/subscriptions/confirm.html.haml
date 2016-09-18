@@ -1,5 +1,5 @@
 =form_for ([@season, @subscription]) do |f|
-  = f.hidden_field :box_size
+  = render 'hidden_subscription_fields', f: f
 
   - if @raw_token
     = hidden_field_tag :raw_token, @raw_token
@@ -18,6 +18,11 @@
       %b= @existing_subscription.created_at.strftime("%H:%M")
 
   %p
+    If you would like to
+    %strong change
+    you box size, please email us to arrange this.
+
+  %p
     Please don't hesitate to get in touch with us via
     %strong info@bawbawfoodhub.org.au
     if you have any questions or if anything is unclear.
@@ -25,6 +30,6 @@
   %br
   .row
     .small-12.medium-6.columns
-      = submit_tag "Yes, Continue with signup!", class: 'button red left'
+      = submit_tag "Yes, continue with signup!", class: 'button radius red left'
     .small-12.medium-6.columns
-      = link_to "Oops, I don't need another box!", root_path, class: 'button right'
+      = link_to "Oops! No, I don't need another box.", root_path, class: 'button radius right'

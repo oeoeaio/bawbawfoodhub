@@ -250,30 +250,47 @@ RSpec.describe SubscriptionsController, :type => :controller do
             context "when the user already has an existing subscription for this season" do
               let!(:subscription) { create(:subscription, season: season, user: user) }
 
-              context "and the user has not confirmed creation of this subscription" do
-                before { post :create, params }
+              context "and the subscription is valid" do
+                context "and the user has not confirmed creation of this subscription" do
+                  before { post :create, params }
 
-                it "assigns @subscription" do
-                  expect(assigns(:subscription)).to be_a_new(Subscription)
+                  it "assigns @subscription" do
+                    expect(assigns(:subscription)).to be_a_new(Subscription)
+                  end
+
+                  it "assigns @existing_subscription" do
+                    expect(assigns(:existing_subscription)).to eq subscription
+                  end
+
+                  it "renders :confirm" do
+                    expect(response).to render_template :confirm
+                  end
                 end
 
-                it "assigns @existing_subscription" do
-                  expect(assigns(:existing_subscription)).to eq subscription
-                end
+                context "but the user has already confirmed creation of this subscription" do
+                  before do
+                    params.merge!({ confirmed: true })
+                    post :create, params
+                  end
 
-                it "renders :confirm" do
-                  expect(response).to render_template :confirm
+                  it "renders :success" do
+                    expect(response).to render_template :success
+                  end
                 end
               end
 
-              context "but the user has already confirmed creation of this subscription" do
+              context "and the subscription is invalid" do
                 before do
-                  params.merge!({ confirmed: true })
+                  params[:subscription].merge!(delivery: true)
                   post :create, params
                 end
 
-                it "renders :success" do
-                  expect(response).to render_template :success
+                it "assigns @user" do
+                  expect(assigns(:user)).to eq user
+                end
+
+                it "renders :new" do
+                  expect(response).to render_template :new
                 end
               end
             end
