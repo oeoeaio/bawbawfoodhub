@@ -15,6 +15,7 @@
 //= require jquery_ujs
 //= require foundation
 //= require turbolinks
+//= require smooth-scroll
 //= require_tree .
 
 $(function(){ $(document).foundation(); });
@@ -24,3 +25,5 @@ $(function(){ $(document).foundation(); });
 $(document).on('page:change', function() {
   $('[data-equalizer]').data('equalizer-init', Foundation.libs.equalizer.settings);
 });
+
+$(document).ready(function(){$('#scroll-for-more a').smoothScroll({speed: 'auto', autoCoefficient: 1});});
