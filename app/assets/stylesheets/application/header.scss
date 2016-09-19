@@ -1,0 +1,51 @@
+@keyframes bob {
+  15% { transform: translate(0, 20px); }
+  30% { transform: translate(0, 0px); }
+  45% { transform: translate(0, 20px); }
+  60% { transform: translate(0, 0px); }
+}
+
+.header {
+  min-height: 150px;
+  padding-bottom: 2em;
+  background-image: image-url('layout/hero-lettuce.jpg');
+  background-size: cover;
+  background-position: center;
+
+  #logo {
+    margin-top: 8vh;
+    min-height: 250px;
+    min-width: 250px;
+    width: 40vh;
+    height: 40vh;
+    max-height: 90wv;
+    max-width: 90wv;
+  }
+  #scroll-for-more {
+    display: none;
+  }
+
+  &.full {
+    min-height: calc(100vh - 45px);
+    #logo {
+      margin-top: 8vh;
+      min-height: 300px;
+      min-width: 300px;
+      width: 70vh;
+      height: 70vh;
+      max-height: 90vw;
+      max-width: 90vw;
+    }
+    #scroll-for-more {
+      color: #ffffff;
+      font-size: 4rem;
+      display: inline;
+      a {
+        color: #ffffff;
+        i {
+          animation: bob ease-in-out 3s infinite;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+.footer {
+  padding: 2em 0em;
+  background-color: #209348;
+  color: #ffffff;
+  // Buttons
+  .button {
+    &.red {
+      background-color: #d63e3e;
+      &:hover {
+        background-color: darken(#d63e3e, 10);
+      }
+    }
+  }
+  h4 {
+    color: #ffffff;
+  }
+  a {
+    &:link, &:visited, &:active {
+      color: #ffffff;
+    }
+    &:hover {
+      color: #d6d6d6;
+    }
+  }
+}
