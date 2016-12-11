@@ -1,21 +1,67 @@
-%h2 Your Subscriptions
-%table.fullwidth
-  %tr
-    %th Season Name
-    %th First Week
-    %th Final Week
-    %th Your Subscription
-    %th Signups Open?
-    %th
-  - Season.all.each do |season|
-    %tr
-      %td= season.name
-      %td= season.starts_on.try{ |d| d.strftime("%d/%m/%Y") }
-      %td= season.ends_on.try{ |d| d.strftime("%d/%m/%Y") }
-      %td= get_subscriptions(season)
-      %td= season.signups_open
-      %td
-        -if season.signups_open
-          = link_to "Signup Now", new_season_subscription_path(season), class: 'button red'
-        -else
-          = link_to "Signups Closed", nil, class: 'button disabled'
+%h2 User Dashboard
+
+%p
+  One day we will have a nice user dashboard experience for you here, but in the meantime, here are our answers to some common questions.
+  If you can find what you're looking for here, please have a look at our
+  = succeed "," do
+    = link_to "questions page", questions_path
+  contact us via the
+  = succeed "," do
+    = link_to "contact page", contact_path
+  or email us at
+  %strong info@bawbawfoodhub.org.au
+
+%ul.accordion{ data: { accordion: true } }
+  %li.accordion-navigation
+    %a{:href => "#am-i-signed-up"}
+      Am I signed up for a box?
+    .content#am-i-signed-up
+      %p
+        Subscriptions do not expire.
+        = succeed "." do
+          %strong Ever
+        The only time we will ever stop packing you a box is if you email us to cancel your box. So if you received a box last Tuesday and you haven't emailed us to cancel, you can expect a box this Tuesday. If you are still unsure, send us an email:
+        %strong info@bawbawfoodhub.org.au
+
+  %li.accordion-navigation
+    %a{:href => "#i-will-be-away"}
+      I will be away this week, what should I do?
+    .content#i-will-be-away
+      %p
+        Our preferred option is always that you please organise a friend or family member to collect your box when you are not able to. We understand that this is not always possible and so we can accept box cancellations up until the Sunday midday cut-off time. If you need to cancel your box, please let us know via email
+        = succeed "." do
+          %strong before Sunday midday
+        Any boxes cancelled after this time will not be refunded except in the case of an unforeseeable emergency.
+
+  %li.accordion-navigation
+    %a{:href => "#can-i-change-sizes"}
+      Can I switch box sizes?
+    .content#can-i-change-sizes
+      %p
+        Of course! You can always let us know of any changes you would like to make to your box size up until the cut-off time each week, which is Sunday at midday. Just send an email through to
+        %strong info@bawbawfoodhub.org.au
+        and we will gladly make the adjustments you require.
+
+
+-#
+-# %h2 Your Subscriptions
+-# %table.fullwidth
+-#   %tr
+-#     %th Season Name
+-#     %th First Week
+-#     %th Final Week
+-#     %th Your Subscription
+-#     %th Signups Open?
+-#     %th
+-#   - Season.all.each do |season|
+-#     %tr
+-#       %td= season.name
+-#       %td= season.starts_on.try{ |d| d.strftime("%d/%m/%Y") }
+-#       %td= season.ends_on.try{ |d| d.strftime("%d/%m/%Y") }
+-#       %td= get_subscriptions(season)
+-#       %td= season.signups_open
+-#       %td
+-#         -if season.signups_open
+-#           = link_to "Signup Now", new_season_subscription_path(season), class: 'button red'
+-#         -else
+-#           = link_to "Signups Closed", nil, class: 'button disabled'
