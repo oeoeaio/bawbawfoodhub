@@ -30,6 +30,9 @@
       -if flash[:error]
         .error= flash[:error]
 
+      - if root_path?
+        .alert We're taking a short break until Tuesday the 10th of Jan. We look forward to seeing you then. :)
+
     = render 'layouts/header'
 
     - if root_path?
