@@ -11,6 +11,7 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = javascript_include_tag "vendor/modernizr"
+    = javascript_include_tag "analytics" if Rails.application.secrets.google_analytics_tracking_id
     = csrf_meta_tag
 
     %link{ href: '//fonts.googleapis.com/css?family=Montserrat:400,700', rel: 'stylesheet', type: 'text/css' }
