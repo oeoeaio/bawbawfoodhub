@@ -1,0 +1,14 @@
+.row
+  .small-6.columns
+    %h2
+      Readings for
+      = @sensor.name
+
+%table.fullwidth
+  %tr
+    %th Value
+    %th Time
+  - @readings.each do |reading|
+    %tr
+      %td= reading.value
+      %td= reading.recorded_at.try{ |d| d.strftime("%d/%m/%Y %H:%M:%S") }

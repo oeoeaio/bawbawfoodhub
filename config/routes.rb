@@ -63,7 +63,9 @@ Rails.application.routes.draw do
 
     resources :faqs, only: [:new, :create, :edit, :update]
 
-    resources :sensors
+    resources :sensors do
+      resources :readings, only: [:index]
+    end
   end
 
   comfy_route :cms_admin, :path => '/cms'

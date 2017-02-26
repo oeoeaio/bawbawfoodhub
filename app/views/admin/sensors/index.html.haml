@@ -8,9 +8,11 @@
   %tr
     %th Name
     %th Active?
+    %th Readings
     %th
   - @sensors.each do |sensor|
     %tr
       %td= sensor.name
       %td= ( sensor.active? ? "Yes" : "No" )
+      %td= link_to "List", admin_sensor_readings_path(sensor)
       %td= link_to "Edit", edit_admin_sensor_path(sensor)

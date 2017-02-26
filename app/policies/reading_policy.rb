@@ -1,0 +1,2 @@
+class ReadingPolicy < ApplicationPolicy
+end

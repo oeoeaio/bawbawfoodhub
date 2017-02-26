@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170226013823) do
+ActiveRecord::Schema.define(version: 20170226024929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,6 +166,17 @@ ActiveRecord::Schema.define(version: 20170226013823) do
   end
 
   add_index "pack_days", ["season_id"], name: "index_pack_days_on_season_id", using: :btree
+
+  create_table "readings", force: :cascade do |t|
+    t.integer  "sensor_id",   null: false
+    t.decimal  "value",       null: false
+    t.datetime "recorded_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "readings", ["recorded_at"], name: "index_readings_on_recorded_at", using: :btree
+  add_index "readings", ["sensor_id"], name: "index_readings_on_sensor_id", using: :btree
 
   create_table "rollovers", force: :cascade do |t|
     t.integer  "season_id",                        null: false
