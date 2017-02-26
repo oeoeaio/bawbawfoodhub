@@ -37,6 +37,7 @@ gem 'devise', '~> 4.2', '>= 4.2.0'
 gem 'roadie-rails', '~> 1.1'
 gem 'roo'
 gem 'httparty'
+gem 'whenever', :require => false
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
