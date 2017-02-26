@@ -22,6 +22,8 @@ Rails.application.routes.draw do
     get :cancel, on: :collection
   end
 
+  resources :readings, only: [:create], format: :json
+
   namespace :user do
     root :to => "home#index"
   end
