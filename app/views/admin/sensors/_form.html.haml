@@ -4,7 +4,13 @@
       =f.label :name
       =f.text_field :name
   .row
-    .small-12.columns
+    .small-4.columns
+      =f.label :lower_limit
+      =f.text_field :lower_limit
+    .small-4.columns
+      =f.label :upper_limit
+      =f.text_field :upper_limit
+    .small-4.columns
       =f.label :active, "Active?"
       =f.check_box :active
   .row
