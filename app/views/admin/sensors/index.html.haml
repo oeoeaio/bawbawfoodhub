@@ -1,0 +1,16 @@
+.row
+  .small-6.columns
+    %h2 Sensors
+  .small-6.columns.text-right
+    = link_to "Create Sensor", new_admin_sensor_path, class: 'button'
+
+%table.fullwidth
+  %tr
+    %th Name
+    %th Active?
+    %th
+  - @sensors.each do |sensor|
+    %tr
+      %td= sensor.name
+      %td= ( sensor.active? ? "Yes" : "No" )
+      %td= link_to "Edit", edit_admin_sensor_path(sensor)

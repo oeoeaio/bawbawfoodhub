@@ -1,0 +1,2 @@
+class SensorPolicy < ApplicationPolicy
+end

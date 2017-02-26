@@ -1,0 +1,15 @@
+= form_for [:admin, @sensor] do |f|
+  .row
+    .small-12.columns
+      =f.label :name
+      =f.text_field :name
+  .row
+    .small-12.columns
+      =f.label :active, "Active?"
+      =f.check_box :active
+  .row
+    .small-12.columns
+      -if %w(new create).include? action_name
+        = submit_tag "Create"
+      -else
+        = submit_tag "Update"
