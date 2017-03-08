@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170226221000) do
+ActiveRecord::Schema.define(version: 20170308211713) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,20 @@ ActiveRecord::Schema.define(version: 20170226221000) do
   end
 
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
+
+  create_table "alerts", force: :cascade do |t|
+    t.integer  "sensor_id",   null: false
+    t.string   "category",    null: false
+    t.datetime "sleep_until"
+    t.datetime "resolved_at"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "alerts", ["category"], name: "index_alerts_on_category", using: :btree
+  add_index "alerts", ["resolved_at"], name: "index_alerts_on_resolved_at", using: :btree
+  add_index "alerts", ["sensor_id"], name: "index_alerts_on_sensor_id", using: :btree
+  add_index "alerts", ["sleep_until"], name: "index_alerts_on_sleep_until", using: :btree
 
   create_table "cms_blocks", force: :cascade do |t|
     t.integer  "page_id",                null: false
