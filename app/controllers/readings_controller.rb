@@ -5,8 +5,8 @@ class ReadingsController < ApplicationController
   respond_to :json
 
   def create
-    return render nothing: true unless
     sensor = Sensor.find_by_name(params[:sensor_name])
+    return render nothing: true unless sensor.present?
     Reading.create(sensor: sensor, value: params[:value], recorded_at: Time.now)
     render nothing: true
   end
