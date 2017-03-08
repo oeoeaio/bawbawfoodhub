@@ -15,7 +15,8 @@ class ReadingsController < ApplicationController
 
   def verify_request
     pass = Rails.application.secrets.sensor_key
-    digest = Digest::SHA1.hexdigest("#{pass}#{params[:salt]}")
+    message = "#{pass}#{params[:sensor_name]}#{params[:value]}#{params[:salt]}"
+    digest = Digest::SHA1.hexdigest(message)
     # Don't run the action unless the hash checks out
     render nothing: true unless params[:hash] == digest
   end
