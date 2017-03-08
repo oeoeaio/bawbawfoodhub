@@ -1,0 +1,20 @@
+.row
+  .small-6.columns
+    %h2
+      Alerts for
+      = @sensor.name
+
+%table.fullwidth
+  %tr
+    %th Category
+    %th Status
+    %th When
+    %th.text-center Sleep?
+  - @alerts.each do |alert|
+    %tr
+      %td= alert.category.capitalize
+      %td= status_for(alert)
+      %td= when_for(alert)
+      %td.text-center
+        - unless alert.resolved?
+          = link_to "SLEEP NOW", sleep_admin_alert_path(alert), class: 'button red radius tiny no-margin'

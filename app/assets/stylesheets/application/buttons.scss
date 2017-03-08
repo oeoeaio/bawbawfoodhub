@@ -6,6 +6,10 @@
       background-color: darken(#d63e3e, 10);
     }
   }
+
+  &.no-margin {
+    margin: 0px;
+  }
 }
 
 input[type="submit"] {

@@ -67,6 +67,12 @@ Rails.application.routes.draw do
 
     resources :sensors do
       resources :readings, only: [:index]
+      resources :alerts, only: [:index] do
+      end
+    end
+
+    resources :alerts, only: [] do
+      get :sleep, on: :member
     end
   end
 
