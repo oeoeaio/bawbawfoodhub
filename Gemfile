@@ -38,6 +38,7 @@ gem 'roadie-rails', '~> 1.1'
 gem 'roo'
 gem 'httparty'
 gem 'whenever', :require => false
+gem 'twilio-ruby'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
