@@ -11,6 +11,10 @@ class Alert < ActiveRecord::Base
     resolved_at.present?
   end
 
+  def recent_or_sleeping?
+    (created_at > 3.hours.ago) || sleeping?
+  end
+
   def status
     return 'resolved' if resolved?
     return 'sleeping' if sleeping?

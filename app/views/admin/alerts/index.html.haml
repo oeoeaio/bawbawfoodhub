@@ -17,4 +17,4 @@
       %td= when_for(alert)
       %td.text-center
         - unless alert.resolved?
-          = link_to "SLEEP NOW", sleep_admin_alert_path(alert), class: 'button red radius tiny no-margin'
+          = link_to "SLEEP FOR 3 HOURS", sleep_admin_alert_path(alert), class: 'button red radius tiny no-margin'
