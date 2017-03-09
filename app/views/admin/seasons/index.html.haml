@@ -10,7 +10,6 @@
     %th Slug
     %th Pack Days
     %th Subscriptions
-    %th Rollovers
     %th Signups open?
     %th
   - @seasons.each do |season|
@@ -27,10 +26,5 @@
         = precede "(" do
           =succeed ")" do
             =link_to "list", admin_season_subscriptions_path(season)
-      %td
-        = season.rollovers.count
-        = precede "(" do
-          =succeed ")" do
-            =link_to "list", admin_season_rollovers_path(season)
       %td= season.signups_open
       %td= link_to "Edit", edit_admin_season_path(season)

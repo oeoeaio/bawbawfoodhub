@@ -3,7 +3,6 @@ Rails.application.routes.draw do
 
   devise_for :admins
   devise_for :users
-  # devise_for :rollovers, skip: :confirmations # , controllers: { confirmations: 'rollover_confirmations' }
 
   get 'newsletters', to: 'home#newsletters', as: 'newsletters'
 
@@ -17,10 +16,6 @@ Rails.application.routes.draw do
 
   get 'about/contact', to: 'contact#index', as: 'contact'
   post 'about/contact', to: 'contact#submit', as: 'submit_contact'
-
-  resources :rollovers, only: [] do
-    get :cancel, on: :collection
-  end
 
   resources :readings, only: [:create], format: :json
 
@@ -37,20 +32,8 @@ Rails.application.routes.draw do
       resources :subscriptions, only: [] do
         get :index, action: :seasons_index, on: :collection
       end
-
-      # Rollovers
-      resources :rollovers, only: [:index] do
-        collection do
-          get :new_multiple
-          put :create_multiple
-          get :new_multiple_from_csv
-          post :create_multiple_from_csv
-          post :bulk_action
-        end
-      end
     end
 
-    resources :rollovers, only: [:new, :create]
     resources :subscriptions, only: [:new, :create, :edit, :update]
 
     resources :users, only: [:index, :new, :create, :edit, :update] do
