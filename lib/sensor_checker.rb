@@ -35,7 +35,7 @@ class SensorChecker
 
   def pack_day_in_progress?
     return unless PackDay.where(pack_date: Date.today).any?
-    Time.now.between?(Date.today + 11.hours, Date.today + 19.hours)
+    Time.now.between?(Time.zone.today + 11.hours, Time.zone.today + 19.hours)
   end
 
   def body_for(category, sensor, reading)
