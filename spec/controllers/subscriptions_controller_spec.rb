@@ -8,45 +8,15 @@ RSpec.describe SubscriptionsController, :type => :controller do
     let(:season) { create(:season) }
     let(:params) { { season_id: season.slug } }
 
-    context "when a token is submitted" do
-      let!(:rollover) { create(:rollover, season: season) }
-
-      before do
-        params.merge!( { raw_token: "some_token"} )
-        allow(Rollover).to receive(:find_by_confirmation_token) { rollover }
-      end
-
-      it "instantiates a subscription object for building the form" do
-        get :new, params
-        expect(assigns(:rollover)).to eq rollover
-        expect(assigns(:subscription)).to be_a_new(Subscription)
-        expect(assigns(:subscription)[:box_size]).to eq rollover.box_size
-      end
-
-      context "and a box_size is also submitted" do
-        before do
-          params.merge!( { box_size: "large" } )
-          allow(controller).to receive(:create_from_token)
-        end
-
-        it "calls create_from_token" do
-          get :new, params
-          expect(controller).to have_received(:create_from_token)
-        end
-      end
+    it "instantiates the @subscription object for building the form" do
+      get :new, params
+      expect(assigns(:subscription)).to be_a_new(Subscription)
+      expect(assigns(:subscription)[:box_size]).to eq ""
     end
 
-    context "when a token is not submitted" do
-      it "instantiates the @subscription object for building the form" do
-        get :new, params
-        expect(assigns(:subscription)).to be_a_new(Subscription)
-        expect(assigns(:subscription)[:box_size]).to eq ""
-      end
-
-      it "instantiates the @user object for building the form" do
-        get :new, params
-        expect(assigns(:user)).to be_a_new(User)
-      end
+    it "instantiates the @user object for building the form" do
+      get :new, params
+      expect(assigns(:user)).to be_a_new(User)
     end
   end
 
@@ -76,98 +46,6 @@ RSpec.describe SubscriptionsController, :type => :controller do
         it "redirects to root path" do
           expect(flash[:error]).to eq "Signups for the #{season.name} season have closed."
           expect(response).to redirect_to root_path
-        end
-      end
-
-      context "when a confirmation_token is submitted" do
-        let(:target_season) { create(:season) }
-        let(:user) { create(:user) }
-        let(:rollover) { create(:rollover, season: target_season, user: user) }
-        let(:params) { { season_id: target_season.slug, raw_token: "some_token" } }
-
-        context "when the token maps to a real rollover object" do
-          before { allow(Rollover).to receive(:confirm_by_token) { rollover } }
-
-          context "when the user already has an existing subscription for this season" do
-            let!(:subscription) { create(:subscription, season: target_season, user: user) }
-            before do
-              allow(rollover).to receive(:reset_confirmation_token!)
-              params.merge!({ subscription: { box_size: "standard" } })
-              post :create, params
-            end
-
-            it "assigns @raw_token" do
-              expect(assigns(:raw_token)).to eq "some_token"
-            end
-
-            it "resets the confirmation_token on rollover" do
-              expect(rollover).to have_received(:reset_confirmation_token!).with("some_token")
-            end
-
-            it "assigns @subscription" do
-              expect(assigns(:subscription)).to be_a_new(Subscription)
-            end
-
-            it "assigns @existing_subscription" do
-              expect(assigns(:existing_subscription)).to eq subscription
-            end
-
-            it "renders :confirm" do
-              expect(response).to render_template :confirm
-            end
-          end
-
-          context "when the user has no existing subscriptions for this season" do
-            context "and the user submits acceptable data" do
-              before do
-                params.merge!({ subscription: { box_size: "standard", frequency: 'weekly', delivery: 'false' } })
-                post :create, params
-              end
-
-              it "creates a new subscription object" do
-                expect(assigns(:subscription)).to be_a(Subscription)
-              end
-
-              it "render :success" do
-                expect(response).to render_template :success
-              end
-            end
-
-            context "and the user submits invalid invalid data" do
-              before do
-                params.merge!({ subscription: { box_size: "some-unacceptable-box-size" } })
-                allow(rollover).to receive(:reset_confirmation_token!)
-                post :create, params
-              end
-
-              it "creates a new subscription object" do
-                expect(assigns(:subscription)).to be_a_new(Subscription)
-              end
-
-              it "rolls back confirmation on the the rollover" do
-                expect(rollover).to have_received(:reset_confirmation_token!)
-              end
-
-              it "render :new" do
-                expect(response).to render_template :new
-              end
-            end
-          end
-        end
-
-        context "when the token doesn't map to a rollover object" do
-          before { allow(Rollover).to receive(:confirm_by_token) { Rollover.new } }
-
-          context "and the user submits acceptable data" do
-            before do
-              params.merge!({ subscription: { box_size: "standard", frequency: 'weekly', delivery: 'false' } })
-              post :create, params
-            end
-
-            it "renders :new" do
-              expect(response).to render_template :new
-            end
-          end
         end
       end
 

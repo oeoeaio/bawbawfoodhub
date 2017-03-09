@@ -10,6 +10,5 @@
       = link_to "Create New", new_admin_subscription_path(user_id: @user), class: "button"
     - if @season
       = link_to "Create New", new_admin_subscription_path(season_id: @season), class: "button"
-      = link_to "Rollover This List", new_multiple_admin_season_rollovers_path(@season), class: "button red"
 
 = render 'table'

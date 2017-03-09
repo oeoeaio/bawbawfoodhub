@@ -17,12 +17,6 @@ class Subscription < ActiveRecord::Base
   attr_accessor :skip_confirmation_email
   after_create :send_confirmation, unless: :skip_confirmation_email?
 
-  attr_accessor :auto_rollover
-
-  def auto_rollover?
-    !!auto_rollover
-  end
-
   def full_address
     [street_address,town,postcode].join(", ")
   end

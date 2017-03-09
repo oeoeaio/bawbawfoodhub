@@ -21,15 +21,5 @@ RSpec.describe SubscriptionMailer do
     it 'renders the body' do
       expect(mail.body.encoded).to match("Thanks #{subscription.user.given_name}!")
     end
-
-    context 'when auto_rollover on the subscription is set to true' do
-      before do
-        allow(subscription).to receive(:auto_rollover) { true }
-      end
-
-      it 'notifies the user that they are being automatically rolled over' do
-        expect(mail.body.encoded).to match("Your subscription has been rolled over to the #{season.name} season because we have not heard from you otherwise.")
-      end
-    end
   end
 end
