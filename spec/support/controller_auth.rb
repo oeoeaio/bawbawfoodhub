@@ -1,7 +1,11 @@
 require 'devise'
 
 module ControllerAuth
-  include Devise::TestHelpers
+  extend ActiveSupport::Concern
+
+  included do
+    include Devise::Test::ControllerHelpers
+  end
 
   def login_admin
     @request.env["devise.mapping"] = Devise.mappings[:admin]
