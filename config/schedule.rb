@@ -6,5 +6,5 @@
 # Learn more: http://github.com/javan/whenever
 
 every 30.minutes do
-  runner "SensorChecker.run", environment: :development
+  runner "SensorChecker.start", environment: :development
 end
