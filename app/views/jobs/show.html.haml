@@ -1,0 +1,14 @@
+- if Time.now < @job.closes_at
+  = @job.description.html_safe
+- else
+  %h2 Applications for this position have now closed
+  %p
+    Unfortunately, applications for this position closed at
+    = succeed "." do
+      %strong
+        = @job.closes_at.strftime("%H:%M on %A, %d/%m/%Y")
+
+  %p
+    If you would like to find out more about this position or to make a late application, please get in touch via email or the
+    = succeed "." do
+      = link_to "contact page", contact_path

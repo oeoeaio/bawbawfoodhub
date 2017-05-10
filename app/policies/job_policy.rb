@@ -1,0 +1,2 @@
+class JobPolicy < ApplicationPolicy
+end

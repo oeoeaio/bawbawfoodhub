@@ -1,0 +1,24 @@
+= form_for [:admin, @job] do |f|
+  .row
+    .small-12.medium-4.columns
+      =f.label :title
+      =f.text_field :title, placeholder: 'eg. Store Manager'
+    .small-12.medium-4.columns
+      =f.label :slug
+      =f.text_field :slug, placeholder: 'eg. store-manager'
+    .small-12.medium-4.columns
+      - closes_at = @job.closes_at.try{ |d| d.strftime("%d/%m/%Y %H:%M") }
+      =f.label :closes_at
+      =f.text_field :closes_at, value: closes_at, placeholder: 'dd/mm/yyyy hh:mm'
+  .row
+    .small-12.columns
+      =f.label :description
+      =f.text_area :description, rows: 30
+
+  .row
+    .small-12.columns
+      -if %w(new create).include? action_name
+        = submit_tag "Create"
+      -else
+        = submit_tag "Update"
+      = link_to "Cancel", :back, class: "button red"
