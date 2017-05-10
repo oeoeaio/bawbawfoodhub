@@ -1,0 +1,17 @@
+.row
+  .small-12.medium-6.columns
+    %h2 Jobs
+  .small-12.medium-6.columns.text-right
+    = link_to "Create New", new_admin_job_path, class: "button"
+%table.fullwidth
+  %tr
+    %th Title
+    %th Slug
+    %th Closes At
+    %th Edit
+  - @jobs.each do |job|
+    %tr
+      %td= job.title
+      %td= job.slug
+      %td= job.closes_at.try{ |d| d.strftime("%d/%m/%Y %H:%M") }
+      %th= link_to "Edit", edit_admin_job_path(job)

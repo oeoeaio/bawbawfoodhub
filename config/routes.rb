@@ -19,6 +19,8 @@ Rails.application.routes.draw do
 
   resources :readings, only: [:create], format: :json
 
+  resources :jobs, only: [:show]
+
   namespace :user do
     root :to => "home#index"
   end
@@ -57,6 +59,8 @@ Rails.application.routes.draw do
     resources :alerts, only: [] do
       get :sleep, on: :member
     end
+
+    resources :jobs, only: [:index, :new, :create, :edit, :update]
   end
 
   comfy_route :cms_admin, :path => '/cms'
