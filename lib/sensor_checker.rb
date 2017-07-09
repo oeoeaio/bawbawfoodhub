@@ -26,6 +26,7 @@ class SensorChecker
         recover_from(:value, sensor)
       else
         next if pack_day_in_progress?
+        next unless sensor.fail_count_reached?
         send_alert(:value, sensor, reading)
       end
     end
@@ -45,7 +46,13 @@ class SensorChecker
     when :time
       "Last reading for #{sensor.name} was #{time_ago_in_words(reading.recorded_at)} ago"
     when :value
-      "Last reading for #{sensor.name} (#{reading.value}) was outside of range. [#{sensor.lower_limit} - #{sensor.upper_limit}]"
+      n = sensor.fail_count_for_value_alert
+      last_n_readings = sensor.last_n_readings(n).map(&:value).join(", ")
+      if n == 1
+        "Last reading for #{sensor.name} (#{reading.value}) was outside of range. [#{sensor.lower_limit} - #{sensor.upper_limit}]"
+      else
+        "Last #{n} readings for #{sensor.name} (#{last_n_readings}) were outside of range. [#{sensor.lower_limit} - #{sensor.upper_limit}]"
+      end
     else
       "There is a problem with #{sensor.name}"
     end

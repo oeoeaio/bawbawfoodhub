@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SensorChecker do
   describe "running the checker" do
     let!(:checker) { SensorChecker.new }
-    let!(:sensor) { create(:sensor, active: false, lower_limit: 0.0, upper_limit: 10.0) }
+    let!(:sensor) { create(:sensor, active: false, lower_limit: 0.0, upper_limit: 10.0, fail_count_for_value_alert: 2) }
 
     before do
       allow(checker).to receive(:recover_from)
@@ -64,21 +64,34 @@ RSpec.describe SensorChecker do
               it "does not send an alert" do
                 checker.run
                 expect(checker).to_not have_received(:send_alert)
+                expect(checker).to_not have_received(:recover_from).with(:value, sensor)
               end
             end
 
             context "when pack_day_in_progress? returns false" do
               before { allow(checker).to receive(:pack_day_in_progress?) { false } }
 
-              it "calls send_alert with category :value" do
-                checker.run
-                expect(checker).to have_received(:send_alert).with(:value, sensor, reading)
-                expect(checker).to_not have_received(:recover_from).with(:value, sensor)
+              context "when the fail_count_for_value_alert has not been reached" do
+                it "does not send an alert" do
+                  checker.run
+                  expect(checker).to_not have_received(:send_alert)
+                  expect(checker).to_not have_received(:recover_from).with(:value, sensor)
+                end
+              end
+
+              context "when the fail_count_for_value_alert has been reached" do
+                before { sensor.update_attributes(fail_count_for_value_alert: 1) }
+
+                it "calls send_alert with category :value" do
+                  checker.run
+                  expect(checker).to have_received(:send_alert).with(:value, sensor, reading)
+                  expect(checker).to_not have_received(:recover_from).with(:value, sensor)
+                end
               end
             end
           end
 
-          context "when the reading has a value outside of the limits" do
+          context "when the reading has a value inside of the limits" do
             before { reading.update_attributes(value: 9.0) }
 
             it "calls recover_from with category :value" do
@@ -181,6 +194,36 @@ RSpec.describe SensorChecker do
             end
           end
         end
+      end
+    end
+  end
+
+  describe "contructing a message body" do
+    let!(:checker) { SensorChecker.new }
+    let!(:sensor) { create(:sensor, active: false, lower_limit: 0.0, upper_limit: 10.0) }
+    let!(:reading1) { create(:reading, sensor: sensor, value: 11.0, recorded_at: 30.minutes.ago) }
+    let!(:reading2) { create(:reading, sensor: sensor, value: 12.0, recorded_at: 90.minutes.ago) }
+    let!(:reading3) { create(:reading, sensor: sensor, value: 13.0, recorded_at: 150.minutes.ago) }
+
+    context "when fail_count_for_value_alert is 1" do
+      before do
+        sensor.update_attributes(fail_count_for_value_alert: 1)
+      end
+
+      it "reports the most recent reading value in the message body" do
+        body = checker.send(:body_for, :value, sensor, reading1)
+        expect(body).to include "(11.0)"
+      end
+    end
+
+    context "when fail_count_for_value_alert is greater than 1" do
+      before do
+        sensor.update_attributes(fail_count_for_value_alert: 3)
+      end
+
+      it "reports n values in the message body, where n = fail_count_for_value_alert" do
+        body = checker.send(:body_for, :value, sensor, reading1)
+        expect(body).to include "(11.0, 12.0, 13.0)"
       end
     end
   end
