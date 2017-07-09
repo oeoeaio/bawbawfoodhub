@@ -4,13 +4,18 @@
       =f.label :name
       =f.text_field :name
   .row
-    .small-4.columns
+    .small-3.columns
       =f.label :lower_limit
       =f.text_field :lower_limit
-    .small-4.columns
+    .small-3.columns
       =f.label :upper_limit
       =f.text_field :upper_limit
-    .small-4.columns
+    .small-3.columns
+      =f.label :fail_count_for_value_alert do
+        Send an SMS after (x) failures
+        %i.fa.fa-question-circle.has-tip{ 'data-tooltip' => true, 'aria-haspopup' => true, title: 'How many consecutive failures to fall inside the specified limit should it take to trigger an SMS alert?' }
+      =f.text_field :fail_count_for_value_alert
+    .small-3.columns
       =f.label :active, "Active?"
       =f.check_box :active
   .row

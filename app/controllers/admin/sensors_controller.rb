@@ -36,6 +36,6 @@ class Admin::SensorsController < Admin::BaseController
   private
 
   def sensor_params
-    params.require(:sensor).permit(:name, :active, :lower_limit, :upper_limit)
+    params.require(:sensor).permit(:name, :active, :lower_limit, :upper_limit, :fail_count_for_value_alert)
   end
 end
