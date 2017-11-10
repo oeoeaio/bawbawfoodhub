@@ -213,6 +213,8 @@ GEM
     roadie-rails (1.1.0)
       railties (>= 3.0, < 4.3)
       roadie (~> 3.1)
+    rollbar (2.15.5)
+      multi_json
     roo (2.3.1)
       nokogiri (~> 1)
       rubyzip (~> 1.1, < 2.0.0)
@@ -302,6 +304,7 @@ DEPENDENCIES
   pundit (~> 1.0)
   rails (~> 4.2, >= 4.2.7.1)
   roadie-rails (~> 1.1)
+  rollbar
   roo
   rspec-rails (~> 3.5)
   sass-rails (~> 5.0)
