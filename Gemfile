@@ -39,6 +39,7 @@ gem 'roo'
 gem 'httparty'
 gem 'whenever', :require => false
 gem 'twilio-ruby'
+gem 'rollbar'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
