@@ -4,6 +4,7 @@ class ContactController < ApplicationController
   end
 
   def submit
+    verify_recaptcha_token
     @contact = Contact.new params[:contact]
     if @contact.valid?
       if ContactMailer.query(@contact).deliver
@@ -14,6 +15,19 @@ class ContactController < ApplicationController
       flash.now[:error] = "There was a problem submitting your email. Please review the form for errors."
       render :index
     end
+  end
+
+  private
+
+  def verify_recaptcha_token
+    response = HTTParty.post("https://www.google.com/recaptcha/api/siteverify",
+      query: {
+        secret: Rails.application.secrets.recaptcha_secret_key,
+        response: params[:token]
+      }
+    )
+
+    puts "reCAPTCHA RESPONSE: #{response}"
   end
 
   class Contact

@@ -2,7 +2,17 @@
 
 %p This form will send us an email, and we'll do our best to get back to you as soon as possible.
 
+:coffeescript
+  $(window).on 'load', ->
+    $('#new_contact').submit ->
+      event.preventDefault()
+      grecaptcha.ready ->
+        grecaptcha.execute("#{Rails.application.secrets.recaptcha_site_key}", action: 'contact').then (token) ->
+          $('#recaptcha-token').val(token);
+          $('#new_contact').unbind('submit').submit()
+
 = form_for @contact, as: :contact, url: submit_contact_path do |f|
+  %input#recaptcha-token{ type: 'hidden', name: 'token' }
   .row
     .small-12.medium-6.columns{ class: "#{error_class(@contact,:email)}" }
       =f.label :email, "Your Email Address (we'll send a reply to this address)"
