@@ -1,10 +1,11 @@
 class ContactController < ApplicationController
+  before_action :verify_recaptcha_token, only: :submit
+
   def index
     @contact = Contact.new({})
   end
 
   def submit
-    verify_recaptcha_token
     @contact = Contact.new params[:contact]
     if @contact.valid?
       if ContactMailer.query(@contact).deliver
@@ -27,7 +28,9 @@ class ContactController < ApplicationController
       }
     )
 
+    return if response["success"]
     Rails.logger.info("reCAPTCHA RESPONSE: #{response}")
+    render :sorry
   end
 
   class Contact
