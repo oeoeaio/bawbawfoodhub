@@ -27,7 +27,7 @@ class ContactController < ApplicationController
       }
     )
 
-    puts "reCAPTCHA RESPONSE: #{response}"
+    Rails.logger.info("reCAPTCHA RESPONSE: #{response}")
   end
 
   class Contact
