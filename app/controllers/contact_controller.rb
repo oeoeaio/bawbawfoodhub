@@ -24,7 +24,7 @@ class ContactController < ApplicationController
     response = HTTParty.post("https://www.google.com/recaptcha/api/siteverify",
       query: {
         secret: Rails.application.secrets.recaptcha_secret_key,
-        response: params[:token]
+        response: params["g-recaptcha-response"]
       }
     )
 
