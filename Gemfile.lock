@@ -207,6 +207,8 @@ GEM
     rake (12.0.0)
     rdoc (4.1.1)
       json (~> 1.4)
+    recaptcha (4.13.0)
+      json
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
     roadie (3.1.1)
@@ -305,6 +307,7 @@ DEPENDENCIES
   pry-byebug
   pundit (~> 1.0)
   rails (~> 4.2, >= 4.2.7.1)
+  recaptcha
   roadie-rails (~> 1.1)
   rollbar
   roo

@@ -40,6 +40,7 @@ gem 'httparty'
 gem 'whenever', :require => false
 gem 'twilio-ruby'
 gem 'rollbar'
+gem 'recaptcha'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'

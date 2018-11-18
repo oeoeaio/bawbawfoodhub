@@ -22,7 +22,7 @@
       =first_error_for(@contact, :body)
   .row
     .small-12.medium-6.columns
-      .g-recaptcha{ data: { sitekey: "#{Rails.application.secrets.recaptcha_site_key}" } }
+      = recaptcha_tags
       %br
   .row
     .small-12.medium-6.columns
