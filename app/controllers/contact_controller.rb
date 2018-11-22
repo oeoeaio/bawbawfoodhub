@@ -9,8 +9,7 @@ class ContactController < ApplicationController
     @contact = Contact.new params[:contact]
     if @contact.valid?
       if ContactMailer.query(@contact).deliver
-        flash[:notice] = "Your email has been sent! We'll get back to you as soon as we can."
-        redirect_to contact_path
+        render :success
       end
     else
       flash.now[:error] = "There was a problem submitting your email. Please review the form for errors."
