@@ -22,8 +22,4 @@
       =first_error_for(@contact, :body)
   .row
     .small-12.medium-6.columns
-      = recaptcha_tags
-      %br
-  .row
-    .small-12.medium-6.columns
-      = submit_tag "Send"
+      = invisible_recaptcha_tags text: "Send"
