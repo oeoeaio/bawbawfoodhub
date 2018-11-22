@@ -21,6 +21,7 @@ class ContactController < ApplicationController
 
   def verify_recaptcha_token
     return if verify_recaptcha
+    Rails.logger.info("reCAPTCHA failed for token: #{params['g-recaptcha-response']}")
     render :sorry
   end
 
