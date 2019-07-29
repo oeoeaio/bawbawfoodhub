@@ -21,8 +21,8 @@
 
 .img-column {
   .image-content {
-    <% if Cms::Site.any? %>
-    <% Cms::Site.first.files.images.for_category('image-content').each do |img| %>
+    <% if Comfy::Cms::Site.any? %>
+    <% Comfy::Cms::Site.first.files.images.for_category('image-content').each do |img| %>
     &.<%= img.label %> {
       @include background-image('<%= img.file.url %>');
     }

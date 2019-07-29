@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170709024923) do
+ActiveRecord::Schema.define(version: 20190729123459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,33 +39,35 @@ ActiveRecord::Schema.define(version: 20170709024923) do
   add_index "alerts", ["sensor_id"], name: "index_alerts_on_sensor_id", using: :btree
   add_index "alerts", ["sleep_until"], name: "index_alerts_on_sleep_until", using: :btree
 
-  create_table "cms_blocks", force: :cascade do |t|
-    t.integer  "page_id",                null: false
-    t.string   "identifier", limit: 255, null: false
+  create_table "comfy_cms_blocks", force: :cascade do |t|
+    t.integer  "blockable_id",               null: false
+    t.string   "identifier",     limit: 255, null: false
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "blockable_type"
   end
 
-  add_index "cms_blocks", ["page_id", "identifier"], name: "index_cms_blocks_on_page_id_and_identifier", using: :btree
+  add_index "comfy_cms_blocks", ["blockable_id", "identifier"], name: "index_comfy_cms_blocks_on_blockable_id_and_identifier", using: :btree
+  add_index "comfy_cms_blocks", ["blockable_type"], name: "index_comfy_cms_blocks_on_blockable_type", using: :btree
 
-  create_table "cms_categories", force: :cascade do |t|
+  create_table "comfy_cms_categories", force: :cascade do |t|
     t.integer "site_id",                      null: false
     t.string  "label",            limit: 255, null: false
     t.string  "categorized_type", limit: 255, null: false
   end
 
-  add_index "cms_categories", ["site_id", "categorized_type", "label"], name: "index_cms_categories_on_site_id_and_categorized_type_and_label", unique: true, using: :btree
+  add_index "comfy_cms_categories", ["site_id", "categorized_type", "label"], name: "index_cms_categories_on_site_id_and_cat_type_and_label", unique: true, using: :btree
 
-  create_table "cms_categorizations", force: :cascade do |t|
+  create_table "comfy_cms_categorizations", force: :cascade do |t|
     t.integer "category_id",                  null: false
     t.string  "categorized_type", limit: 255, null: false
     t.integer "categorized_id",               null: false
   end
 
-  add_index "cms_categorizations", ["category_id", "categorized_type", "categorized_id"], name: "index_cms_categorizations_on_cat_id_and_catd_type_and_catd_id", unique: true, using: :btree
+  add_index "comfy_cms_categorizations", ["category_id", "categorized_type", "categorized_id"], name: "index_cms_categorizations_on_cat_id_and_catd_type_and_catd_id", unique: true, using: :btree
 
-  create_table "cms_files", force: :cascade do |t|
+  create_table "comfy_cms_files", force: :cascade do |t|
     t.integer  "site_id",                                    null: false
     t.integer  "block_id"
     t.string   "label",             limit: 255,              null: false
@@ -78,12 +80,12 @@ ActiveRecord::Schema.define(version: 20170709024923) do
     t.datetime "updated_at"
   end
 
-  add_index "cms_files", ["site_id", "block_id"], name: "index_cms_files_on_site_id_and_block_id", using: :btree
-  add_index "cms_files", ["site_id", "file_file_name"], name: "index_cms_files_on_site_id_and_file_file_name", using: :btree
-  add_index "cms_files", ["site_id", "label"], name: "index_cms_files_on_site_id_and_label", using: :btree
-  add_index "cms_files", ["site_id", "position"], name: "index_cms_files_on_site_id_and_position", using: :btree
+  add_index "comfy_cms_files", ["site_id", "block_id"], name: "index_comfy_cms_files_on_site_id_and_block_id", using: :btree
+  add_index "comfy_cms_files", ["site_id", "file_file_name"], name: "index_comfy_cms_files_on_site_id_and_file_file_name", using: :btree
+  add_index "comfy_cms_files", ["site_id", "label"], name: "index_comfy_cms_files_on_site_id_and_label", using: :btree
+  add_index "comfy_cms_files", ["site_id", "position"], name: "index_comfy_cms_files_on_site_id_and_position", using: :btree
 
-  create_table "cms_layouts", force: :cascade do |t|
+  create_table "comfy_cms_layouts", force: :cascade do |t|
     t.integer  "site_id",                                null: false
     t.integer  "parent_id"
     t.string   "app_layout", limit: 255
@@ -98,10 +100,10 @@ ActiveRecord::Schema.define(version: 20170709024923) do
     t.datetime "updated_at"
   end
 
-  add_index "cms_layouts", ["parent_id", "position"], name: "index_cms_layouts_on_parent_id_and_position", using: :btree
-  add_index "cms_layouts", ["site_id", "identifier"], name: "index_cms_layouts_on_site_id_and_identifier", unique: true, using: :btree
+  add_index "comfy_cms_layouts", ["parent_id", "position"], name: "index_comfy_cms_layouts_on_parent_id_and_position", using: :btree
+  add_index "comfy_cms_layouts", ["site_id", "identifier"], name: "index_comfy_cms_layouts_on_site_id_and_identifier", unique: true, using: :btree
 
-  create_table "cms_pages", force: :cascade do |t|
+  create_table "comfy_cms_pages", force: :cascade do |t|
     t.integer  "site_id",                                    null: false
     t.integer  "layout_id"
     t.integer  "parent_id"
@@ -109,7 +111,7 @@ ActiveRecord::Schema.define(version: 20170709024923) do
     t.string   "label",          limit: 255,                 null: false
     t.string   "slug",           limit: 255
     t.string   "full_path",      limit: 255,                 null: false
-    t.text     "content"
+    t.text     "content_cache"
     t.integer  "position",                   default: 0,     null: false
     t.integer  "children_count",             default: 0,     null: false
     t.boolean  "is_published",               default: true,  null: false
@@ -118,19 +120,19 @@ ActiveRecord::Schema.define(version: 20170709024923) do
     t.datetime "updated_at"
   end
 
-  add_index "cms_pages", ["parent_id", "position"], name: "index_cms_pages_on_parent_id_and_position", using: :btree
-  add_index "cms_pages", ["site_id", "full_path"], name: "index_cms_pages_on_site_id_and_full_path", using: :btree
+  add_index "comfy_cms_pages", ["parent_id", "position"], name: "index_comfy_cms_pages_on_parent_id_and_position", using: :btree
+  add_index "comfy_cms_pages", ["site_id", "full_path"], name: "index_comfy_cms_pages_on_site_id_and_full_path", using: :btree
 
-  create_table "cms_revisions", force: :cascade do |t|
+  create_table "comfy_cms_revisions", force: :cascade do |t|
     t.string   "record_type", limit: 255, null: false
     t.integer  "record_id",               null: false
     t.text     "data"
     t.datetime "created_at"
   end
 
-  add_index "cms_revisions", ["record_type", "record_id", "created_at"], name: "index_cms_revisions_on_rtype_and_rid_and_created_at", using: :btree
+  add_index "comfy_cms_revisions", ["record_type", "record_id", "created_at"], name: "index_cms_revisions_on_record_type_id_created", using: :btree
 
-  create_table "cms_sites", force: :cascade do |t|
+  create_table "comfy_cms_sites", force: :cascade do |t|
     t.string  "label",       limit: 255,                 null: false
     t.string  "identifier",  limit: 255,                 null: false
     t.string  "hostname",    limit: 255,                 null: false
@@ -139,10 +141,10 @@ ActiveRecord::Schema.define(version: 20170709024923) do
     t.boolean "is_mirrored",             default: false, null: false
   end
 
-  add_index "cms_sites", ["hostname"], name: "index_cms_sites_on_hostname", using: :btree
-  add_index "cms_sites", ["is_mirrored"], name: "index_cms_sites_on_is_mirrored", using: :btree
+  add_index "comfy_cms_sites", ["hostname"], name: "index_comfy_cms_sites_on_hostname", using: :btree
+  add_index "comfy_cms_sites", ["is_mirrored"], name: "index_comfy_cms_sites_on_is_mirrored", using: :btree
 
-  create_table "cms_snippets", force: :cascade do |t|
+  create_table "comfy_cms_snippets", force: :cascade do |t|
     t.integer  "site_id",                                null: false
     t.string   "label",      limit: 255,                 null: false
     t.string   "identifier", limit: 255,                 null: false
@@ -153,8 +155,8 @@ ActiveRecord::Schema.define(version: 20170709024923) do
     t.datetime "updated_at"
   end
 
-  add_index "cms_snippets", ["site_id", "identifier"], name: "index_cms_snippets_on_site_id_and_identifier", unique: true, using: :btree
-  add_index "cms_snippets", ["site_id", "position"], name: "index_cms_snippets_on_site_id_and_position", using: :btree
+  add_index "comfy_cms_snippets", ["site_id", "identifier"], name: "index_comfy_cms_snippets_on_site_id_and_identifier", unique: true, using: :btree
+  add_index "comfy_cms_snippets", ["site_id", "position"], name: "index_comfy_cms_snippets_on_site_id_and_position", using: :btree
 
   create_table "faq_groups", force: :cascade do |t|
     t.string   "title",      null: false
