@@ -1,6 +1,6 @@
 class SubscriptionsController < ApplicationController
-  before_filter :load_season
-  before_filter :pack_days_remaining?, only: [:new, :create]
+  before_action :load_season
+  before_action :pack_days_remaining?, only: [:new, :create]
 
   def new
     @user = User.new

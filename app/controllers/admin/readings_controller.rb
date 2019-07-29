@@ -1,6 +1,6 @@
 class Admin::ReadingsController < Admin::BaseController
-  before_filter :authorize_admin
-  before_filter :load_sensor
+  before_action :authorize_admin
+  before_action :load_sensor
 
   def index
     @readings = @sensor.readings.where('recorded_at > ?', 1.month.ago).order(recorded_at: :desc)

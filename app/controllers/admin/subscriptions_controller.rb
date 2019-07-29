@@ -1,7 +1,7 @@
 class Admin::SubscriptionsController < Admin::BaseController
-  before_filter :authorize_admin, only: [:seasons_index, :users_index, :new, :create]
-  before_filter :load_season, only: [:seasons_index]
-  before_filter :load_user, only: [:users_index]
+  before_action :authorize_admin, only: [:seasons_index, :users_index, :new, :create]
+  before_action :load_season, only: [:seasons_index]
+  before_action :load_user, only: [:users_index]
 
   def seasons_index
     @subscriptions = Subscription.joins(:user).preload(:user).where(season: @season).order(created_at: :desc)

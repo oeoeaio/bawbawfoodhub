@@ -1,5 +1,5 @@
 class Admin::SensorsController < Admin::BaseController
-  before_filter :authorize_admin, only: [:index, :new, :create]
+  before_action :authorize_admin, only: [:index, :new, :create]
 
   def index
     @sensors = Sensor.all

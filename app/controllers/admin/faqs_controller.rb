@@ -1,6 +1,6 @@
 class Admin::FaqsController < Admin::BaseController
-  before_filter :authorize_admin, only: [:index, :new, :create]
-  before_filter :load_faq_group, only: [:index]
+  before_action :authorize_admin, only: [:index, :new, :create]
+  before_action :load_faq_group, only: [:index]
 
   def index
     @faqs = Faq.where(faq_group: @faq_group).order(created_at: :asc)

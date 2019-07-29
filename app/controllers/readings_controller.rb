@@ -1,6 +1,6 @@
 class ReadingsController < ApplicationController
   protect_from_forgery except: :create
-  before_filter :verify_request, only: :create
+  before_action :verify_request, only: :create
 
   respond_to :json
 

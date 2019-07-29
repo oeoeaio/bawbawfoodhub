@@ -1,6 +1,6 @@
 class Admin::PackDaysController < Admin::BaseController
-  before_filter :authorize_admin, only: [:index]
-  before_filter :load_season
+  before_action :authorize_admin, only: [:index]
+  before_action :load_season
 
   def index
     @pack_days = PackDay.where(season: @season).order(pack_date: :asc)

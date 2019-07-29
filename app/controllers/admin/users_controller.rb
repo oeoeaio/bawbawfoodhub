@@ -1,5 +1,5 @@
 class Admin::UsersController < Admin::BaseController
-  before_filter :authorize_admin, only: [:index, :new, :create]
+  before_action :authorize_admin, only: [:index, :new, :create]
 
   def index
     @users = User.order(surname: :asc)

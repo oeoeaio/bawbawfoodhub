@@ -1,6 +1,6 @@
 class Admin::AlertsController < Admin::BaseController
-  before_filter :authorize_admin
-  before_filter :load_sensor, only: [:index]
+  before_action :authorize_admin
+  before_action :load_sensor, only: [:index]
 
   def index
     @alerts = @sensor.alerts.order(created_at: :desc)
