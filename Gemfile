@@ -53,6 +53,7 @@ end
 group :test do
   gem 'shoulda-matchers', '~> 3.1', require: false
   gem 'capybara', '~> 2.4'
+  gem 'rails-controller-testing'
 end
 
 # Use ActiveModel has_secure_password
