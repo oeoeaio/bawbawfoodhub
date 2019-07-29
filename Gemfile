@@ -34,13 +34,14 @@ gem 'font-awesome-sass', '>= 4.7'
 gem 'jquery-turbolinks'
 gem 'pundit', '~> 1.0'
 gem 'devise', '~> 4.2', '>= 4.2.0'
-gem 'roadie-rails', '~> 1.1'
+gem 'roadie-rails', '~> 1.3'
 gem 'roo'
 gem 'httparty'
 gem 'whenever', :require => false
 gem 'twilio-ruby'
 gem 'rollbar'
 gem 'recaptcha'
+gem 'nokogiri', '>= 1.8.5' # Vulnerability
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
