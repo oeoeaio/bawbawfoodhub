@@ -12,7 +12,7 @@ RSpec.describe Admin::SubscriptionsController, :type => :controller do
     let(:subscription2) { create(:subscription) }
 
     before(:example) do
-      get :seasons_index, season_id: season.slug
+      get :seasons_index, params: { season_id: season.slug }
     end
 
     it "assigns the season" do
@@ -29,7 +29,7 @@ RSpec.describe Admin::SubscriptionsController, :type => :controller do
     let(:subscription2) { create(:subscription) }
 
     before(:example) do
-      get :users_index, user_id: user.id
+      get :users_index, params: { user_id: user.id }
     end
 
     it "assigns the season" do
@@ -50,7 +50,7 @@ RSpec.describe Admin::SubscriptionsController, :type => :controller do
 
     context "when given a user_id" do
       let(:user) { create(:user) }
-      before { get :new, user_id: user.id }
+      before { get :new, params: { user_id: user.id } }
 
       it "set the user on the new subscription" do
         expect(assigns(:subscription).user).to eq user
@@ -59,7 +59,7 @@ RSpec.describe Admin::SubscriptionsController, :type => :controller do
 
     context "when given a season_id" do
       let(:season) { create(:season) }
-      before { get :new, season_id: season.slug }
+      before { get :new, params: { season_id: season.slug } }
 
       it "set the season on the new subscription" do
         expect(assigns(:subscription).season).to eq season
@@ -78,7 +78,7 @@ RSpec.describe Admin::SubscriptionsController, :type => :controller do
       describe 'on successful save' do
         it 'redirects to index' do
           expect(subscription).to receive(:save).and_return true
-          post :create, { subscription: { box_size: 'standard' } }
+          post :create, params: { subscription: { box_size: 'standard' } }
           expect(response).to redirect_to admin_season_subscriptions_path(season)
         end
       end
@@ -86,7 +86,7 @@ RSpec.describe Admin::SubscriptionsController, :type => :controller do
       describe 'on unsuccessful save' do
         it 'returns to new' do
           expect(subscription).to receive(:save).and_return false
-          post :create, { subscription: { box_size: 'standard' } }
+          post :create, params: { subscription: { box_size: 'standard' } }
           expect(response).to render_template :new
         end
       end
@@ -103,7 +103,7 @@ RSpec.describe Admin::SubscriptionsController, :type => :controller do
     describe 'on successful update' do
       it 'redirects to index' do
         expect(subscription).to receive(:update_attributes).and_return true
-        put :update, { id: 1, subscription: { box_size: 'standard' } }
+        put :update, params: { id: 1, subscription: { box_size: 'standard' } }
         expect(response).to redirect_to admin_season_subscriptions_path(season)
       end
     end
@@ -111,7 +111,7 @@ RSpec.describe Admin::SubscriptionsController, :type => :controller do
     describe 'on unsuccessful save' do
       it 'returns to edit' do
         expect(subscription).to receive(:update_attributes).and_return false
-        put :update, { id: 1, subscription: { box_size: 'standard' } }
+        put :update, params: { id: 1, subscription: { box_size: 'standard' } }
         expect(response).to render_template :edit
       end
     end
