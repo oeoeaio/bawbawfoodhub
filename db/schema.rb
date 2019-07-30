@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -21,9 +20,8 @@ ActiveRecord::Schema.define(version: 20190729123459) do
     t.string   "encrypted_password", limit: 255, default: "", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["email"], name: "index_admins_on_email", unique: true, using: :btree
   end
-
-  add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "sensor_id",   null: false
@@ -32,12 +30,11 @@ ActiveRecord::Schema.define(version: 20190729123459) do
     t.datetime "resolved_at"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["category"], name: "index_alerts_on_category", using: :btree
+    t.index ["resolved_at"], name: "index_alerts_on_resolved_at", using: :btree
+    t.index ["sensor_id"], name: "index_alerts_on_sensor_id", using: :btree
+    t.index ["sleep_until"], name: "index_alerts_on_sleep_until", using: :btree
   end
-
-  add_index "alerts", ["category"], name: "index_alerts_on_category", using: :btree
-  add_index "alerts", ["resolved_at"], name: "index_alerts_on_resolved_at", using: :btree
-  add_index "alerts", ["sensor_id"], name: "index_alerts_on_sensor_id", using: :btree
-  add_index "alerts", ["sleep_until"], name: "index_alerts_on_sleep_until", using: :btree
 
   create_table "comfy_cms_blocks", force: :cascade do |t|
     t.integer  "blockable_id",               null: false
@@ -46,26 +43,23 @@ ActiveRecord::Schema.define(version: 20190729123459) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "blockable_type"
+    t.index ["blockable_id", "identifier"], name: "index_comfy_cms_blocks_on_blockable_id_and_identifier", using: :btree
+    t.index ["blockable_type"], name: "index_comfy_cms_blocks_on_blockable_type", using: :btree
   end
-
-  add_index "comfy_cms_blocks", ["blockable_id", "identifier"], name: "index_comfy_cms_blocks_on_blockable_id_and_identifier", using: :btree
-  add_index "comfy_cms_blocks", ["blockable_type"], name: "index_comfy_cms_blocks_on_blockable_type", using: :btree
 
   create_table "comfy_cms_categories", force: :cascade do |t|
     t.integer "site_id",                      null: false
     t.string  "label",            limit: 255, null: false
     t.string  "categorized_type", limit: 255, null: false
+    t.index ["site_id", "categorized_type", "label"], name: "index_cms_categories_on_site_id_and_cat_type_and_label", unique: true, using: :btree
   end
-
-  add_index "comfy_cms_categories", ["site_id", "categorized_type", "label"], name: "index_cms_categories_on_site_id_and_cat_type_and_label", unique: true, using: :btree
 
   create_table "comfy_cms_categorizations", force: :cascade do |t|
     t.integer "category_id",                  null: false
     t.string  "categorized_type", limit: 255, null: false
     t.integer "categorized_id",               null: false
+    t.index ["category_id", "categorized_type", "categorized_id"], name: "index_cms_categorizations_on_cat_id_and_catd_type_and_catd_id", unique: true, using: :btree
   end
-
-  add_index "comfy_cms_categorizations", ["category_id", "categorized_type", "categorized_id"], name: "index_cms_categorizations_on_cat_id_and_catd_type_and_catd_id", unique: true, using: :btree
 
   create_table "comfy_cms_files", force: :cascade do |t|
     t.integer  "site_id",                                    null: false
@@ -78,12 +72,11 @@ ActiveRecord::Schema.define(version: 20190729123459) do
     t.integer  "position",                       default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["site_id", "block_id"], name: "index_comfy_cms_files_on_site_id_and_block_id", using: :btree
+    t.index ["site_id", "file_file_name"], name: "index_comfy_cms_files_on_site_id_and_file_file_name", using: :btree
+    t.index ["site_id", "label"], name: "index_comfy_cms_files_on_site_id_and_label", using: :btree
+    t.index ["site_id", "position"], name: "index_comfy_cms_files_on_site_id_and_position", using: :btree
   end
-
-  add_index "comfy_cms_files", ["site_id", "block_id"], name: "index_comfy_cms_files_on_site_id_and_block_id", using: :btree
-  add_index "comfy_cms_files", ["site_id", "file_file_name"], name: "index_comfy_cms_files_on_site_id_and_file_file_name", using: :btree
-  add_index "comfy_cms_files", ["site_id", "label"], name: "index_comfy_cms_files_on_site_id_and_label", using: :btree
-  add_index "comfy_cms_files", ["site_id", "position"], name: "index_comfy_cms_files_on_site_id_and_position", using: :btree
 
   create_table "comfy_cms_layouts", force: :cascade do |t|
     t.integer  "site_id",                                null: false
@@ -98,10 +91,9 @@ ActiveRecord::Schema.define(version: 20190729123459) do
     t.boolean  "is_shared",              default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["parent_id", "position"], name: "index_comfy_cms_layouts_on_parent_id_and_position", using: :btree
+    t.index ["site_id", "identifier"], name: "index_comfy_cms_layouts_on_site_id_and_identifier", unique: true, using: :btree
   end
-
-  add_index "comfy_cms_layouts", ["parent_id", "position"], name: "index_comfy_cms_layouts_on_parent_id_and_position", using: :btree
-  add_index "comfy_cms_layouts", ["site_id", "identifier"], name: "index_comfy_cms_layouts_on_site_id_and_identifier", unique: true, using: :btree
 
   create_table "comfy_cms_pages", force: :cascade do |t|
     t.integer  "site_id",                                    null: false
@@ -118,19 +110,17 @@ ActiveRecord::Schema.define(version: 20190729123459) do
     t.boolean  "is_shared",                  default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["parent_id", "position"], name: "index_comfy_cms_pages_on_parent_id_and_position", using: :btree
+    t.index ["site_id", "full_path"], name: "index_comfy_cms_pages_on_site_id_and_full_path", using: :btree
   end
-
-  add_index "comfy_cms_pages", ["parent_id", "position"], name: "index_comfy_cms_pages_on_parent_id_and_position", using: :btree
-  add_index "comfy_cms_pages", ["site_id", "full_path"], name: "index_comfy_cms_pages_on_site_id_and_full_path", using: :btree
 
   create_table "comfy_cms_revisions", force: :cascade do |t|
     t.string   "record_type", limit: 255, null: false
     t.integer  "record_id",               null: false
     t.text     "data"
     t.datetime "created_at"
+    t.index ["record_type", "record_id", "created_at"], name: "index_cms_revisions_on_record_type_id_created", using: :btree
   end
-
-  add_index "comfy_cms_revisions", ["record_type", "record_id", "created_at"], name: "index_cms_revisions_on_record_type_id_created", using: :btree
 
   create_table "comfy_cms_sites", force: :cascade do |t|
     t.string  "label",       limit: 255,                 null: false
@@ -139,10 +129,9 @@ ActiveRecord::Schema.define(version: 20190729123459) do
     t.string  "path",        limit: 255
     t.string  "locale",      limit: 255, default: "en",  null: false
     t.boolean "is_mirrored",             default: false, null: false
+    t.index ["hostname"], name: "index_comfy_cms_sites_on_hostname", using: :btree
+    t.index ["is_mirrored"], name: "index_comfy_cms_sites_on_is_mirrored", using: :btree
   end
-
-  add_index "comfy_cms_sites", ["hostname"], name: "index_comfy_cms_sites_on_hostname", using: :btree
-  add_index "comfy_cms_sites", ["is_mirrored"], name: "index_comfy_cms_sites_on_is_mirrored", using: :btree
 
   create_table "comfy_cms_snippets", force: :cascade do |t|
     t.integer  "site_id",                                null: false
@@ -153,10 +142,9 @@ ActiveRecord::Schema.define(version: 20190729123459) do
     t.boolean  "is_shared",              default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["site_id", "identifier"], name: "index_comfy_cms_snippets_on_site_id_and_identifier", unique: true, using: :btree
+    t.index ["site_id", "position"], name: "index_comfy_cms_snippets_on_site_id_and_position", using: :btree
   end
-
-  add_index "comfy_cms_snippets", ["site_id", "identifier"], name: "index_comfy_cms_snippets_on_site_id_and_identifier", unique: true, using: :btree
-  add_index "comfy_cms_snippets", ["site_id", "position"], name: "index_comfy_cms_snippets_on_site_id_and_position", using: :btree
 
   create_table "faq_groups", force: :cascade do |t|
     t.string   "title",      null: false
@@ -170,9 +158,8 @@ ActiveRecord::Schema.define(version: 20190729123459) do
     t.text     "answer",       null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["faq_group_id"], name: "index_faqs_on_faq_group_id", using: :btree
   end
-
-  add_index "faqs", ["faq_group_id"], name: "index_faqs_on_faq_group_id", using: :btree
 
   create_table "jobs", force: :cascade do |t|
     t.string   "title",       null: false
@@ -181,18 +168,16 @@ ActiveRecord::Schema.define(version: 20190729123459) do
     t.text     "description", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["slug"], name: "index_jobs_on_slug", using: :btree
   end
-
-  add_index "jobs", ["slug"], name: "index_jobs_on_slug", using: :btree
 
   create_table "pack_days", force: :cascade do |t|
     t.integer  "season_id",  null: false
     t.date     "pack_date",  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["season_id"], name: "index_pack_days_on_season_id", using: :btree
   end
-
-  add_index "pack_days", ["season_id"], name: "index_pack_days_on_season_id", using: :btree
 
   create_table "readings", force: :cascade do |t|
     t.integer  "sensor_id",   null: false
@@ -200,10 +185,9 @@ ActiveRecord::Schema.define(version: 20190729123459) do
     t.datetime "recorded_at", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["recorded_at"], name: "index_readings_on_recorded_at", using: :btree
+    t.index ["sensor_id"], name: "index_readings_on_sensor_id", using: :btree
   end
-
-  add_index "readings", ["recorded_at"], name: "index_readings_on_recorded_at", using: :btree
-  add_index "readings", ["sensor_id"], name: "index_readings_on_sensor_id", using: :btree
 
   create_table "rollovers", force: :cascade do |t|
     t.integer  "season_id",                        null: false
@@ -215,10 +199,9 @@ ActiveRecord::Schema.define(version: 20190729123459) do
     t.datetime "cancelled_at"
     t.integer  "user_id",                          null: false
     t.string   "box_size",             limit: 255
+    t.index ["confirmation_token"], name: "index_rollovers_on_confirmation_token", unique: true, using: :btree
+    t.index ["season_id"], name: "index_rollovers_on_season_id", using: :btree
   end
-
-  add_index "rollovers", ["confirmation_token"], name: "index_rollovers_on_confirmation_token", unique: true, using: :btree
-  add_index "rollovers", ["season_id"], name: "index_rollovers_on_season_id", using: :btree
 
   create_table "seasons", force: :cascade do |t|
     t.string   "name",             limit: 255
@@ -229,17 +212,16 @@ ActiveRecord::Schema.define(version: 20190729123459) do
     t.datetime "updated_at"
     t.date     "starts_on"
     t.date     "ends_on"
+    t.index ["slug"], name: "index_seasons_on_slug", unique: true, using: :btree
   end
 
-  add_index "seasons", ["slug"], name: "index_seasons_on_slug", unique: true, using: :btree
-
   create_table "sensors", force: :cascade do |t|
-    t.string   "name",                                                               null: false
+    t.string   "name",                                                                 null: false
     t.boolean  "active"
-    t.datetime "created_at",                                                         null: false
-    t.datetime "updated_at",                                                         null: false
-    t.decimal  "lower_limit",                precision: 5, scale: 1, default: 0.0
-    t.decimal  "upper_limit",                precision: 5, scale: 1, default: 100.0
+    t.datetime "created_at",                                                           null: false
+    t.datetime "updated_at",                                                           null: false
+    t.decimal  "lower_limit",                precision: 5, scale: 1, default: "0.0"
+    t.decimal  "upper_limit",                precision: 5, scale: 1, default: "100.0"
     t.integer  "fail_count_for_value_alert",                         default: 1
   end
 
@@ -254,11 +236,10 @@ ActiveRecord::Schema.define(version: 20190729123459) do
     t.string   "street_address"
     t.string   "town"
     t.string   "postcode"
+    t.index ["season_id"], name: "index_subscriptions_on_season_id", using: :btree
+    t.index ["user_id", "season_id"], name: "index_subscriptions_on_user_id_and_season_id", using: :btree
+    t.index ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
   end
-
-  add_index "subscriptions", ["season_id"], name: "index_subscriptions_on_season_id", using: :btree
-  add_index "subscriptions", ["user_id", "season_id"], name: "index_subscriptions_on_user_id_and_season_id", using: :btree
-  add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "given_name",             limit: 255, default: "", null: false
@@ -271,9 +252,8 @@ ActiveRecord::Schema.define(version: 20190729123459) do
     t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "initialised_at"
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end
