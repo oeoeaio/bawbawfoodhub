@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190729123459) do
+ActiveRecord::Schema.define(version: 20190731112503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,116 +34,6 @@ ActiveRecord::Schema.define(version: 20190729123459) do
     t.index ["resolved_at"], name: "index_alerts_on_resolved_at", using: :btree
     t.index ["sensor_id"], name: "index_alerts_on_sensor_id", using: :btree
     t.index ["sleep_until"], name: "index_alerts_on_sleep_until", using: :btree
-  end
-
-  create_table "comfy_cms_blocks", force: :cascade do |t|
-    t.integer  "blockable_id",               null: false
-    t.string   "identifier",     limit: 255, null: false
-    t.text     "content"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "blockable_type"
-    t.index ["blockable_id", "identifier"], name: "index_comfy_cms_blocks_on_blockable_id_and_identifier", using: :btree
-    t.index ["blockable_type"], name: "index_comfy_cms_blocks_on_blockable_type", using: :btree
-  end
-
-  create_table "comfy_cms_categories", force: :cascade do |t|
-    t.integer "site_id",                      null: false
-    t.string  "label",            limit: 255, null: false
-    t.string  "categorized_type", limit: 255, null: false
-    t.index ["site_id", "categorized_type", "label"], name: "index_cms_categories_on_site_id_and_cat_type_and_label", unique: true, using: :btree
-  end
-
-  create_table "comfy_cms_categorizations", force: :cascade do |t|
-    t.integer "category_id",                  null: false
-    t.string  "categorized_type", limit: 255, null: false
-    t.integer "categorized_id",               null: false
-    t.index ["category_id", "categorized_type", "categorized_id"], name: "index_cms_categorizations_on_cat_id_and_catd_type_and_catd_id", unique: true, using: :btree
-  end
-
-  create_table "comfy_cms_files", force: :cascade do |t|
-    t.integer  "site_id",                                    null: false
-    t.integer  "block_id"
-    t.string   "label",             limit: 255,              null: false
-    t.string   "file_file_name",    limit: 255,              null: false
-    t.string   "file_content_type", limit: 255,              null: false
-    t.integer  "file_file_size",                             null: false
-    t.string   "description",       limit: 2048
-    t.integer  "position",                       default: 0, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["site_id", "block_id"], name: "index_comfy_cms_files_on_site_id_and_block_id", using: :btree
-    t.index ["site_id", "file_file_name"], name: "index_comfy_cms_files_on_site_id_and_file_file_name", using: :btree
-    t.index ["site_id", "label"], name: "index_comfy_cms_files_on_site_id_and_label", using: :btree
-    t.index ["site_id", "position"], name: "index_comfy_cms_files_on_site_id_and_position", using: :btree
-  end
-
-  create_table "comfy_cms_layouts", force: :cascade do |t|
-    t.integer  "site_id",                                null: false
-    t.integer  "parent_id"
-    t.string   "app_layout", limit: 255
-    t.string   "label",      limit: 255,                 null: false
-    t.string   "identifier", limit: 255,                 null: false
-    t.text     "content"
-    t.text     "css"
-    t.text     "js"
-    t.integer  "position",               default: 0,     null: false
-    t.boolean  "is_shared",              default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["parent_id", "position"], name: "index_comfy_cms_layouts_on_parent_id_and_position", using: :btree
-    t.index ["site_id", "identifier"], name: "index_comfy_cms_layouts_on_site_id_and_identifier", unique: true, using: :btree
-  end
-
-  create_table "comfy_cms_pages", force: :cascade do |t|
-    t.integer  "site_id",                                    null: false
-    t.integer  "layout_id"
-    t.integer  "parent_id"
-    t.integer  "target_page_id"
-    t.string   "label",          limit: 255,                 null: false
-    t.string   "slug",           limit: 255
-    t.string   "full_path",      limit: 255,                 null: false
-    t.text     "content_cache"
-    t.integer  "position",                   default: 0,     null: false
-    t.integer  "children_count",             default: 0,     null: false
-    t.boolean  "is_published",               default: true,  null: false
-    t.boolean  "is_shared",                  default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["parent_id", "position"], name: "index_comfy_cms_pages_on_parent_id_and_position", using: :btree
-    t.index ["site_id", "full_path"], name: "index_comfy_cms_pages_on_site_id_and_full_path", using: :btree
-  end
-
-  create_table "comfy_cms_revisions", force: :cascade do |t|
-    t.string   "record_type", limit: 255, null: false
-    t.integer  "record_id",               null: false
-    t.text     "data"
-    t.datetime "created_at"
-    t.index ["record_type", "record_id", "created_at"], name: "index_cms_revisions_on_record_type_id_created", using: :btree
-  end
-
-  create_table "comfy_cms_sites", force: :cascade do |t|
-    t.string  "label",       limit: 255,                 null: false
-    t.string  "identifier",  limit: 255,                 null: false
-    t.string  "hostname",    limit: 255,                 null: false
-    t.string  "path",        limit: 255
-    t.string  "locale",      limit: 255, default: "en",  null: false
-    t.boolean "is_mirrored",             default: false, null: false
-    t.index ["hostname"], name: "index_comfy_cms_sites_on_hostname", using: :btree
-    t.index ["is_mirrored"], name: "index_comfy_cms_sites_on_is_mirrored", using: :btree
-  end
-
-  create_table "comfy_cms_snippets", force: :cascade do |t|
-    t.integer  "site_id",                                null: false
-    t.string   "label",      limit: 255,                 null: false
-    t.string   "identifier", limit: 255,                 null: false
-    t.text     "content"
-    t.integer  "position",               default: 0,     null: false
-    t.boolean  "is_shared",              default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["site_id", "identifier"], name: "index_comfy_cms_snippets_on_site_id_and_identifier", unique: true, using: :btree
-    t.index ["site_id", "position"], name: "index_comfy_cms_snippets_on_site_id_and_position", using: :btree
   end
 
   create_table "faq_groups", force: :cascade do |t|
