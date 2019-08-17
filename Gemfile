@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby "2.6.3"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.7.2'
+gem 'rails', '~> 5.2', '>= 5.2.3'
 # Use postgres as the database for Active Record
 gem 'pg', '>= 1.1.4'
 # Use SCSS for stylesheets
@@ -41,12 +41,14 @@ gem 'twilio-ruby'
 gem 'rollbar'
 gem 'recaptcha'
 gem 'nokogiri', '>= 1.8.5' # Vulnerability
+gem 'bootsnap'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails', '~> 4.6'
   gem 'faker', '~> 1.6'
   gem 'pry-byebug'
+  gem 'listen'
 end
 
 group :test do
