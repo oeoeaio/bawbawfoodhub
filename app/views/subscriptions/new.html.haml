@@ -3,7 +3,7 @@
 - @body_attributes = { 'data-no-turbolink' => true }
 
 :coffeescript
-  $(document).on 'page:change page:ready', ->
+  $(document).on 'turbolinks:load', ->
     $('#address').toggle($("#subscription_delivery").val() == "true")
     $('#subscription_delivery').on 'change', ->
       $('#address').toggle($("#subscription_delivery").val() == "true")

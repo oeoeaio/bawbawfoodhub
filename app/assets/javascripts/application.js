@@ -18,12 +18,11 @@
 //= require smooth-scroll
 //= require_tree ./application
 
-$(function(){ $(document).foundation(); });
+$(document).on('turbolinks:load', function() {
+  $(function(){ $(document).foundation(); });
 
-
-// Fix for issue #4275 on zurb/foundation, use until pull #5988 or similar is merged
-$(document).on('page:change', function() {
+  // Fix for issue #4275 on zurb/foundation, use until pull #5988 or similar is merged
   $('[data-equalizer]').data('equalizer-init', Foundation.libs.equalizer.settings);
-});
 
-$(document).ready(function(){$('#scroll-for-more a').smoothScroll({speed: 'auto', autoCoefficient: 1});});
+  $(function(){$('#scroll-for-more a').smoothScroll({speed: 'auto', autoCoefficient: 1});});
+});
