@@ -29,3 +29,7 @@ config/secrets.yml
 
 # Backup files
 /db/backup
+
+# Ignore uploaded files in development
+/storage/*
+!/storage/.keep
