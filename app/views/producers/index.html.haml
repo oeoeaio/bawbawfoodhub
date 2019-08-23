@@ -1,14 +1,16 @@
+= cms_fragment_render(:content, cms_page('producers-summary'))
+
 .producers
   %ul.small-block-grid-1.medium-block-grid-2.large-block-grid-3{ 'data-equalizer' => true }
     - producer_pages.each do |producer_page|
       %li
         %a{ href: producer_page.full_path }
           .thumbnail{ 'data-equalizer-watch' => true }
-            - file = cms_block_content(:header, producer_page)
-            - if file
-              %img{ src: "#{file.file.url}", alt: "#{producer_page.label}"}
+            - file = cms_fragment_content(:header, producer_page)
+            - if file.present?
+              .producer-tile{ style: "background-image: url(#{cms_fragment_render(:header, producer_page)})"}
             - else
-              .filler.text-center
+              .producer-tile.filler.text-center
                 %i.bbfh-producer
           %h5
             = producer_page.label

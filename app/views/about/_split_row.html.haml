@@ -1,0 +1,7 @@
+.row.split_row{ 'data-equalizer' => true }
+  - if text == "left"
+    = render 'content_column', page: page
+    = render 'img_column', page: page
+  - else
+    = render 'img_column', page: page
+    = render 'content_column', page: page

@@ -14,6 +14,9 @@ Rails.application.routes.draw do
     get 'subscriptions/success', to: 'subscriptions#success'
   end
 
+  get 'about/our-principles-values', to: 'about#principles_values'
+  get 'producers', to: 'producers#index'
+
   get 'about/contact', to: 'contact#index', as: 'contact'
   post 'about/contact', to: 'contact#submit', as: 'submit_contact'
 
@@ -63,10 +66,10 @@ Rails.application.routes.draw do
     resources :jobs, only: [:index, :new, :create, :edit, :update]
   end
 
-  # comfy_route :cms_admin, :path => '/cms'
+  comfy_route :cms_admin, :path => '/cms'
 
   # Make sure this routeset is defined last
-  # comfy_route :cms, :path => '/', :sitemap => false
+  comfy_route :cms, :path => '/', :sitemap => false
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

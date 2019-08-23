@@ -1,0 +1,8 @@
+- main_page = cms_page('our-principles-values')
+- split_row_layout = Comfy::Cms::Layout.find_by(identifier: 'split-row')
+
+= cms_fragment_render(:content, main_page)
+
+- if split_row_layout.present?
+  - main_page.children.where(layout: split_row_layout).each_with_index do |child_page, i|
+    = render 'split_row', text: (i.even? ? 'left' : 'right'), page: child_page
