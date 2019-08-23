@@ -10,24 +10,24 @@
         %span
   %section.top-bar-section
     %ul.right
-      - if @cms_site
-        - if cms_page('about').present?
-          - children = cms_page('about').children.published
-          %li.has-dropdown
-            %a{ href: children.first.full_path } About
-            %ul.dropdown
-              - children.each do |child_page|
-                %li
-                  %a{ href: child_page.full_path }= child_page.label
-        - if cms_page('get-involved').present?
-          %li
-            %a{ href: cms_page('get-involved').full_path } Get Involved
-        - if cms_page('producers').present?
-          %li
-            %a{ href: cms_page('producers').full_path } Producers
-        - if Faq.any?
-          %li
-            %a{ href: questions_path } Questions?
+      -# - if @cms_site
+      -#   - if cms_page('about').present?
+      -#     - children = cms_page('about').children.published
+      -#     %li.has-dropdown
+      -#       %a{ href: children.first.full_path } About
+      -#       %ul.dropdown
+      -#         - children.each do |child_page|
+      -#           %li
+      -#             %a{ href: child_page.full_path }= child_page.label
+      -#   - if cms_page('get-involved').present?
+      -#     %li
+      -#       %a{ href: cms_page('get-involved').full_path } Get Involved
+      -#   - if cms_page('producers').present?
+      -#     %li
+      -#       %a{ href: cms_page('producers').full_path } Producers
+      - if Faq.any?
+        %li
+          %a{ href: questions_path } Questions?
       %li.has_form
         %a.button.radius.red{ href: new_season_subscription_path(current_season) } Sign Up
       - if user_signed_in?

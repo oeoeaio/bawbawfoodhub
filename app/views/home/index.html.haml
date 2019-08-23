@@ -44,26 +44,26 @@
         Online Shop
         =icon('arrow-right')
 
-- if cms_page('our-range')
-  .lush-panel.honey.shaded#what-we-stock
-    .row
-      .small-12.medium-6.columns.text-center
-        %h2 What we stock
-        %h3
-          %i.bbfh-sprout
-          Fruit, Yoghurt, Bread
-        %h3
-          %i.bbfh-sprout
-          Rice, Flour, Legumes
-        %h3
-          %i.bbfh-sprout
-          Milk, Muesli and more!
-        %br
-        %a.button.radius.red{ href: cms_page('our-range').full_path }
-          View our range
-          =icon('arrow-right')
-      .medium-6.show-for-medium-up.columns.text-center
-        &nbsp;
+-# - if cms_page('our-range')
+-#   .lush-panel.honey.shaded#what-we-stock
+-#     .row
+-#       .small-12.medium-6.columns.text-center
+-#         %h2 What we stock
+-#         %h3
+-#           %i.bbfh-sprout
+-#           Fruit, Yoghurt, Bread
+-#         %h3
+-#           %i.bbfh-sprout
+-#           Rice, Flour, Legumes
+-#         %h3
+-#           %i.bbfh-sprout
+-#           Milk, Muesli and more!
+-#         %br
+-#         %a.button.radius.red{ href: cms_page('our-range').full_path }
+-#           View our range
+-#           =icon('arrow-right')
+-#       .medium-6.show-for-medium-up.columns.text-center
+-#         &nbsp;
 
 .lush-panel.broccoli.shaded#newsletters
   .row
@@ -93,17 +93,17 @@
             %input{:name => "b_87d56e29d660188ebfd3e03ce_3bd359d80a", :tabindex => "-1", :type => "text", :value => ""}/
           %input#mc-embedded-subscribe.button.radius.expand.red{:name => "subscribe", :type => "submit", :value => "Subscribe"}/
 
-.lush-panel.planting.shaded#join-the-movement
-  .row
-    .medium-6.show-for-medium-up.columns.text-center
-      &nbsp;
-    .small-12.medium-6.columns.text-center
-      %h2 Join the Movement
-      %p We're a passionate collective of growers, makers and eaters working to strengthen our local food economy, to support local growers and to improve access to high quality, nutritious food. We believe that the availability of local, ecologically produced food is an essential pre-condition for a happy, healthy, thriving community.
-      %br
-      %a.button.radius{ href: cms_page('get-involved').full_path }
-        Find out more
-        =icon('arrow-right')
+-# .lush-panel.planting.shaded#join-the-movement
+-#   .row
+-#     .medium-6.show-for-medium-up.columns.text-center
+-#       &nbsp;
+-#     .small-12.medium-6.columns.text-center
+-#       %h2 Join the Movement
+-#       %p We're a passionate collective of growers, makers and eaters working to strengthen our local food economy, to support local growers and to improve access to high quality, nutritious food. We believe that the availability of local, ecologically produced food is an essential pre-condition for a happy, healthy, thriving community.
+-#       %br
+-#       %a.button.radius{ href: cms_page('get-involved').full_path }
+-#         Find out more
+-#         =icon('arrow-right')
 
 .lush-panel.quinces.shaded#where-to-find-us
   .row

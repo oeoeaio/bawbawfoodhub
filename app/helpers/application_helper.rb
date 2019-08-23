@@ -25,12 +25,12 @@ module ApplicationHelper
     request.path == root_path
   end
 
-  def cms_page(slug)
-    @cms_site.pages.root.children.published.find_by(slug: slug)
-  end
+  # def cms_page(slug)
+  #   @cms_site.pages.root.children.published.find_by(slug: slug)
+  # end
 
-  def producer_pages
-    @cms_site.pages.find_by_full_path('/producers').children.
-    published.where("label != 'Summary'")
-  end
+  # def producer_pages
+  #   @cms_site.pages.find_by_full_path('/producers').children.
+  #   published.where("label != 'Summary'")
+  # end
 end

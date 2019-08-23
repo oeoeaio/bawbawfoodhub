@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   include Pundit
-  before_action :load_cms_context
+  # before_action :load_cms_context
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -9,9 +9,9 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :unauthorized
 
   private
-  def load_cms_context
-      @cms_site = Comfy::Cms::Site.first
-  end
+  # def load_cms_context
+  #     @cms_site = Comfy::Cms::Site.first
+  # end
 
   def unauthorized
     flash[:error] = "You are not authorised to access that page."
