@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   validates :surname, presence: true
 
   attr_accessor :skip_initialisation
-  after_save :initialise, if: :encrypted_password_changed?, unless: :skip_initialisation?
+  after_save :initialise, if: :saved_change_to_encrypted_password?, unless: :skip_initialisation?
 
   def skip_initialisation?
     initialised? || skip_initialisation == "yes"

@@ -4,6 +4,10 @@ RSpec.describe Admin::UsersController, :type => :controller do
   let(:admin) { build(:admin) }
   before { allow(controller).to receive(:current_admin).and_return admin }
 
+  def strong_params(wimpy_params)
+    ActionController::Parameters.new(wimpy_params).permit!
+  end
+
   describe "new" do
     it "builds a new user and renders :new" do
       get :new
@@ -41,7 +45,9 @@ RSpec.describe Admin::UsersController, :type => :controller do
       let(:user_params) { { given_name: 'Tiffany', surname: 'Greenwood', phone: '12345678', email: 'tiff@email.com' } }
       it "creates a new user with an automatically generated password" do
         expect(Devise).to receive(:friendly_token) { "1234567890" }
-        expect(User).to receive(:new).with(user_params.merge( password: '1234567890', password_confirmation: '1234567890')).and_call_original
+        expect(User).to receive(:new).with(
+          strong_params(user_params.merge( password: '1234567890', password_confirmation: '1234567890'))
+        ).and_call_original
         expect{post :create, params: { user: user_params } }.to change{User.count}.by(1)
       end
 
