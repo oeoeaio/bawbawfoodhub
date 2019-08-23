@@ -1,10 +1,14 @@
 [attributes]
+---
 label: Hillgrove Farm Free Range Eggs
-layout: default
+layout: producer
 target_page: 
 categories: []
 is_published: true
 position: 10
 
-[textarea content]
-{{ cms:page_file:header:image }}<br><h3>Hillgrove Farm Free Range Eggs</h3><br><div>Dianne, Andrew and Bob are new egg farmers, whose hens live in custom-made mobile chook houses and free range all day in the pastures of Hillgrove Farm at Darnum.</div>
+[file header]
+hillgrove_banner.jpg
+[wysiwyg content]
+<p>{{ cms:file header, as: image, class: 'producer-header' }}<br></p><h3>Hillgrove Farm Free Range Eggs<br></h3><p>Dianne, Andrew and Bob are new egg farmers, whose hens live in custom-made mobile chook houses and free range all day in the pastures of Hillgrove Farm at Darnum.
+</p>
