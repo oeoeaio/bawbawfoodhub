@@ -26,6 +26,7 @@ module ApplicationHelper
   end
 
   def cms_page(slug)
+    return unless @cms_site.present?
     @cms_site.pages.published.find_by(slug: slug)
   end
 
