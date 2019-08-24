@@ -6,9 +6,9 @@ class ReadingsController < ApplicationController
 
   def create
     sensor = Sensor.find_by_name(params[:sensor_name])
-    return render nothing: true unless sensor.present?
+    return head :ok unless sensor.present?
     Reading.create(sensor: sensor, value: params[:value], recorded_at: Time.now)
-    render nothing: true
+    head :ok
   end
 
   private
@@ -17,6 +17,6 @@ class ReadingsController < ApplicationController
     pass = Rails.application.secrets.sensor_key
     digest = Digest::SHA1.hexdigest("#{pass}#{params[:salt]}")
     # Don't run the action unless the hash checks out
-    render nothing: true unless params[:hash] == digest
+    head :ok unless params[:hash] == digest
   end
 end
