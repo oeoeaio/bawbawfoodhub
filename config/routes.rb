@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   end
 
   get 'about/our-principles-values', to: 'about#principles_values'
+  get 'about/location-and-hours', to: 'about#location_hours'
   get 'producers', to: 'producers#index'
 
   get 'about/contact', to: 'contact#index', as: 'contact'
