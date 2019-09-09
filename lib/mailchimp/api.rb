@@ -4,8 +4,8 @@ module Mailchimp
 
     def self.add_to_list(user)
       mailchimp = Rails.application.secrets.mailchimp
-      if mailchimp && mailchimp['api_base_uri'] && mailchimp['api_key'] && mailchimp['list_id']
-        response = HTTParty.post("https://#{mailchimp['api_base_uri']}/3.0/lists/#{mailchimp['list_id']}/members", {
+      if mailchimp && mailchimp[:api_base_uri] && mailchimp[:api_key] && mailchimp[:list_id]
+        response = HTTParty.post("https://#{mailchimp[:api_base_uri]}/3.0/lists/#{mailchimp[:list_id]}/members", {
           :body => {
             "email_address" => user.email,
             "status" => "subscribed",
@@ -18,7 +18,7 @@ module Mailchimp
           :headers => {
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-            'Authorization' => "apikey #{mailchimp['api_key']}"
+            'Authorization' => "apikey #{mailchimp[:api_key]}"
           }
         })
       end
@@ -26,14 +26,14 @@ module Mailchimp
 
     def self.get_campaigns
       mailchimp = Rails.application.secrets.mailchimp
-      if mailchimp && mailchimp['api_base_uri'] && mailchimp['api_key'] && mailchimp['list_id']
-        query_string = "count=50&status=sent&list_id=#{mailchimp["list_id"]}"
+      if mailchimp && mailchimp[:api_base_uri] && mailchimp[:api_key] && mailchimp[:list_id]
+        query_string = "count=50&status=sent&list_id=#{mailchimp[:list_id]}"
         query_string += "&since_send_time=#{6.months.ago.iso8601}"
         query_string += "&fields=campaigns.settings.subject_line,campaigns.send_time,campaigns.long_archive_url"
-        response = HTTParty.get("https://#{mailchimp['api_base_uri']}/3.0/campaigns?#{query_string}", {
+        response = HTTParty.get("https://#{mailchimp[:api_base_uri]}/3.0/campaigns?#{query_string}", {
           :headers => {
             'Accept' => 'application/json',
-            'Authorization' => "apikey #{mailchimp['api_key']}"
+            'Authorization' => "apikey #{mailchimp[:api_key]}"
           }
         })
       end
