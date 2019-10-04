@@ -45,7 +45,7 @@ gem 'nokogiri', '>= 1.8.5' # Vulnerability
 gem 'bootsnap'
 
 group :development, :test do
-  gem 'rspec-rails', '~> 3.5'
+  gem 'rspec-rails', '~> 3.8'
   gem 'factory_girl_rails', '~> 4.6'
   gem 'faker', '~> 1.6'
   gem 'pry-byebug'
