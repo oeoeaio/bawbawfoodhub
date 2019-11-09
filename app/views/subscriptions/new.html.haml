@@ -16,6 +16,9 @@
       $('.size-option').each (i,e) ->
         $(e).toggleClass('selected', e.contains(selector.get(0)))
 
+    $("a.toggle_panel").on 'click', (e) ->
+      e.preventDefault()
+      $(e.target.hash).toggle()
 
 
 =form_for ([@season, @subscription]) do |f|
@@ -122,14 +125,29 @@
         %strong= readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date)
         between 3pm and 6pm (or if collecting you can come on Wednesday between 10am and 6pm).
   .row
-    .small-8.small-centered.columns.text-center
+    .small-12.medium-8.small-centered.columns.text-center
       %p
-        By clicking 'Complete Sign Up' you acknowledge that you are responsible for collecting a vegetable box of your nominated size
-        %strong each
-        %strong#week-fn week
-        from the
-        %strong= readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date)
-        onwards.
+        By clicking 'Complete Sign Up' you agree to the subscription
+        = succeed('.') do
+          %a.toggle_panel{ href: '#terms_and_conditions' } terms and conditions
+      #terms_and_conditions.panel.text-left{ style: 'display: none'}
+        %h3 Terms & Conditions
+        %ul
+          %li
+            You are responsible for collecting a vegetable box of your nominated size
+            %strong each
+            %strong#week-fn week
+            from the
+            %strong= readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date)
+            onwards.
+          %li
+            The first four subscription boxes will be charged at the casual/trial rate. After that, you will automatically receive a $3 subscriber discount every week/fortnight.
+          %li
+            You can suspend your subscription for up to 4 boxes if you are away - this incurs a $3 administration charge for each suspension (see below).
+          %li
+            You can cancel your subscription at any time (see cut-off times below).
+          %li
+            You will be charged a $5 unpack fee if you do not collect your box (see below).
 
   %br
   .row
