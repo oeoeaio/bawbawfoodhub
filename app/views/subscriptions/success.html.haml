@@ -14,7 +14,7 @@
   - if @subscription.delivery?
     Unless we hear from you otherwise before midday on Sunday, we will deliver your box to your address (#{@subscription.full_address}), on Tuesdays between 3pm and 6pm.
   - else
-    Unless you have made other arrangements with us, you will need to collect your box on Tuesdays between 3pm and 6pm or Wednesdays between 10am and 6pm, from our venue at Unit 4, 133 North Road, Warragul.
+    Unless you have made other arrangements with us, you will need to collect your box on Tuesdays between 3pm and 6pm or Wednesdays between 10am and 6pm, from our venue at Unit 4, 133 North Road, Warragul. Please note the terms and conditions for your subscription listed below.
 
 - unless Date.today > Date.new(2016, 01, 11)
   %p.offset-bottom
@@ -28,11 +28,10 @@
   %strong info@bawbawfoodhub.org.au
   if you have any questions or if anything is unclear.
 
-
 %h3 Payment
 %p.offset-bottom
   - if @subscription.delivery?
-    As we will be delivering your box, we ask that you pay for it in advance by transferring the amount for your box (#{Subscription::SIZES[@subscription.box_size][:price]}) plus the $5 delivery fee into our bank account with your name as the description.
+    As we will be delivering your box, we ask that you pay for it in advance by transferring the amount for your box plus the $5 delivery fee into our bank account with your name as the description.
 
     If you are also paying for extras ordered through our
     = succeed "," do
@@ -42,7 +41,7 @@
     You can pay for you box with cash or card (Visa, Mastercard, Debit) when you come to collect your box on the
     = succeed "." do
       = readable_date(@season.first_pack_day_with_lead_time_after(@subscription.created_at).pack_date)
-    If you'd like to pre-pay for your box, you are very welcome to transfer the amount for your box (#{Subscription::SIZES[@subscription.box_size][:price]}) into our bank account with your name as the description.
+    If you'd like to pre-pay for your box, you are very welcome to transfer the amount for your box into our bank account with your name as the description.
 %p
   %strong Bank details:
   %br
@@ -58,14 +57,14 @@
   %strong cut-off time
   for box cancellations each week.
   - unless @subscription.delivery?
-    While we always prefer that you find a friend or family member to come and get your box for you when you cannot, we understand that this is not always possible.
+    While we always prefer that you find a friend or family member to come and get your box for you when you cannot, we understand that this is not always possible. A subscription suspension fee will apply (see below) in the event that you need to cancel your box.
 %p
   If you
   %strong need
   to cancel your box, please let us know
   = succeed "." do
     %strong before Sunday midday
-  Any boxes cancelled after this time will not be refunded except in the case of an emergency.
+  Any boxes cancelled after this time will attract a box unpack fee (see below), expect in the case of an emergency.
 %p
   If you would like to cancel your box
   = succeed "," do
@@ -80,6 +79,13 @@
   = succeed "." do
     %strong Sunday midday
   We have lots of locally grown and produced extras available to add to your box, such as fruit, yoghurt, bread, butter and honey.
+
+%h3 Terms & Conditions
+%ul
+  %li The first four subscription boxes will be charged at the casual/trial rate (#{Subscription::SIZES[@subscription.box_size][:trial_price]}). After that, you will automatically receive a $3 subscriber discount every week/fortnight (#{Subscription::SIZES[@subscription.box_size][:price]}).
+  %li You can suspend your subscription for up to 4 boxes if you are away - this incurs a $3 administration charge for each suspension.
+  %li You can cancel your subscription at any time before the 12 noon cut-off time on Sunday.
+  %li You will be charged a $5 unpack fee if you do not collect your box.
 
 =link_to "Back to Home", root_path, class: 'button radius'
 
