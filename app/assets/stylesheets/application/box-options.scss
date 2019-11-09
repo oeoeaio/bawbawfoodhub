@@ -5,6 +5,9 @@
     h1, h2, h3, h4, h5, h6, p {
       color: #7d7d7d;
     }
+    .green {
+      color: #209348;
+    }
   }
 
   &.selected {
@@ -13,6 +16,9 @@
       border: 2px solid #209348;
       h1, h2, h3, h4, h5, h6, p {
         color: #4f4f4f;
+      }
+      .green {
+        color: #209348;
       }
     }
 
