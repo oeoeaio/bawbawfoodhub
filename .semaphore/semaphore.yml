@@ -1,0 +1,36 @@
+version: v1.0
+name: Ruby
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Setup
+    task:
+      jobs:
+        - name: bundle
+          commands:
+          - checkout
+          - cache restore
+          - bundle install --deployment -j 4 --path vendor/bundle
+          - yarn install --check-files
+          - cache store
+  - name: Test
+    task:
+      secrets:
+        - name: secrets.yml
+      prologue:
+        commands:
+          - checkout
+          - cache restore
+          - sem-service start postgres
+          - psql -U postgres -h localhost -c "CREATE USER bbfh WITH PASSWORD 'bbfh';"
+          - psql -U postgres -h localhost -c "ALTER USER bbfh WITH SUPERUSER;"
+          - bundle install --deployment --path vendor/bundle
+          - yarn install --check-files
+          - cp ~/secrets.yml config/secrets.yml
+          - bundle exec rake db:setup
+      jobs:
+        - name: RSpec
+          commands:
+            - bundle exec rspec
