@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   def index
-    flash[:alert] = "We will be closed for the Grand Final Day public holiday. Friday 27th of September." unless Date.today > Date.new(2019, 9, 27)
+    flash[:alert] = "We will be open up to and including Christmas Eve, then closed until Tue 14th of Jan." unless Date.today > Date.new(2020, 1, 13)
   end
 
   def newsletters
