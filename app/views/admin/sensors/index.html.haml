@@ -8,17 +8,15 @@
   %tr
     %th Name
     %th Active?
-    %th Lower Limit
-    %th Upper Limit
-    %th Readings
+    %th Range
+    %th Latest Reading
     %th Alerts
     %th Edit
   - @sensors.each do |sensor|
     %tr
       %td= sensor.name
       %td= ( sensor.active? ? "Yes" : "No" )
-      %td= sensor.lower_limit
-      %td= sensor.upper_limit
-      %td= link_to "List", admin_sensor_readings_path(sensor)
+      %td= "#{sensor.lower_limit}°C - #{sensor.upper_limit}°C"
+      %td= link_to last_reading_summary_for_sensor(sensor) || "List", admin_sensor_readings_path(sensor)
       %td= link_to sensor.alerts.count, admin_sensor_alerts_path(sensor)
       %td= link_to "Edit", edit_admin_sensor_path(sensor)
