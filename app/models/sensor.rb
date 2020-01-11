@@ -4,6 +4,8 @@ class Sensor < ActiveRecord::Base
 
   scope :active, -> { where(active: true) }
 
+  validates :identifier, presence: true, uniqueness: true
+
   def last_reading
     readings.order(recorded_at: :desc).limit(1).first
   end

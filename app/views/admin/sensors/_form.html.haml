@@ -1,8 +1,11 @@
 = form_for [:admin, @sensor] do |f|
   .row
-    .small-12.columns
+    .small-6.columns
       =f.label :name
       =f.text_field :name
+    .small-6.columns
+      =f.label :identifier
+      =f.text_field :identifier
   .row
     .small-3.columns
       =f.label :lower_limit

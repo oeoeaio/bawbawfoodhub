@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_17_111332) do
+ActiveRecord::Schema.define(version: 2020_01_11_032801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -254,6 +254,8 @@ ActiveRecord::Schema.define(version: 2019_08_17_111332) do
     t.decimal "lower_limit", precision: 5, scale: 1, default: "0.0"
     t.decimal "upper_limit", precision: 5, scale: 1, default: "100.0"
     t.integer "fail_count_for_value_alert", default: 1
+    t.string "identifier", null: false
+    t.index ["identifier"], name: "index_sensors_on_identifier", unique: true
   end
 
   create_table "subscriptions", id: :serial, force: :cascade do |t|
