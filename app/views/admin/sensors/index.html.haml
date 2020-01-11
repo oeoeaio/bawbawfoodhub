@@ -6,6 +6,7 @@
 
 %table.fullwidth
   %tr
+    %th Identifier
     %th Name
     %th Active?
     %th Range
@@ -14,6 +15,7 @@
     %th Edit
   - @sensors.each do |sensor|
     %tr
+      %td= sensor.identifier
       %td= sensor.name
       %td= ( sensor.active? ? "Yes" : "No" )
       %td= "#{sensor.lower_limit}°C - #{sensor.upper_limit}°C"

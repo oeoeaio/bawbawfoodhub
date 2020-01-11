@@ -2,7 +2,7 @@ class Admin::SensorsController < Admin::BaseController
   before_action :authorize_admin, only: [:index, :new, :create]
 
   def index
-    @sensors = Sensor.all
+    @sensors = Sensor.order(identifier: :asc)
   end
 
   def new
