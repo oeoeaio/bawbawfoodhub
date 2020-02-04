@@ -10,8 +10,8 @@ class Admin::SensorsController < Admin::BaseController
   end
 
   def create
-    sensor = Sensor.new sensor_params
-    if sensor.save!
+    @sensor = Sensor.new sensor_params
+    if @sensor.save
       redirect_to admin_sensors_path
     else
       render :new
@@ -24,9 +24,9 @@ class Admin::SensorsController < Admin::BaseController
   end
 
   def update
-    sensor = Sensor.find params[:id]
-    authorize_admin sensor
-    if sensor.update_attributes! sensor_params
+    @sensor = Sensor.find params[:id]
+    authorize_admin @sensor
+    if @sensor.update_attributes sensor_params
       redirect_to admin_sensors_path
     else
       render :edit
