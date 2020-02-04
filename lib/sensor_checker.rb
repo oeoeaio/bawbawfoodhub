@@ -75,13 +75,13 @@ class SensorChecker
     body = body_for(category, sensor, reading)
     body = "ESCALATION: " + body if alert.present?
     Alert.create(sensor: sensor, category: category) unless alert.present?
-    recipients.each do |recipient|
+    recipients_for(sensor).each do |recipient|
       sms_client.messages.create(from: 'BBFHMonitor', to: recipient, body: body)
     end
   end
 
-  def recipients
-    Rails.application.secrets.twilio_numbers.split(",")
+  def recipients_for(sensor)
+    sensor.alert_recipients.split(",")
   end
 
   def sms_client

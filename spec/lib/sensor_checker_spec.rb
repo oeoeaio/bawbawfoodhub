@@ -128,14 +128,13 @@ RSpec.describe SensorChecker do
 
   describe "sending an alert" do
     let!(:checker) { SensorChecker.new }
-    let!(:sensor) { create(:sensor, active: false, lower_limit: 0.0, upper_limit: 10.0) }
+    let!(:sensor) { create(:sensor, active: false, lower_limit: 0.0, upper_limit: 10.0, alert_recipients: '+61412345678,+61412345679') }
     let!(:reading) { double(:reading) }
     let!(:alert) { create(:alert, sensor: sensor, category: :missing, resolved_at: 10.minutes.ago) }
     let!(:messages_mock) { double(:messages) }
     let!(:sms_client_mock) { double(:sms_client, messages: messages_mock )}
 
     before do
-      allow(checker).to receive(:recipients) { ['+610412345678','+610412345679'] }
       allow(checker).to receive(:body_for) { "some message" }
       allow(checker).to receive(:sms_client) { sms_client_mock }
       allow(messages_mock).to receive(:create)
@@ -144,8 +143,8 @@ RSpec.describe SensorChecker do
     context "when no current alerts exist for the given category and sensor" do
       it "sends an sms to each recipient, and creates a new alert" do
         expect{checker.send(:send_alert, :missing, sensor, reading)}.to change(Alert, :count).by(1)
-        expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+610412345678', body: 'some message'})
-        expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+610412345679', body: 'some message'})
+        expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345678', body: 'some message'})
+        expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345679', body: 'some message'})
       end
     end
 
@@ -168,8 +167,8 @@ RSpec.describe SensorChecker do
         context "and the alert has not been slept" do
           it "sends an 'ESCALATION' sms to each recipient, does not create a new alert" do
             expect{checker.send(:send_alert, :missing, sensor, reading)}.to_not change(Alert, :count)
-            expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+610412345678', body: 'ESCALATION: some message'})
-            expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+610412345679', body: 'ESCALATION: some message'})
+            expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345678', body: 'ESCALATION: some message'})
+            expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345679', body: 'ESCALATION: some message'})
           end
         end
 
@@ -189,8 +188,8 @@ RSpec.describe SensorChecker do
 
             it "sends an 'ESCALATION' sms to each recipient, does not create a new alert" do
               expect{checker.send(:send_alert, :missing, sensor, reading)}.to_not change(Alert, :count)
-              expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+610412345678', body: 'ESCALATION: some message'})
-              expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+610412345679', body: 'ESCALATION: some message'})
+              expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345678', body: 'ESCALATION: some message'})
+              expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345679', body: 'ESCALATION: some message'})
             end
           end
         end
