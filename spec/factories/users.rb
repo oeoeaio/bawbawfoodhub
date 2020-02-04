@@ -6,6 +6,6 @@ FactoryGirl.define do
     surname { Faker::Name.last_name }
     email { Faker::Internet.email }
     phone { Faker::PhoneNumber.phone_number }
-    password { Faker::Internet.password(8,20) }
+    password { Faker::Internet.password(min_length: 8, max_length: 20) }
   end
 end

@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :base_season, class: Season do
     name "Summer 2015"
-    slug { Faker::Internet.slug(nil, "_") }
+    slug { Faker::Internet.slug(words: nil, glue: "_") }
     signups_open true
     places_remaining 1
   end

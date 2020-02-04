@@ -47,7 +47,7 @@ gem 'bootsnap'
 group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'factory_girl_rails', '~> 4.6'
-  gem 'faker', '~> 1.6'
+  gem 'faker', '~> 2.10'
   gem 'pry-byebug'
   gem 'listen'
 end
