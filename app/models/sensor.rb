@@ -7,6 +7,7 @@ class Sensor < ActiveRecord::Base
   validates :identifier, presence: true, uniqueness: true
   validates :fail_count_for_value_alert, numericality: { only_integer: true, greater_than: 0 }
   validates :upper_limit, :lower_limit, numericality: true
+  validates :alert_recipients, format: { with: /\A(\+614\d{8},)*(\+614\d{8})\z/, message: "must be AU mobile numbers in international format, separated by a comma. No spaces." }
 
   def last_reading
     readings.order(recorded_at: :desc).limit(1).first

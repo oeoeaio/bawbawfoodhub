@@ -1,13 +1,17 @@
 = form_for [:admin, @sensor] do |f|
   .row
-    .small-6.columns
+    .small-3.columns
       =f.label :name
       =f.text_field :name
       = first_error_for @sensor, :name
-    .small-6.columns
+    .small-3.columns
       =f.label :identifier
       =f.text_field :identifier
       = first_error_for @sensor, :identifier
+    .small-6.columns
+      =f.label :alert_recipients
+      =f.text_field :alert_recipients
+      = first_error_for @sensor, :alert_recipients
   .row
     .small-3.columns
       =f.label :lower_limit
