@@ -33,6 +33,15 @@ class Admin::SeasonsController < Admin::BaseController
     end
   end
 
+  def populate
+    season = Season.find_by_slug params[:id]
+    authorize_admin season
+    populator = SeasonPopulator.new(season: season)
+    populator.run
+    flash[:notice] = populator.message
+    redirect_to admin_season_pack_days_path(season)
+  end
+
   private
 
   def season_params

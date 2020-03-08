@@ -2,6 +2,7 @@
   .small-6.columns
     %h2 Pack Days for #{@season.name}
   .small-6.columns.text-right
+    = link_to "Populate", populate_admin_season_path(@season), class: 'button'
     = link_to "Create New", new_admin_season_pack_day_path, class: 'button'
 
 %table.fullwidth

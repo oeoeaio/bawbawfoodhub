@@ -33,6 +33,8 @@ Rails.application.routes.draw do
     root :to => "home#index"
 
     resources :seasons do
+      get :populate, on: :member
+
       resources :pack_days
 
       resources :subscriptions, only: [] do

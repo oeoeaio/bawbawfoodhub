@@ -49,4 +49,27 @@ RSpec.describe Admin::SeasonsController, :type => :controller do
       end
     end
   end
+
+  describe 'populate' do
+    let(:season) { Season.new(slug: 'some_season_slug') }
+    let(:populator) { instance_double(SeasonPopulator, run: nil, message: 'some_message') }
+
+    before do
+      allow(Season).to receive(:find_by_slug) { season }
+      allow(SeasonPopulator).to receive(:new) { populator }
+      get(:populate, params: { id: 1})
+    end
+
+    it 'runs the season populator' do
+      expect(populator).to have_received(:run)
+    end
+
+    it 'populates the flash message with the message from the populator' do
+      expect(flash[:notice]).to eq('some_message')
+    end
+
+    it 'redirects to the pack days view' do
+      expect(response).to redirect_to(admin_season_pack_days_path('some_season_slug'))
+    end
+  end
 end
