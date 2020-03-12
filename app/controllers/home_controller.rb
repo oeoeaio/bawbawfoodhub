@@ -1,8 +1,8 @@
 class HomeController < ApplicationController
   def index
     # flash[:alert] = "We will be open up to and including Christmas Eve, then closed until Tue 14th of Jan." unless Date.today > Date.new(2020, 1, 13)
-    file_link = cms_fragment_render(:job_description, cms_page('general-manager'))
-    flash[:alert] = %Q[We're hiring for the position of <strong><a href="#{file_link}">General Manager</a></strong> at the hub!].html_safe
+    link = 'https://bawbawfoodhub.org.au/jobs/general-manager'
+    flash[:alert] = %Q[We're hiring for the position of <strong><a href="#{link}">General Manager</a></strong> at the hub!].html_safe
   end
 
   def newsletters
