@@ -32,5 +32,5 @@
       =first_error_for(@contact, :body)
   .row
     .small-12.medium-6.columns
-      %input#recaptcha_token{ type: 'hidden', name: 'recaptcha_token' }
+      = recaptcha_field
       = submit_tag "Send"

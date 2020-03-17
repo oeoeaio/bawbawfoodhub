@@ -34,4 +34,8 @@ module ApplicationHelper
     @cms_site.pages.find_by_full_path('/producers').children.
     published.where("label != 'Summary'")
   end
+
+  def recaptcha_field
+    hidden_field_tag(:recaptcha_token)
+  end
 end
