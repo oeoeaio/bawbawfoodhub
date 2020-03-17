@@ -27,8 +27,9 @@ class ContactController < ApplicationController
       }
     )
 
-    return if response["success"] && response["score"] > 0.5
+    return if response["success"] && response["action"] == 'contact' && response["score"] > 0.5
     Rails.logger.info("reCAPTCHA failed for token: #{params[:recaptcha_token]}")
+    Rails.logger.info(response.inspect)
     render :sorry
   end
 
