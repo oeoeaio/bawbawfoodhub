@@ -2,6 +2,16 @@
 
 %p This form will send us an email, and we'll do our best to get back to you as soon as possible.
 
+:coffeescript
+  $(document).on 'turbolinks:load', =>
+    form = $('#new_contact')
+    $(form).on 'click', ':submit', =>
+      event.preventDefault()
+      grecaptcha.ready =>
+        grecaptcha.execute("#{Rails.application.secrets.recaptcha_site_key}", action: 'contact').then (token) =>
+          $('#recaptcha_token').val(token)
+          $(form).submit()
+
 = form_for @contact, as: :contact, url: submit_contact_path do |f|
   .row
     .small-12.medium-6.columns{ class: "#{error_class(@contact,:email)}" }
@@ -22,4 +32,5 @@
       =first_error_for(@contact, :body)
   .row
     .small-12.medium-6.columns
-      = invisible_recaptcha_tags text: "Send"
+      %input#recaptcha_token{ type: 'hidden', name: 'recaptcha_token' }
+      = submit_tag "Send"
