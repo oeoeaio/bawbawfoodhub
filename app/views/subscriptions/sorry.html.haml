@@ -1,0 +1,8 @@
+%h2 Apologies, your subscription request was flagged as suspicious and could not be submitted.
+
+%p
+  Please don't hesitate to
+  = link_to "try again", new_season_subscription_path(current_season)
+  or get in touch with us directly via
+  %strong= Rails.application.secrets.admin_email
+  instead.

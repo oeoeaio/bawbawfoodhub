@@ -20,6 +20,14 @@
       e.preventDefault()
       $(e.target.hash).toggle()
 
+    form = $('#new_subscription')
+    $(form).on 'click', ':submit', =>
+      event.preventDefault()
+      grecaptcha.ready =>
+        grecaptcha.execute("#{Rails.application.secrets.recaptcha_site_key}", action: 'subscribe').then (token) =>
+          $('#recaptcha_token').val(token)
+          $(form).submit()
+
 
 =form_for ([@season, @subscription]) do |f|
   .row.offset-bottom
@@ -152,6 +160,7 @@
   %br
   .row
     .small-4.small-centered.columns.text-center
+      = recaptcha_field
       = submit_tag "Complete Sign Up", class: 'button radius red'
 
 %br
@@ -224,4 +233,4 @@
         You can suspend your subscription for up to four consecutive boxes. You will be charged a $3 suspension administration fee when you collect your next box at the end of the suspension. If you need to suspend your subscription, you must let us know via email
         = succeed('.') do
           %strong before Sunday midday
-        Any boxes cancelled after this time may be charged a $5 unpack fee, except in the case of an unforeseeable emergency.	
+        Any boxes cancelled after this time may be charged a $5 unpack fee, except in the case of an unforeseeable emergency.

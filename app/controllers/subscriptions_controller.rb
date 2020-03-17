@@ -1,6 +1,7 @@
 class SubscriptionsController < ApplicationController
   before_action :load_season
   before_action :pack_days_remaining?, only: [:new, :create]
+  before_action :verify_recaptcha_token, only: :create
 
   def new
     @user = User.new
@@ -103,5 +104,18 @@ class SubscriptionsController < ApplicationController
         render :new
       end
     end
+  end
+
+  def verify_recaptcha_token
+    response = HTTParty.post("https://www.google.com/recaptcha/api/siteverify",
+      query: {
+        secret: Rails.application.secrets.recaptcha_secret_key,
+        response: params[:recaptcha_token]
+      }
+    )
+
+    # return if response["success"] && response["score"] > 0.5
+    Rails.logger.info("reCAPTCHA failed for token: #{params[:recaptcha_token]}")
+    render :sorry
   end
 end
