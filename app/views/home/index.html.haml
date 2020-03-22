@@ -1,3 +1,10 @@
+- bulletin_page = cms_page('bulletin-board')
+- if bulletin_page.present?
+  .lush-panel.green#bulletin-board
+    .row
+      .small-12.columns.text-center
+        = sanitize(cms_fragment_content(:content, bulletin_page))
+
 .lush-panel.capsicums.shaded#signup
   .row
     .small-12.medium-6.columns.text-center
