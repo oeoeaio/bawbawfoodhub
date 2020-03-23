@@ -4,9 +4,10 @@ class SubscriptionsController < ApplicationController
   before_action :verify_recaptcha_token, only: :create
 
   def new
-    @user = User.new
-    @subscription = Subscription.new
-    render :new
+    render :closed
+    # @user = User.new
+    # @subscription = Subscription.new
+    # render :new
   end
 
   def create
