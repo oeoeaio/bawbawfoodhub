@@ -2,7 +2,7 @@
 - if bulletin_page.present?
   .lush-panel.green#bulletin-board
     .row
-      .small-12.columns.text-center
+      .small-12.columns
         = sanitize(cms_fragment_content(:content, bulletin_page))
 
 .lush-panel.capsicums.shaded#signup
