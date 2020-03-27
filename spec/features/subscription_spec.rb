@@ -14,7 +14,7 @@ RSpec.describe 'Subscriptions', type: :system, js: true do
     fill_in 'subscription_user_attributes_password_confirmation', with: '12345678'
   end
 
-  describe 'for weekly pickup' do
+  describe 'for weekly pickup on Wednesday' do
     it 'allows the user to subscribe for a veggie box' do
       visit root_path
       click_link 'Sign Up'
@@ -22,6 +22,7 @@ RSpec.describe 'Subscriptions', type: :system, js: true do
       find("label[for='subscription_box_size_standard']").click
 
       select('Collection from 4/133 North Road, Warragul (Free)', from: 'subscription_delivery')
+      select('Wednesday', from: 'subscription_day_of_week')
       select('Weekly', from: 'subscription_frequency')
 
       enter_user_details
@@ -31,7 +32,7 @@ RSpec.describe 'Subscriptions', type: :system, js: true do
     end
   end
 
-  context 'for fortnightly delivery' do
+  context 'for fortnightly delivery on Thursday' do
     it 'allows the user to subscribe for a veggie box' do
       visit root_path
       click_link 'Sign Up'
@@ -39,6 +40,7 @@ RSpec.describe 'Subscriptions', type: :system, js: true do
       find("label[for='subscription_box_size_standard']").click
 
       select('Delivery to Warragul or Drouin ($5.00)', from: 'subscription_delivery')
+      select('Thursday (Warragul, Drouin, Bunyip and Garfield)', from: 'subscription_day_of_week')
       select('Fortnightly', from: 'subscription_frequency')
 
       enter_user_details

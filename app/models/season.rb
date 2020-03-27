@@ -36,4 +36,11 @@ class Season < ActiveRecord::Base
     pack_days.order(pack_date: :asc)
     .select{ |pd| Time.zone.parse(pd.pack_date.to_s) > time }
   end
+
+  def first_pack_date_for_subscription(subscription)
+    tuesday = first_pack_day_with_lead_time_after(subscription.created_at).pack_date
+    return tuesday + 2 if subscription.day_of_week == 'thursday'
+    return tuesday + 1 if subscription.day_of_week == 'wednesday'
+    tuesday
+  end
 end

@@ -5,7 +5,7 @@ RSpec.describe Subscription, :type => :model do
     it "box size must be from the list" do
       user = build(:user)
       season = create(:season)
-      attrs = { season: season, user: user, frequency: 'weekly', delivery: false }
+      attrs = { season: season, user: user, frequency: 'weekly', day_of_week: 'wednesday', delivery: false }
       expect(Subscription.new(attrs.merge(box_size: nil))).to be_invalid
       expect(Subscription.new(attrs.merge(box_size: 'lala'))).to be_invalid
       expect(Subscription.new(attrs.merge(box_size: 'standard'))).to be_valid
@@ -16,7 +16,7 @@ RSpec.describe Subscription, :type => :model do
     it "can only subscribe to a season with remaining pack days" do
       user = build(:user)
       season = create(:season_without_pack_days)
-      attrs = { season: season, user: user, box_size: 'small', frequency: 'weekly', delivery: false }
+      attrs = { season: season, user: user, box_size: 'small', frequency: 'weekly', day_of_week: 'wednesday', delivery: false }
       expect(Subscription.new(attrs)).to be_invalid
       season.pack_days << build(:pack_day, pack_date: Date.today + 7.days)
       season.save!
@@ -26,7 +26,7 @@ RSpec.describe Subscription, :type => :model do
     it "can only subscribe to a season with open signups" do
       user = build(:user)
       season = create(:season, signups_open: false)
-      attrs = { season: season, user: user, box_size: 'small', frequency: 'weekly', delivery: false }
+      attrs = { season: season, user: user, box_size: 'small', frequency: 'weekly', day_of_week: 'wednesday', delivery: false }
       expect(Subscription.new(attrs)).to be_invalid
       season.signups_open = true
       season.save!

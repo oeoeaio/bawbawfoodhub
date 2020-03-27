@@ -9,12 +9,12 @@
   We will pack you a #{Subscription::SIZES[@subscription.box_size][:name]}
   = @subscription.frequency == "fortnightly" ? "every fortnight" : "each week"
   from the
-  %strong= readable_date(@season.first_pack_day_with_lead_time_after(@subscription.created_at).pack_date)
+  %strong= readable_date(@season.first_pack_date_for_subscription(@subscription))
   onwards.
   - if @subscription.delivery?
-    Unless we hear from you otherwise before midday on Sunday, we will deliver your box to your address (#{@subscription.full_address}), on Tuesdays between 3pm and 6pm.
+    Unless we hear from you otherwise before midday on Sunday, we will deliver your box to your address (#{@subscription.full_address}), on #{@subscription.day_of_week.capitalize}s between 12 midday and 5pm.
   - else
-    Unless you have made other arrangements with us, you will need to collect your box on Tuesdays between 3pm and 6pm or Wednesdays between 10am and 6pm, from our venue at Unit 4, 133 North Road, Warragul. Please note the terms and conditions for your subscription listed below.
+    Unless you have made other arrangements with us, you will need to collect your box on #{@subscription.day_of_week.capitalize}s between 12 midday and 5pm, from our venue at Unit 4, 133 North Road, Warragul. Please note the terms and conditions for your subscription listed below.
 
 -# - unless Date.today > Date.new(2020, 1, 13)
 -#   %p.offset-bottom
@@ -40,7 +40,7 @@
   - else
     You can pay for you box with cash or card (Visa, Mastercard, Debit) when you come to collect your box on the
     = succeed "." do
-      = readable_date(@season.first_pack_day_with_lead_time_after(@subscription.created_at).pack_date)
+      = readable_date(@season.first_pack_date_for_subscription(@subscription))
     If you'd like to pre-pay for your box, you are very welcome to transfer the amount for your box into our bank account with your name as the description.
 %p
   %strong Bank details:

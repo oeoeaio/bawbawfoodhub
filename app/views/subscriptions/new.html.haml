@@ -4,9 +4,56 @@
 
 :coffeescript
   $(document).on 'turbolinks:load', ->
+    updateSummary = ->
+      dayOfWeekVal = $("#subscription_day_of_week").val()
+      deliveryVal = $("#subscription_delivery").val()
+      console.log(deliveryVal)
+      console.log(dayOfWeekVal)
+      valid = (dayOfWeekVal == 'tuesday' || dayOfWeekVal == 'wednesday' || dayOfWeekVal == 'thursday')
+      valid = valid && (deliveryVal == "true" || deliveryVal == "false")
+      $("#summary").toggle(valid)
+
+      return unless valid
+
+      $("#summary #delivery").text(if deliveryVal == "true" then "delivery" else "pickup")
+      $("#summary #day_of_week").text(dayOfWeekVal.replace(/^\w/, (c) -> c.toUpperCase()))
+      $.each ['tuesday', 'wednesday', 'thursday'], (i, dayOfWeek) ->
+        $("#summary #" + dayOfWeek).toggle(dayOfWeekVal == dayOfWeek)
+
+    updateSummary()
+
     $('#address').toggle($("#subscription_delivery").val() == "true")
     $('#subscription_delivery').on 'change', ->
-      $('#address').toggle($("#subscription_delivery").val() == "true")
+      delivery = $("#subscription_delivery").val()
+      $('#address').toggle(delivery == "true")
+
+      dayOfWeekSelect = $("#subscription_day_of_week")
+      disableDow = !(delivery == "true" || delivery == "false")
+      dayOfWeekSelect.prop('disabled', disableDow)
+      dayOfWeekSelect.empty()
+
+      if disableDow
+        dayOfWeekSelect.append($("<option value>Please choose collection or delivery</option>"))
+        updateSummary()
+        return
+
+      dayOfWeekOptions =
+        wednesday: "Wednesday",
+        thursday: "Thursday",
+
+      if $("#subscription_delivery").val() == "true"
+        dayOfWeekOptions =
+          tuesday: "Tuesday (Warragul and Drouin)",
+          wednesday: "Wednesday (Warragul, Yarragon and Trafalgar)",
+          thursday: "Thursday (Warragul, Drouin, Bunyip and Garfield)",
+
+      dayOfWeekSelect.append($("<option value>Please select an option</option>"))
+      $.each dayOfWeekOptions, (key,value) ->
+        dayOfWeekSelect.append($("<option></option>").attr("value", key).text(value))
+      updateSummary()
+
+    $('#subscription_day_of_week').on 'change', ->
+      updateSummary()
 
     $('#subscription_frequency').on 'change', ->
       $('#week-fn').text($("#subscription_frequency").val().replace("ly",""))
@@ -61,11 +108,15 @@
     .small-12.columns
       %h2 Box Options
   .row
-    .small-12.medium-6.columns{ class: "#{error_class(@subscription,:delivery)}" }
+    .small-12.medium-4.columns{ class: "#{error_class(@subscription,:delivery)}" }
       =f.label :delivery, "Collection or Delivery?"
       =f.select :delivery, [['Collection from 4/133 North Road, Warragul (Free)', false],['Delivery to Warragul or Drouin ($5.00)', true]], include_blank: 'Please select an option'
       = first_error_for @subscription, :delivery
-    .small-12.medium-6.columns{ class: "#{error_class(@subscription,:frequency)}" }
+    .small-12.medium-4.columns{ class: "#{error_class(@subscription,:day_of_week)}" }
+      =f.label :day_of_week, "Day of the week"
+      =f.select :day_of_week, [], { include_blank: 'Please choose collection or delivery'}, disabled: true
+      = first_error_for @subscription, :day_of_week
+    .small-12.medium-4.columns{ class: "#{error_class(@subscription,:frequency)}" }
       =f.label :frequency, "Weekly or Fortnightly?"
       =f.select :frequency, [['Weekly', 'weekly'],['Fortnightly', 'fortnightly']], include_blank: 'Please select an option'
       = first_error_for @subscription, :frequency
@@ -128,10 +179,16 @@
   %br
   .row
     .small-12.columns.text-center
-      %p
-        Your first pickup time will be Tuesday the
-        %strong= readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date)
-        between 3pm and 6pm (or if collecting you can come on Wednesday between 10am and 6pm).
+      %p#summary
+        Your first
+        %span#delivery pickup
+        time will be
+        %strong#day_of_week Tuesday
+        the
+        %strong#tuesday= readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date)
+        %strong#wednesday= readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date + 1)
+        %strong#thursday= readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date + 2)
+        between 12 midday and 5pm.
   .row
     .small-12.medium-8.small-centered.columns.text-center
       %p

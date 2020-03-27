@@ -58,7 +58,7 @@ RSpec.describe SubscriptionsController, :type => :controller do
         describe 'a new user (unrecognised email address)' do
           let(:user_attributes) { { given_name: "Frida", surname: "Delaware", email: "unknown@email.com", password: "12345678", password_confirmation: "12345678"} }
           before do
-            post :create, params: { season_id: season.slug, subscription: { box_size: "large", frequency: 'weekly', delivery: 'false', user_attributes: user_attributes } }
+            post :create, params: { season_id: season.slug, subscription: { box_size: "large", frequency: 'weekly', day_of_week: "wednesday", delivery: 'false', user_attributes: user_attributes } }
           end
 
           it "creates a new user" do
@@ -73,7 +73,7 @@ RSpec.describe SubscriptionsController, :type => :controller do
         describe 'an existing user (recognised email address)' do
           let(:user) { create(:user) }
           let(:user_attributes) { { given_name: "Frida", surname: "Delaware", email: user.email, password: "12345678", password_confirmation: "12345678"} }
-          let(:params) { { season_id: season.slug, subscription: { box_size: "large", frequency: "weekly", delivery: "false", user_attributes: user_attributes } } }
+          let(:params) { { season_id: season.slug, subscription: { box_size: "large", frequency: "weekly", day_of_week: "wednesday", delivery: "false", user_attributes: user_attributes } } }
 
           before do
             allow(controller).to receive(:sign_in) # Stubbing out, because we don't have Warden
@@ -216,7 +216,7 @@ RSpec.describe SubscriptionsController, :type => :controller do
           let!(:user) { login_user }
 
           it "creates a new subscription" do
-            post :create, params: { season_id: season.slug, subscription: { box_size: "large", frequency: "weekly", delivery: "false" } }
+            post :create, params: { season_id: season.slug, subscription: { box_size: "large", frequency: "weekly", day_of_week: "wednesday", delivery: "false" } }
             expect(Subscription.where(season: season, user: user).length).to be 1
           end
         end
@@ -224,7 +224,7 @@ RSpec.describe SubscriptionsController, :type => :controller do
         context "when no user is logged in" do
           before do
             allow(controller).to receive(:current_user).and_return nil
-            post :create, params: { season_id: season.slug, subscription: { box_size: "large", frequency: "weekly", delivery: "false" } }
+            post :create, params: { season_id: season.slug, subscription: { box_size: "large", frequency: "weekly", day_of_week: "wednesday", delivery: "false" } }
           end
 
           it "renders the new page with errors" do

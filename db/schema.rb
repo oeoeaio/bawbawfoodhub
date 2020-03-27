@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_04_103602) do
+ActiveRecord::Schema.define(version: 2020_03_27_120547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -270,6 +270,7 @@ ActiveRecord::Schema.define(version: 2020_02_04_103602) do
     t.string "street_address"
     t.string "town"
     t.string "postcode"
+    t.string "day_of_week", null: false
     t.index ["season_id"], name: "index_subscriptions_on_season_id"
     t.index ["user_id", "season_id"], name: "index_subscriptions_on_user_id_and_season_id"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
