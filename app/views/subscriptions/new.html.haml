@@ -7,8 +7,6 @@
     updateSummary = ->
       dayOfWeekVal = $("#subscription_day_of_week").val()
       deliveryVal = $("#subscription_delivery").val()
-      console.log(deliveryVal)
-      console.log(dayOfWeekVal)
       valid = (dayOfWeekVal == 'tuesday' || dayOfWeekVal == 'wednesday' || dayOfWeekVal == 'thursday')
       valid = valid && (deliveryVal == "true" || deliveryVal == "false")
       $("#summary").toggle(valid)
@@ -22,20 +20,16 @@
 
     updateSummary()
 
-    $('#address').toggle($("#subscription_delivery").val() == "true")
-    $('#subscription_delivery').on 'change', ->
+    resetDayOfWeek = ->
       delivery = $("#subscription_delivery").val()
-      $('#address').toggle(delivery == "true")
-
       dayOfWeekSelect = $("#subscription_day_of_week")
       disableDow = !(delivery == "true" || delivery == "false")
       dayOfWeekSelect.prop('disabled', disableDow)
       dayOfWeekSelect.empty()
-
       if disableDow
         dayOfWeekSelect.append($("<option value>Please choose collection or delivery</option>"))
-        updateSummary()
-        return
+      else
+        dayOfWeekSelect.append($("<option value>Please select an option</option>"))
 
       dayOfWeekOptions =
         wednesday: "Wednesday",
@@ -47,10 +41,19 @@
           wednesday: "Wednesday (Warragul, Yarragon and Trafalgar)",
           thursday: "Thursday (Warragul, Drouin, Bunyip and Garfield)",
 
-      dayOfWeekSelect.append($("<option value>Please select an option</option>"))
       $.each dayOfWeekOptions, (key,value) ->
-        dayOfWeekSelect.append($("<option></option>").attr("value", key).text(value))
-      updateSummary()
+        $("#subscription_day_of_week").append($("<option></option>").attr("value", key).text(value))
+
+    resetDayOfWeek()
+
+    $('#address').toggle($("#subscription_delivery").val() == "true")
+    $('#subscription_delivery').on 'change', ->
+      delivery = $("#subscription_delivery").val()
+      $('#address').toggle(delivery == "true")
+
+      resetDayOfWeek()
+
+      return updateSummary()
 
     $('#subscription_day_of_week').on 'change', ->
       updateSummary()
@@ -114,7 +117,7 @@
       = first_error_for @subscription, :delivery
     .small-12.medium-4.columns{ class: "#{error_class(@subscription,:day_of_week)}" }
       =f.label :day_of_week, "Day of the week"
-      =f.select :day_of_week, [], { include_blank: 'Please choose collection or delivery'}, disabled: true
+      =f.select :day_of_week, [], { include_blank: 'Please choose collection or delivery'}
       = first_error_for @subscription, :day_of_week
     .small-12.medium-4.columns{ class: "#{error_class(@subscription,:frequency)}" }
       =f.label :frequency, "Weekly or Fortnightly?"
