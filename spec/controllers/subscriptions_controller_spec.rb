@@ -21,6 +21,10 @@ RSpec.describe SubscriptionsController, :type => :controller do
   end
 
   describe 'create' do
+    before do
+      allow(controller).to receive(:verify_recaptcha_token) # Stubbing out, because we don't care about verification
+    end
+
     context "when no remaining pack dates are available" do
       let(:season) { create(:season_without_pack_days) }
       before do
