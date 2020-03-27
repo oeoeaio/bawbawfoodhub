@@ -39,7 +39,7 @@ RSpec.describe 'Subscriptions', type: :system, js: true do
 
       find("label[for='subscription_box_size_standard']").click
 
-      select('Delivery to Warragul or Drouin ($10.00)', from: 'subscription_delivery')
+      select('Delivery ($10.00)', from: 'subscription_delivery')
       select('Thursday (Warragul, Drouin, Bunyip and Garfield)', from: 'subscription_day_of_week')
       select('Fortnightly', from: 'subscription_frequency')
 
