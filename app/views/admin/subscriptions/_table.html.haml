@@ -10,6 +10,7 @@
     %th Box Size
     %th Subscription Date
     %th Delivery?
+    %th Day
     %th Frequency
     %th Edit
   - @subscriptions.each do |subscription|
@@ -29,5 +30,6 @@
             Yes
         - else
           No
+      %td= subscription.day_of_week.capitalize
       %td= subscription.frequency.capitalize
       %th= link_to "Edit", edit_admin_subscription_path(subscription)
