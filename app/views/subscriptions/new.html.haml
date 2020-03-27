@@ -43,7 +43,7 @@
 
       if $("#subscription_delivery").val() == "true"
         dayOfWeekOptions =
-          tuesday: "Tuesday (Warragul and Drouin)",
+          tuesday: "Tuesday (Warragul, Drouin and Neerim South)",
           wednesday: "Wednesday (Warragul, Yarragon and Trafalgar)",
           thursday: "Thursday (Warragul, Drouin, Bunyip and Garfield)",
 
@@ -110,7 +110,7 @@
   .row
     .small-12.medium-4.columns{ class: "#{error_class(@subscription,:delivery)}" }
       =f.label :delivery, "Collection or Delivery?"
-      =f.select :delivery, [['Collection from 4/133 North Road, Warragul (Free)', false],['Delivery to Warragul or Drouin ($10.00)', true]], include_blank: 'Please select an option'
+      =f.select :delivery, [['Collection from 4/133 North Road, Warragul (Free)', false],['Delivery ($10.00)', true]], include_blank: 'Please select an option'
       = first_error_for @subscription, :delivery
     .small-12.medium-4.columns{ class: "#{error_class(@subscription,:day_of_week)}" }
       =f.label :day_of_week, "Day of the week"
@@ -268,14 +268,14 @@
     .content#collection
       %p Boxes are available for collection from our venue at Unit 4, 133 North Road, Warragul, between 12 midday and 5pm on Wednesdays and Thursdays.
 
-      %p We also offer delivery to Warragul, Drouin and Neerim South for a $10.00 fee, on Tuesdays, Wednesdays and Thursdays. The current schedule is:
+      %p We also offer delivery to a rage of locations in West Gippsland for a $10.00 fee, on Tuesdays, Wednesdays and Thursdays. The current schedule is:
 
       %p
         %ul
           %li Tuesday: Warragul, Drouin and Neerim South
           %li Wednesday: Warragul, Yarragon and Trafalgar
           %li Thursday: Warragul, Drouin, Bunyip and Garfield
-      
+
       %p Simply select the delivery option on the signup page if you would like your box delivered. You can also arrange for casual delivery to these locations if you let us know by Sunday midday for the coming week.
 
       %p We only pack boxes that are pre-ordered and we need some lead time to harvest produce and place orders with our other local growers. To receive a box on Tuesday, Wednesday or Thursday, you will need to sign up before midday on Sunday.
