@@ -43,6 +43,7 @@ gem 'rollbar'
 gem 'recaptcha'
 gem 'nokogiri', '>= 1.8.5' # Vulnerability
 gem 'bootsnap'
+gem 'webpacker', '~> 4.x'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.8'
