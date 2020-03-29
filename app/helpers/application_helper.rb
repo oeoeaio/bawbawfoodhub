@@ -36,6 +36,6 @@ module ApplicationHelper
   end
 
   def recaptcha_field
-    hidden_field_tag(:recaptcha_token)
+    hidden_field_tag(:recaptcha_token, '', 'data-target': 'recaptcha.token')
   end
 end

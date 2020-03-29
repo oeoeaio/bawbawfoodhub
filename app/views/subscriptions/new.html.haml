@@ -70,16 +70,7 @@
       e.preventDefault()
       $(e.target.hash).toggle()
 
-    form = $('#new_subscription')
-    $(form).on 'click', ':submit', =>
-      event.preventDefault()
-      grecaptcha.ready =>
-        grecaptcha.execute("#{Rails.application.secrets.recaptcha_site_key}", action: 'subscribe').then (token) =>
-          $('#recaptcha_token').val(token)
-          $(form).submit()
-
-
-=form_for ([@season, @subscription]) do |f|
+= form_for([@season, @subscription], html: { 'data-controller': 'recaptcha', 'data-action': 'recaptcha#execute', 'data-target': 'recaptcha.form', 'data-recaptcha-site-key': "#{Rails.application.secrets.recaptcha_site_key}", 'data-recaptcha-action': 'subscribe'}) do |f|
   .row.offset-bottom
     .small-8.columns.small-centered.text-center
       %h2 Select A Box Size
