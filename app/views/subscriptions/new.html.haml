@@ -70,7 +70,7 @@
       e.preventDefault()
       $(e.target.hash).toggle()
 
-= form_for([@season, @subscription], html: { 'data-controller': 'recaptcha', 'data-action': 'recaptcha#execute', 'data-target': 'recaptcha.form', 'data-recaptcha-site-key': "#{Rails.application.secrets.recaptcha_site_key}", 'data-recaptcha-action': 'subscribe'}) do |f|
+= recaptcha_form_for([@season, @subscription], recaptcha: { action: 'subscribe' }) do |f|
   .row.offset-bottom
     .small-8.columns.small-centered.text-center
       %h2 Select A Box Size

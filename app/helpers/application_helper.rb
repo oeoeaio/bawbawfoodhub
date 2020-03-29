@@ -38,4 +38,24 @@ module ApplicationHelper
   def recaptcha_field
     hidden_field_tag(:recaptcha_token, '', 'data-target': 'recaptcha.token')
   end
+
+  def recaptcha_form_for(record, options = {}, &block)
+    recaptcha_options = options.delete(:recaptcha) || {}
+    html_options = options.delete(:html) || {}
+    raise "recaptcha action must be provided to recaptcha_form_for" unless recaptcha_options[:action]
+
+    form_for(
+      record,
+      options.merge({
+        html: {
+          'data-controller': 'recaptcha',
+          'data-action': 'recaptcha#execute',
+          'data-target': 'recaptcha.form',
+          'data-recaptcha-site-key': "#{Rails.application.secrets.recaptcha_site_key}",
+          'data-recaptcha-action': recaptcha_options[:action]
+        }.merge(html_options)
+      }),
+      &block
+    )
+  end
 end
