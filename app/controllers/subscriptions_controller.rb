@@ -4,7 +4,9 @@ class SubscriptionsController < ApplicationController
   before_action :verify_recaptcha_token, only: :create
 
   def new
-    # render :closed
+    @closed_page = @cms_site&.pages.published.find_by(slug: 'subscriptions-closed')
+    return render :closed if @closed_page.present? && @closed_page.is_published?
+
     @user = User.new
     @subscription = Subscription.new
     render :new
