@@ -33,10 +33,10 @@
   - if @subscription.delivery?
     As we will be delivering your box, we ask that you pay for it in advance by transferring the amount for your box plus the $10.00 delivery fee into our bank account with your name as the description.
 
-    If you are also paying for extras ordered through our
+    If you are also paying by EFT for extras ordered through our
     = succeed "," do
       =link_to "online store", 'https://openfoodnetwork.org.au/bawbawfoodhub/shop', target: '_blank'
-    please use the order number (ie. RXXXXXXXX) as the description.
+    please also use your name as the description.
   - else
     You can pay for you box with cash or card (Visa, Mastercard, Debit) when you come to collect your box on the
     = succeed "." do
@@ -75,7 +75,7 @@
 %p.offset-bottom
   Our
   = link_to "online store", 'https://openfoodnetwork.org.au/bawbawfoodhub/shop', target: '_blank'
-  is open between Wednesday morning and
+  is open between Wednesday afternoon and
   = succeed "." do
     %strong Sunday midday
   We have lots of locally grown and produced extras available to add to your box, such as fruit, yoghurt, bread, butter and honey.
