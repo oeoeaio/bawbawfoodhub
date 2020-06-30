@@ -14,7 +14,7 @@
   - if @subscription.delivery?
     Unless we hear from you otherwise before midday on Sunday, we will deliver your box to your address (#{@subscription.full_address}), on #{@subscription.day_of_week.capitalize}s between 12 midday and 5pm.
   - else
-    Unless you have made other arrangements with us, you will need to collect your box on #{@subscription.day_of_week.capitalize}s between 12 midday and 5pm, from our venue at Unit 4, 133 North Road, Warragul. Please note the terms and conditions for your subscription listed below.
+    Unless you have made other arrangements with us, you will need to collect your box on Tuesday between 4pm and 5:30pm or Wednesday/Thursday between 10am and 5:30pm, from our venue at Unit 4, 133 North Road, Warragul. Please note the terms and conditions for your subscription listed below.
 
 -# - unless Date.today > Date.new(2020, 1, 13)
 -#   %p.offset-bottom
@@ -75,7 +75,7 @@
 %p.offset-bottom
   Our
   = link_to "online store", 'https://openfoodnetwork.org.au/bawbawfoodhub/shop', target: '_blank'
-  is open between Wednesday afternoon and
+  is open between Thursday afternoon and
   = succeed "." do
     %strong Sunday midday
   We have lots of locally grown and produced extras available to add to your box, such as fruit, yoghurt, bread, butter and honey.
