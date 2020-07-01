@@ -27,6 +27,8 @@ RSpec.describe 'Subscriptions', type: :system, js: true do
 
       enter_user_details
 
+      sleep 2
+
       click_button 'Complete Sign Up'
       expect(page).to have_content 'Thanks Jenny!'
     end
@@ -48,6 +50,8 @@ RSpec.describe 'Subscriptions', type: :system, js: true do
       fill_in 'subscription_street_address', with: '123 Alfred St'
       fill_in 'subscription_town', with: 'Warragul'
       fill_in 'subscription_postcode', with: '3820'
+
+      sleep 2
 
       click_button 'Complete Sign Up'
 
