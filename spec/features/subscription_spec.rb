@@ -21,7 +21,7 @@ RSpec.describe 'Subscriptions', type: :system, js: true do
 
       find("label[for='subscription_box_size_standard']").click
 
-      select('Collection from 4/133 North Road, Warragul (Free)', from: 'subscription_delivery')
+      select('Collection from 158 Queen Street, Warragul (Free)', from: 'subscription_delivery')
       select('Wednesday', from: 'subscription_day_of_week')
       select('Weekly', from: 'subscription_frequency')
 
