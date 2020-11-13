@@ -78,9 +78,11 @@ class SubscriptionsController < ApplicationController
   def create_for_new_user
     @subscription = Subscription.new new_user_subscription_params
     if @subscription.save
+      puts "Lalala"
       AddUserToMailchimpJob.perform_later(@subscription.user)
       render :success
     else
+      puts "Poo bums"
       @user = User.new user_params
       @user.valid? # Adds errors
       flash.now[:error] = "Oops! There were some problems with the details you entered!"
