@@ -30,7 +30,7 @@ RSpec.describe 'Subscriptions', type: :system, js: true do
       sleep 2
 
       click_button 'Complete Sign Up'
-      expect(page).to have_content 'Thanks Jenny!'
+      expect(page).to have_content 'Thanks Jenny!', wait: 10
     end
   end
 
@@ -55,7 +55,7 @@ RSpec.describe 'Subscriptions', type: :system, js: true do
 
       click_button 'Complete Sign Up'
 
-      expect(page).to have_content 'Thanks Jenny!'
+      expect(page).to have_content 'Thanks Jenny!', wait: 10
     end
   end
 end
