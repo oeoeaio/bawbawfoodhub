@@ -104,7 +104,7 @@
   .row
     .small-12.medium-4.columns{ class: "#{error_class(@subscription,:delivery)}" }
       =f.label :delivery, "Collection or Delivery?"
-      =f.select :delivery, [['Collection from 158 Queen Street, Warragul (Free)', false],['Delivery ($10.00)', true]], include_blank: 'Please select an option'
+      =f.select :delivery, [['Collection from 156-158 Queen Street, Warragul (Free)', false],['Delivery ($10.00)', true]], include_blank: 'Please select an option'
       = first_error_for @subscription, :delivery
     .small-12.medium-4.columns{ class: "#{error_class(@subscription,:day_of_week)}" }
       =f.label :day_of_week, "Day of the week"
@@ -260,7 +260,7 @@
     %a{:href => "#collection"}
       When and where can I collect my box? Can I have it delivered?
     .content#collection
-      %p Boxes are available for collection from our venue at 158 Queen Street, Warragul, between 12 midday and 5pm on Wednesdays and Thursdays.
+      %p Boxes are available for collection from our venue at 156-158 Queen Street, Warragul, between 12 midday and 5pm on Wednesdays and Thursdays.
 
       %p We also offer delivery to a rage of locations in West Gippsland for a $10.00 fee, on Tuesdays, Wednesdays and Thursdays. The current schedule is:
 
