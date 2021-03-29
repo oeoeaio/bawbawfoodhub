@@ -149,7 +149,8 @@ GEM
       turbolinks
     json (1.8.6)
     jwt (1.5.6)
-    kramdown (2.1.0)
+    kramdown (2.3.1)
+      rexml
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -162,7 +163,9 @@ GEM
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (0.8.2)
-    mimemagic (0.3.3)
+    mimemagic (0.3.10)
+      nokogiri (~> 1)
+      rake
     mini_magick (4.9.5)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
@@ -233,6 +236,7 @@ GEM
     responders (3.0.0)
       actionpack (>= 5.0)
       railties (>= 5.0)
+    rexml (3.2.4)
     roadie (3.5.0)
       css_parser (~> 1.4)
       nokogiri (~> 1.8)
