@@ -22,7 +22,6 @@ RSpec.describe 'Subscriptions', type: :system, js: true do
       find("label[for='subscription_box_size_standard']").click
 
       select('Collection from 156-158 Queen Street, Warragul (Free)', from: 'subscription_delivery')
-      select('Wednesday', from: 'subscription_day_of_week')
       select('Weekly', from: 'subscription_frequency')
 
       enter_user_details
@@ -40,7 +39,6 @@ RSpec.describe 'Subscriptions', type: :system, js: true do
       find("label[for='subscription_box_size_standard']").click
 
       select('Delivery ($10.00)', from: 'subscription_delivery')
-      select('Thursday (Warragul, Drouin, Bunyip and Garfield)', from: 'subscription_day_of_week')
       select('Fortnightly', from: 'subscription_frequency')
 
       enter_user_details

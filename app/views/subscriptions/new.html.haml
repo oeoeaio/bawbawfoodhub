@@ -22,29 +22,7 @@
 
     resetDayOfWeek = ->
       delivery = $("#subscription_delivery").val()
-      dayOfWeekSelect = $("#subscription_day_of_week")
-      disableDow = !(delivery == "true" || delivery == "false")
-      dayOfWeekSelect.prop('disabled', disableDow)
-      dayOfWeekSelect.empty()
-      if disableDow
-        dayOfWeekSelect.append($("<option value>Please choose collection or delivery</option>"))
-      else
-        dayOfWeekSelect.append($("<option value>Please select an option</option>"))
-
-      dayOfWeekOptions =
-        wednesday: "Wednesday",
-        thursday: "Thursday",
-
-      if $("#subscription_delivery").val() == "true"
-        dayOfWeekOptions =
-          tuesday: "Tuesday (Warragul, Drouin and Neerim South)",
-          wednesday: "Wednesday (Warragul, Yarragon and Trafalgar)",
-          thursday: "Thursday (Warragul, Drouin, Bunyip and Garfield)",
-
-      $.each dayOfWeekOptions, (key,value) ->
-        $("#subscription_day_of_week").append($("<option></option>").attr("value", key).text(value))
-
-    resetDayOfWeek()
+      $("#subscription_day_of_week").attr("value", (if delivery == "true" then 'wednesday' else 'tuesday'))
 
     $('#address').toggle($("#subscription_delivery").val() == "true")
     $('#subscription_delivery').on 'change', ->
@@ -102,18 +80,16 @@
     .small-12.columns
       %h2 Box Options
   .row
-    .small-12.medium-4.columns{ class: "#{error_class(@subscription,:delivery)}" }
+    .small-12.medium-6.columns{ class: "#{error_class(@subscription,:delivery)}" }
       =f.label :delivery, "Collection or Delivery?"
       =f.select :delivery, [['Collection from 156-158 Queen Street, Warragul (Free)', false],['Delivery ($10.00)', true]], include_blank: 'Please select an option'
       = first_error_for @subscription, :delivery
-    .small-12.medium-4.columns{ class: "#{error_class(@subscription,:day_of_week)}" }
-      =f.label :day_of_week, "Day of the week"
-      =f.select :day_of_week, [], { include_blank: 'Please choose collection or delivery'}
-      = first_error_for @subscription, :day_of_week
-    .small-12.medium-4.columns{ class: "#{error_class(@subscription,:frequency)}" }
+    .small-12.medium-6.columns{ class: "#{error_class(@subscription,:frequency)}" }
       =f.label :frequency, "Weekly or Fortnightly?"
       =f.select :frequency, [['Weekly', 'weekly'],['Fortnightly', 'fortnightly']], include_blank: 'Please select an option'
       = first_error_for @subscription, :frequency
+
+  = f.hidden_field :day_of_week, value: 'tuesday'
 
   - if @raw_token
     = hidden_field_tag :raw_token, @raw_token
