@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby "2.6.3"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2', '>= 5.2.3'
+gem 'rails', '~> 5.2', '>= 5.2.6'
 # Use postgres as the database for Active Record
 gem 'pg', '>= 1.1.4'
 # Use SCSS for stylesheets
@@ -21,8 +21,6 @@ gem 'jquery-rails'
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.9'
-# bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring', '~> 1.6', group: :development
@@ -41,7 +39,9 @@ gem 'whenever', :require => false
 gem 'twilio-ruby'
 gem 'rollbar'
 gem 'recaptcha'
-gem 'nokogiri', '>= 1.8.5' # Vulnerability
+gem 'nokogiri', '>= 1.11.5' # Vulnerability
+gem 'json', '>= 2.5.1' # Vulnerability
+gem 'loofah', '>= 2.9.1' # Vulnerability
 gem 'bootsnap'
 gem 'webpacker', '~> 4.x'
 
