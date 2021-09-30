@@ -1,4 +1,4 @@
-class UpdateCmsTo11211 < ActiveRecord::Migration
+class UpdateCmsTo11211 < ActiveRecord::Migration[4.2]
   COMFY_CLASSES = %w(Block Category Categorization File Layout Page Revision Site Snippet)
 
   def self.up

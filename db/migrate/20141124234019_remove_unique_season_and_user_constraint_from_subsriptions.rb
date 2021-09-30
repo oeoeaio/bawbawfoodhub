@@ -1,4 +1,4 @@
-class RemoveUniqueSeasonAndUserConstraintFromSubsriptions < ActiveRecord::Migration
+class RemoveUniqueSeasonAndUserConstraintFromSubsriptions < ActiveRecord::Migration[4.2]
   def up
     remove_index :subscriptions, [:user_id, :season_id] # This one was unique
     add_index :subscriptions, [:user_id, :season_id]

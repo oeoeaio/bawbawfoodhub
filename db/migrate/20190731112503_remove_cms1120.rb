@@ -1,4 +1,4 @@
-class RemoveCms1120 < ActiveRecord::Migration[5.0]
+class RemoveCms1120 < ActiveRecord::Migration[4.2]
   def up
     drop_table :comfy_cms_sites
     drop_table :comfy_cms_layouts

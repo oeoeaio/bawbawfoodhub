@@ -1,4 +1,4 @@
-class AddUserAndBoxSizeToRollovers < ActiveRecord::Migration
+class AddUserAndBoxSizeToRollovers < ActiveRecord::Migration[4.2]
   def change
     add_column :rollovers, :user_id, :integer
     add_column :rollovers, :box_size, :string

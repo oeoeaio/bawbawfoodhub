@@ -1,4 +1,4 @@
-class AddDeliveryAndFrequencyFieldsToSubscriptions < ActiveRecord::Migration
+class AddDeliveryAndFrequencyFieldsToSubscriptions < ActiveRecord::Migration[4.2]
   def change
     add_column :subscriptions, :frequency, :string, null: false, default: 'weekly'
     add_column :subscriptions, :delivery, :boolean, null: false, default: false
