@@ -1,4 +1,4 @@
-class AddInitialisedAtToUsers < ActiveRecord::Migration
+class AddInitialisedAtToUsers < ActiveRecord::Migration[4.2]
   def change
     # Represents the time at which a user initialised their account by setting a password
     add_column :users, :initialised_at, :datetime

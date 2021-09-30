@@ -1,4 +1,4 @@
-class DeviseCreateRollovers < ActiveRecord::Migration
+class DeviseCreateRollovers < ActiveRecord::Migration[4.2]
   def change
     create_table(:rollovers) do |t|
       t.belongs_to :season, null: false
@@ -12,8 +12,6 @@ class DeviseCreateRollovers < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :rollovers, :season_id
-    add_index :rollovers, :subscription_id
     add_index :rollovers, :confirmation_token,   unique: true
   end
 end
