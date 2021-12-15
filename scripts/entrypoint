@@ -1,0 +1,9 @@
+#! /bin/bash
+
+yarn install --check-files
+
+bundle check || bundle install
+
+bundle exec rake db:create db:migrate
+
+exec bundle exec "${@-bash}"

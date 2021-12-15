@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: bbfh_dev
+      POSTGRES_USER: bbfh
+      POSTGRES_PASSWORD: bbfh
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+      target: dev-environment
+    depends_on:
+      - db
+    entrypoint: scripts/entrypoint
+    environment:
+      RAILS_ENV: development
+      DATABASE_HOST: db
+    volumes:
+      - ./:/work
+      - ruby-2.7.4-gem-cache:/usr/local/bundle
+      - node-modules-cache:/work/node_modules
+    ports:
+      - 3000:3000
+
+volumes:
+  db-data: ~
+  ruby-2.7.4-gem-cache: ~
+  node-modules-cache: ~
