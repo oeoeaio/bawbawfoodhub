@@ -21,6 +21,8 @@ gem 'jbuilder', '~> 2.9'
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring', '~> 4.0', group: :development
 
+gem 'puma'
+
 gem "comfortable_mexican_sofa", git: 'https://github.com/comfy/comfortable-mexican-sofa', ref: '07fa555' # Need this version to fix imports
 gem 'haml', '~> 5.0'
 gem 'foundation-rails', '~> 5.5.3'

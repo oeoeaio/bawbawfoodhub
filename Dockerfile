@@ -14,6 +14,8 @@ RUN apt-get update \
 
 FROM ruby-base AS dev-environment
 
+RUN gem install bundler:2.2.28
+
 RUN apt-get update \
   && apt-get install -y build-essential git curl \
   && rm -rf /var/lib/api/lists/*
@@ -24,22 +26,22 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && apt-get install -y yarn \
   && rm -rf /var/lib/api/lists/*
 
-FROM dev-environment AS with-gems
-
-COPY . .
-
-RUN bundle install
-
-FROM with-gems AS with-assets
-
-ENV RAILS_ENV=production
-
-RUN bundle exec rake assets:precompile
-
-FROM ruby-base AS final
-
-ENV RAILS_ENV=production
-
-COPY . .
-COPY --from=with-gems /usr/local/bundle /usr/local/bundle
-COPY --from=with-assets /work/public /work/public
+# FROM dev-environment AS with-gems
+#
+# COPY . .
+#
+# RUN bundle install
+#
+# FROM with-gems AS with-assets
+#
+# ENV RAILS_ENV=production
+#
+# RUN bundle exec rake assets:precompile
+#
+# FROM ruby-base AS final
+#
+# ENV RAILS_ENV=production
+#
+# COPY . .
+# COPY --from=with-gems /usr/local/bundle /usr/local/bundle
+# COPY --from=with-assets /work/public /work/public

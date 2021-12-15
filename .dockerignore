@@ -9,3 +9,9 @@
 !Gemfile*
 !package.json
 !Rakefile
+!config.ru
+
+# node_modules
+# tmp
+# log
+# spec

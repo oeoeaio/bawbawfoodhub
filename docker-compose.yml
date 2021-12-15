@@ -27,6 +27,24 @@ services:
     ports:
       - 3000:3000
 
+  prod:
+    build:
+      context: .
+      target: dev-environment
+    depends_on:
+      - db
+    entrypoint: scripts/entrypoint-prod
+    environment:
+      RAILS_ENV: production
+      RAILS_SERVE_STATIC_FILES: "true"
+      DATABASE_HOST: db
+    volumes:
+      - ./:/work
+      - ruby-2.7.4-gem-cache:/usr/local/bundle
+      - node-modules-cache:/work/node_modules
+    ports:
+      - 3000:3000
+
 volumes:
   db-data: ~
   ruby-2.7.4-gem-cache: ~
