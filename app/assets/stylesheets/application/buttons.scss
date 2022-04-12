@@ -1,11 +1,13 @@
-.button {
-  &.red {
-    background-color: #d63e3e;
+@mixin red-hover {
+  background-color: #d63e3e;
 
-    &:hover {
-      background-color: darken(#d63e3e, 10);
-    }
+  &:hover {
+    background-color: darken(#d63e3e, 10);
   }
+}
+
+.button {
+  &.red { @include red-hover; }
 
   &.no-margin {
     margin: 0px;
@@ -14,7 +16,7 @@
 
 input[type="submit"] {
   @include button();
-  &.red { @extend .button.red; }
+  &.red { @include red-hover; }
 }
 
 .top-bar-section {
@@ -23,8 +25,8 @@ input[type="submit"] {
       &.button {
         border-radius: 8px;
         padding-top: 0.2rem;
-        &.red { @extend .button.red; }
         &:hover { color: #fff; }
+        &.red { @include red-hover; }
       }
     }
   }
