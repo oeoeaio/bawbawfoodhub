@@ -2,51 +2,53 @@
 
 - @body_attributes = { 'data-no-turbolink' => true }
 
-:coffeescript
-  $(document).on 'turbolinks:load', ->
-    updateSummary = ->
-      dayOfWeekVal = $("#subscription_day_of_week").val()
-      deliveryVal = $("#subscription_delivery").val()
-      valid = (dayOfWeekVal == 'tuesday' || dayOfWeekVal == 'wednesday' || dayOfWeekVal == 'thursday')
-      valid = valid && (deliveryVal == "true" || deliveryVal == "false")
-      $("#summary").toggle(valid)
+:javascript
+  $(document).on('turbolinks:load', function() {
+    const updateSummary = function() {
+      const dayOfWeekVal = $("#subscription_day_of_week").val();
+      const deliveryVal = $("#subscription_delivery").val();
+      let valid = ((dayOfWeekVal === 'tuesday') || (dayOfWeekVal === 'wednesday') || (dayOfWeekVal === 'thursday'));
+      valid = valid && ((deliveryVal === "true") || (deliveryVal === "false"));
+      $("#summary").toggle(valid);
 
-      return unless valid
+      if (!valid) { return; }
 
-      $("#summary #delivery").text(if deliveryVal == "true" then "delivery" else "pickup")
-      $("#summary #day_of_week").text(dayOfWeekVal.replace(/^\w/, (c) -> c.toUpperCase()))
-      $.each ['tuesday', 'wednesday', 'thursday'], (i, dayOfWeek) ->
-        $("#summary #" + dayOfWeek).toggle(dayOfWeekVal == dayOfWeek)
+      $("#summary #delivery").text(deliveryVal === "true" ? "delivery" : "pickup");
+      $("#summary #day_of_week").text(dayOfWeekVal.replace(/^\w/, c => c.toUpperCase()));
+      return $.each(['tuesday', 'wednesday', 'thursday'], (i, dayOfWeek) => $("#summary #" + dayOfWeek).toggle(dayOfWeekVal === dayOfWeek));
+    };
 
-    updateSummary()
+    updateSummary();
 
-    resetDayOfWeek = ->
-      delivery = $("#subscription_delivery").val()
-      $("#subscription_day_of_week").attr("value", (if delivery == "true" then 'wednesday' else 'tuesday'))
+    const resetDayOfWeek = function() {
+      const delivery = $("#subscription_delivery").val();
+      return $("#subscription_day_of_week").attr("value", (delivery === "true" ? 'wednesday' : 'tuesday'));
+    };
 
-    $('#address').toggle($("#subscription_delivery").val() == "true")
-    $('#subscription_delivery').on 'change', ->
-      delivery = $("#subscription_delivery").val()
-      $('#address').toggle(delivery == "true")
+    $('#address').toggle($("#subscription_delivery").val() === "true");
+    $('#subscription_delivery').on('change', function() {
+      const delivery = $("#subscription_delivery").val();
+      $('#address').toggle(delivery === "true");
 
-      resetDayOfWeek()
+      resetDayOfWeek();
 
-      return updateSummary()
+      return updateSummary();
+    });
 
-    $('#subscription_day_of_week').on 'change', ->
-      updateSummary()
+    $('#subscription_day_of_week').on('change', () => updateSummary());
 
-    $('#subscription_frequency').on 'change', ->
-      $('#week-fn').text($("#subscription_frequency").val().replace("ly",""))
+    $('#subscription_frequency').on('change', () => $('#week-fn').text($("#subscription_frequency").val().replace("ly","")));
 
-    $(".size-selector").on 'change', ->
-      selector = $(this)
-      $('.size-option').each (i,e) ->
-        $(e).toggleClass('selected', e.contains(selector.get(0)))
+    $(".size-selector").on('change', function() {
+      const selector = $(this);
+      return $('.size-option').each((i, e) => $(e).toggleClass('selected', e.contains(selector.get(0))));
+    });
 
-    $("a.toggle_panel").on 'click', (e) ->
-      e.preventDefault()
-      $(e.target.hash).toggle()
+    return $("a.toggle_panel").on('click', function(e) {
+      e.preventDefault();
+      return $(e.target.hash).toggle();
+    });
+  });
 
 = recaptcha_form_for([@season, @subscription], recaptcha: { action: 'subscribe' }) do |f|
   .row.offset-bottom

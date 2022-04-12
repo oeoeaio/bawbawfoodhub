@@ -1,12 +1,16 @@
-:coffeescript
-  $(document).on 'turbolinks:load', ->
-    form = $('#new_subscription')
-    $(form).on 'click', ':submit', =>
-      event.preventDefault()
-      grecaptcha.ready =>
-        grecaptcha.execute("#{Rails.application.secrets.recaptcha_site_key}", action: 'subscribe').then (token) =>
-          $('#recaptcha_token').val(token)
-          $(form).submit()
+:javascript
+  $(document).on('turbolinks:load', function() {
+    const form = $('#new_subscription');
+    return $(form).on('click', ':submit', () => {
+      event.preventDefault();
+      return grecaptcha.ready(() => {
+        return grecaptcha.execute(`${Rails.application.secrets.recaptcha_site_key}`, {action: 'subscribe'}).then(token => {
+          $('#recaptcha_token').val(token);
+          return $(form).submit();
+        });
+      });
+    });
+  });
 
 =form_for ([@season, @subscription]) do |f|
   = render 'hidden_subscription_fields', f: f
