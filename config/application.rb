@@ -9,7 +9,7 @@ Bundler.require(*Rails.groups)
 module Bawbawfoodhub
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.0
+    config.load_defaults 6.0
 
     config.autoload_paths << Rails.root.join("lib")
     config.time_zone = "Melbourne"

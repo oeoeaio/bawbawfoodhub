@@ -3,11 +3,11 @@ source 'https://rubygems.org'
 ruby "2.7.6"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2', '>= 5.2.6'
+gem 'rails', '~> 6.0.0'
 # Use postgres as the database for Active Record
 gem 'pg', '>= 1.1.4'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails', '~> 6.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 4.1.20'
 # Use CoffeeScript for .js.coffee assets and views
@@ -32,7 +32,7 @@ gem 'font-awesome-sass', '>= 4.7'
 gem 'jquery-turbolinks'
 gem 'pundit', '~> 1.0'
 gem 'devise', ">= 4.7.1"
-gem 'roadie-rails', '~> 1.3'
+gem 'roadie-rails', '~> 3.0'
 gem 'roo'
 gem 'httparty'
 gem 'whenever', :require => false
@@ -45,8 +45,10 @@ gem 'loofah', '>= 2.9.1' # Vulnerability
 gem 'bootsnap'
 gem 'webpacker', '~> 4.x'
 
+gem 'babel-transpiler'
+
 group :development, :test do
-  gem 'rspec-rails', '~> 3.8'
+  gem 'rspec-rails', '~> 5.0'
   gem 'factory_girl_rails', '~> 4.6'
   gem 'faker', '~> 2.10'
   gem 'pry-byebug'

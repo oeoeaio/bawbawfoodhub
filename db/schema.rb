@@ -2,11 +2,11 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `rails
+# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
@@ -39,8 +39,8 @@ ActiveRecord::Schema.define(version: 2020_03_27_120547) do
   create_table "admins", id: :serial, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["email"], name: "index_admins_on_email", unique: true
   end
 
@@ -205,8 +205,8 @@ ActiveRecord::Schema.define(version: 2020_03_27_120547) do
   create_table "pack_days", id: :serial, force: :cascade do |t|
     t.integer "season_id", null: false
     t.date "pack_date", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["season_id"], name: "index_pack_days_on_season_id"
   end
 
@@ -225,13 +225,12 @@ ActiveRecord::Schema.define(version: 2020_03_27_120547) do
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.datetime "cancelled_at"
     t.integer "user_id", null: false
     t.string "box_size"
     t.index ["confirmation_token"], name: "index_rollovers_on_confirmation_token", unique: true
-    t.index ["season_id"], name: "index_rollovers_on_season_id"
   end
 
   create_table "seasons", id: :serial, force: :cascade do |t|
@@ -239,8 +238,8 @@ ActiveRecord::Schema.define(version: 2020_03_27_120547) do
     t.string "slug"
     t.boolean "signups_open"
     t.integer "places_remaining"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.date "starts_on"
     t.date "ends_on"
     t.index ["slug"], name: "index_seasons_on_slug", unique: true
@@ -263,8 +262,8 @@ ActiveRecord::Schema.define(version: 2020_03_27_120547) do
     t.integer "season_id", null: false
     t.integer "user_id", null: false
     t.string "box_size", default: "", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string "frequency", null: false
     t.boolean "delivery", null: false
     t.string "street_address"
@@ -281,8 +280,8 @@ ActiveRecord::Schema.define(version: 2020_03_27_120547) do
     t.string "surname", default: "", null: false
     t.string "email", default: "", null: false
     t.string "phone"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
