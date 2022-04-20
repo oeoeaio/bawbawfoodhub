@@ -3,8 +3,8 @@ require 'mail'
 class SubscriptionMailer < ActionMailer::Base
   layout 'mail'
   include Roadie::Rails::Automatic
-  add_template_helper(ApplicationHelper)
-  add_template_helper(SubscriptionHelper)
+  helper(ApplicationHelper)
+  helper(SubscriptionHelper)
 
   def confirmation(subscription)
     @subscription = subscription
