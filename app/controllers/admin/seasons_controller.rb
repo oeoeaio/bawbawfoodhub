@@ -26,7 +26,7 @@ class Admin::SeasonsController < Admin::BaseController
   def update
     season = Season.find_by_slug params[:id]
     authorize_admin season
-    if season.update_attributes! season_params
+    if season.update! season_params
       redirect_to admin_seasons_path
     else
       render :edit

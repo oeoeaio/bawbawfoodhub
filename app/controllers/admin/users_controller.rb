@@ -28,7 +28,7 @@ class Admin::UsersController < Admin::BaseController
     @user = User.find params[:id]
     authorize_admin @user
 
-    if @user.update_attributes(user_params)
+    if @user.update(user_params)
       flash[:success] = "User updated successfully"
       redirect_to admin_users_path
     else

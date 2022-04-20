@@ -26,7 +26,7 @@ class Admin::SensorsController < Admin::BaseController
   def update
     @sensor = Sensor.find params[:id]
     authorize_admin @sensor
-    if @sensor.update_attributes sensor_params
+    if @sensor.update sensor_params
       redirect_to admin_sensors_path
     else
       render :edit
