@@ -7,6 +7,9 @@ agent:
 blocks:
   - name: Setup
     task:
+      prologue:
+        commands:
+          - sem-version node 14.19.1
       jobs:
         - name: bundle
           commands:
@@ -23,6 +26,7 @@ blocks:
         commands:
           - checkout
           - cache restore
+          - sem-version node 14.19.1
           - sem-service start postgres
           - psql -U postgres -h localhost -c "CREATE USER bbfh WITH PASSWORD 'bbfh';"
           - psql -U postgres -h localhost -c "ALTER USER bbfh WITH SUPERUSER;"
