@@ -26,7 +26,7 @@ class Admin::FaqGroupsController < Admin::BaseController
   def update
     faq_group = FaqGroup.find params[:id]
     authorize_admin faq_group
-    if faq_group.update_attributes! faq_group_params
+    if faq_group.update! faq_group_params
       redirect_to admin_faq_groups_path
     else
       render :edit

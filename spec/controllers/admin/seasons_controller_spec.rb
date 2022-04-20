@@ -35,7 +35,7 @@ RSpec.describe Admin::SeasonsController, :type => :controller do
 
     describe 'on successful update' do
       it 'redirects to index' do
-        expect(season).to receive(:update_attributes!).and_return true
+        expect(season).to receive(:update!).and_return true
         put :update, params: { id: 1, season: { name: 'Season 1' } }
         expect(response).to redirect_to admin_seasons_path
       end
@@ -43,7 +43,7 @@ RSpec.describe Admin::SeasonsController, :type => :controller do
 
     describe 'on unsuccessful save' do
       it 'returns to edit' do
-        expect(season).to receive(:update_attributes!).and_return false
+        expect(season).to receive(:update!).and_return false
         put :update, params: { id: 1, season: { name: 'Season 1' } }
         expect(response).to render_template :edit
       end

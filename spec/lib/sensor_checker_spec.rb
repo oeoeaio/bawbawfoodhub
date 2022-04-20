@@ -20,7 +20,7 @@ RSpec.describe SensorChecker do
 
     context "when an active sensor is found" do
       before do
-        sensor.update_attributes(active: true)
+        sensor.update(active: true)
       end
 
       context "but the sensor has no readings" do
@@ -49,7 +49,7 @@ RSpec.describe SensorChecker do
         end
 
         context "when the reading was recorded less than two hours ago" do
-          before { reading.update_attributes(recorded_at: 2.hours.ago + 1.minute) }
+          before { reading.update(recorded_at: 2.hours.ago + 1.minute) }
 
           it "calls recover_from with category :time" do
             checker.run
@@ -80,7 +80,7 @@ RSpec.describe SensorChecker do
               end
 
               context "when the fail_count_for_value_alert has been reached" do
-                before { sensor.update_attributes(fail_count_for_value_alert: 1) }
+                before { sensor.update(fail_count_for_value_alert: 1) }
 
                 it "calls send_alert with category :value" do
                   checker.run
@@ -92,7 +92,7 @@ RSpec.describe SensorChecker do
           end
 
           context "when the reading has a value inside of the limits" do
-            before { reading.update_attributes(value: 9.0) }
+            before { reading.update(value: 9.0) }
 
             it "calls recover_from with category :value" do
               checker.run
@@ -117,7 +117,7 @@ RSpec.describe SensorChecker do
     end
 
     context "when a current alert exists for the given category and sensor" do
-      before { alert.update_attributes(resolved_at: nil) }
+      before { alert.update(resolved_at: nil) }
 
       it "updates the resolved_at on the most recent alert" do
         expect{checker.send(:recover_from, :missing, sensor)}.to change{alert.reload.resolved_at}
@@ -149,10 +149,10 @@ RSpec.describe SensorChecker do
     end
 
     context "when a current alert exists for the given category and sensor" do
-      before { alert.update_attributes(resolved_at: nil) }
+      before { alert.update(resolved_at: nil) }
 
       context "and the alert is less than 3 hours old" do
-        before { alert.update_attributes(created_at: 3.hours.ago + 1.minute) }
+        before { alert.update(created_at: 3.hours.ago + 1.minute) }
 
         it "does not send any sms, or create a new alert" do
           expect{checker.send(:send_alert, :missing, sensor, reading)}.to_not change(Alert, :count)
@@ -162,7 +162,7 @@ RSpec.describe SensorChecker do
       end
 
       context "and the alert is more than three hours old" do
-        before { alert.update_attributes(created_at: 3.hours.ago - 1.minute) }
+        before { alert.update(created_at: 3.hours.ago - 1.minute) }
 
         context "and the alert has not been slept" do
           it "sends an 'ESCALATION' sms to each recipient, does not create a new alert" do
@@ -173,7 +173,7 @@ RSpec.describe SensorChecker do
         end
 
         context "and the alert has been slept" do
-          before { alert.update_attributes(sleep_until: Time.now + 1.minute) }
+          before { alert.update(sleep_until: Time.now + 1.minute) }
 
           context "and the sleep timer has not expired" do
             it "does not send any sms, or create a new alert" do
@@ -184,7 +184,7 @@ RSpec.describe SensorChecker do
           end
 
           context "and the sleep timer has expired" do
-            before { alert.update_attributes(sleep_until: Time.now - 1.minute) }
+            before { alert.update(sleep_until: Time.now - 1.minute) }
 
             it "sends an 'ESCALATION' sms to each recipient, does not create a new alert" do
               expect{checker.send(:send_alert, :missing, sensor, reading)}.to_not change(Alert, :count)
@@ -206,7 +206,7 @@ RSpec.describe SensorChecker do
 
     context "when fail_count_for_value_alert is 1" do
       before do
-        sensor.update_attributes(fail_count_for_value_alert: 1)
+        sensor.update(fail_count_for_value_alert: 1)
       end
 
       it "reports the most recent reading value in the message body" do
@@ -217,7 +217,7 @@ RSpec.describe SensorChecker do
 
     context "when fail_count_for_value_alert is greater than 1" do
       before do
-        sensor.update_attributes(fail_count_for_value_alert: 3)
+        sensor.update(fail_count_for_value_alert: 3)
       end
 
       it "reports n values in the message body, where n = fail_count_for_value_alert" do

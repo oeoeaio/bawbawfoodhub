@@ -38,7 +38,7 @@ class Admin::SubscriptionsController < Admin::BaseController
     @subscription = Subscription.find params[:id]
     authorize_admin @subscription
 
-    if @subscription.update_attributes(update_subscription_params)
+    if @subscription.update(update_subscription_params)
       flash[:success] = "Subscription updated successfully"
       redirect_to admin_season_subscriptions_path(@subscription.season)
     else

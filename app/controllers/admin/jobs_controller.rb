@@ -29,7 +29,7 @@ class Admin::JobsController < Admin::BaseController
     @job = Job.find_by_slug params[:id]
     authorize_admin @job
 
-    if @job.update_attributes(job_params)
+    if @job.update(job_params)
       flash[:success] = "Job updated successfully"
       redirect_to admin_jobs_path
     else

@@ -102,7 +102,7 @@ RSpec.describe Admin::SubscriptionsController, :type => :controller do
 
     describe 'on successful update' do
       it 'redirects to index' do
-        expect(subscription).to receive(:update_attributes).and_return true
+        expect(subscription).to receive(:update).and_return true
         put :update, params: { id: 1, subscription: { box_size: 'standard' } }
         expect(response).to redirect_to admin_season_subscriptions_path(season)
       end
@@ -110,7 +110,7 @@ RSpec.describe Admin::SubscriptionsController, :type => :controller do
 
     describe 'on unsuccessful save' do
       it 'returns to edit' do
-        expect(subscription).to receive(:update_attributes).and_return false
+        expect(subscription).to receive(:update).and_return false
         put :update, params: { id: 1, subscription: { box_size: 'standard' } }
         expect(response).to render_template :edit
       end

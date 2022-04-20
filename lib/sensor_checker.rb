@@ -65,7 +65,7 @@ class SensorChecker
   def recover_from(category, sensor)
     alert = last_alert_for(category, sensor)
     return unless alert.present?
-    alert.update_attributes(resolved_at: Time.now)
+    alert.update(resolved_at: Time.now)
   end
 
   def send_alert(category, sensor, reading)

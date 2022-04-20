@@ -31,7 +31,7 @@ class Admin::FaqsController < Admin::BaseController
     @faq = Faq.find params[:id]
     authorize_admin @faq
 
-    if @faq.update_attributes(update_faq_params)
+    if @faq.update(update_faq_params)
       flash[:success] = "FAQ updated successfully"
       redirect_to admin_faq_group_faqs_path(@faq.faq_group)
     else

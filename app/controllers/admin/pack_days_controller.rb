@@ -31,7 +31,7 @@ class Admin::PackDaysController < Admin::BaseController
   def update
     @pack_day = PackDay.find params[:id]
     authorize_admin @pack_day
-    if @pack_day.update_attributes(pack_day_params)
+    if @pack_day.update(pack_day_params)
       flash[:success] = "New Pack Day for #{@season.name} has been created."
       redirect_to admin_season_pack_days_path(@season)
     else

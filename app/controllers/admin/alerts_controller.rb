@@ -8,7 +8,7 @@ class Admin::AlertsController < Admin::BaseController
 
   def sleep
     alert = Alert.find_by_id(params[:id])
-    alert.update_attributes(sleep_until: Time.now + 3.hours)
+    alert.update(sleep_until: Time.now + 3.hours)
     redirect_to admin_sensor_alerts_path(alert.sensor)
   end
 
