@@ -11,18 +11,16 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery.turbolinks
 //= require jquery_ujs
 //= require foundation
-//= require turbolinks
 //= require smooth-scroll
 //= require_tree ./application
 
-$(document).on('turbolinks:load', function() {
-  $(function(){ $(document).foundation(); });
+$(document).ready(function() {
+  $(document).foundation();
 
   // Fix for issue #4275 on zurb/foundation, use until pull #5988 or similar is merged
   $('[data-equalizer]').data('equalizer-init', Foundation.libs.equalizer.settings);
 
-  $(function(){$('#scroll-for-more a').smoothScroll({speed: 'auto', autoCoefficient: 1});});
+  $('#scroll-for-more a').smoothScroll({speed: 'auto', autoCoefficient: 1});
 });

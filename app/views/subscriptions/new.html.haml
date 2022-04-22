@@ -1,9 +1,7 @@
 -# render 'shared/error_messages', target: @subscription
 
-- @body_attributes = { 'data-no-turbolink' => true }
-
 :javascript
-  $(document).on('turbolinks:load', function() {
+  $(document).ready(function() {
     const updateSummary = function() {
       const dayOfWeekVal = $("#subscription_day_of_week").val();
       const deliveryVal = $("#subscription_delivery").val();
