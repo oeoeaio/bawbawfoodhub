@@ -1,5 +1,5 @@
 :javascript
-  $(document).on('turbolinks:load', function() {
+  $(document).ready(function() {
     const form = $('#new_subscription');
     return $(form).on('click', ':submit', () => {
       event.preventDefault();
