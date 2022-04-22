@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require foundation
 //= require smooth-scroll
-//= require_tree ./application
 
 $(document).ready(function() {
   $(document).foundation();
