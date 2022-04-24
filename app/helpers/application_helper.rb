@@ -42,13 +42,14 @@ module ApplicationHelper
   def recaptcha_form_for(record, options = {}, &block)
     recaptcha_options = options.delete(:recaptcha) || {}
     html_options = options.delete(:html) || {}
+    additional_controllers = options.fetch(:data, {}).delete(:controller)
     raise "recaptcha action must be provided to recaptcha_form_for" unless recaptcha_options[:action]
 
     form_for(
       record,
       options.merge({
         html: {
-          'data-controller': 'recaptcha',
+          'data-controller': ['recaptcha', additional_controllers].compact.join(' '),
           'data-action': 'recaptcha#execute',
           'data-target': 'recaptcha.form',
           'data-recaptcha-site-key': "#{Rails.application.secrets.recaptcha_site_key}",

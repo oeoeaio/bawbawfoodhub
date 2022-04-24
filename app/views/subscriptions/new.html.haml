@@ -1,54 +1,6 @@
 -# render 'shared/error_messages', target: @subscription
 
-:javascript
-  $(document).ready(function() {
-    const updateSummary = function() {
-      const dayOfWeekVal = $("#subscription_day_of_week").val();
-      const deliveryVal = $("#subscription_delivery").val();
-      let valid = ((dayOfWeekVal === 'tuesday') || (dayOfWeekVal === 'wednesday') || (dayOfWeekVal === 'thursday'));
-      valid = valid && ((deliveryVal === "true") || (deliveryVal === "false"));
-      $("#summary").toggle(valid);
-
-      if (!valid) { return; }
-
-      $("#summary #delivery").text(deliveryVal === "true" ? "delivery" : "pickup");
-      $("#summary #day_of_week").text(dayOfWeekVal.replace(/^\w/, c => c.toUpperCase()));
-      return $.each(['tuesday', 'wednesday', 'thursday'], (i, dayOfWeek) => $("#summary #" + dayOfWeek).toggle(dayOfWeekVal === dayOfWeek));
-    };
-
-    updateSummary();
-
-    const resetDayOfWeek = function() {
-      const delivery = $("#subscription_delivery").val();
-      return $("#subscription_day_of_week").attr("value", (delivery === "true" ? 'wednesday' : 'tuesday'));
-    };
-
-    $('#address').toggle($("#subscription_delivery").val() === "true");
-    $('#subscription_delivery').on('change', function() {
-      const delivery = $("#subscription_delivery").val();
-      $('#address').toggle(delivery === "true");
-
-      resetDayOfWeek();
-
-      return updateSummary();
-    });
-
-    $('#subscription_day_of_week').on('change', () => updateSummary());
-
-    $('#subscription_frequency').on('change', () => $('#week-fn').text($("#subscription_frequency").val().replace("ly","")));
-
-    $(".size-selector").on('change', function() {
-      const selector = $(this);
-      return $('.size-option').each((i, e) => $(e).toggleClass('selected', e.contains(selector.get(0))));
-    });
-
-    return $("a.toggle_panel").on('click', function(e) {
-      e.preventDefault();
-      return $(e.target.hash).toggle();
-    });
-  });
-
-= recaptcha_form_for([@season, @subscription], recaptcha: { action: 'subscribe' }) do |f|
+= recaptcha_form_for([@season, @subscription], recaptcha: { action: 'subscribe' }, data: { controller: 'subscription' }) do |f|
   .row.offset-bottom
     .small-8.columns.small-centered.text-center
       %h2 Select A Box Size
@@ -56,15 +8,15 @@
       = succeed '!' do
         = link_to 'help', questions_path, target: '_blank'
   .row{ 'data-equalizer' => true }
-    - Subscription::SIZES.each do |key,box|
-      .small-12.medium-4.columns.text-center.size-option.chunky
+    - Subscription::SIZES.each do |key, box|
+      .small-12.medium-4.columns.text-center.size-option.chunky{ data: { controller: 'box-size', action: 'subscription:sizeChanged->box-size#select', 'box-size-size-param' => key, 'subscription-target' => 'boxSize' } }
         .panel
           .offset-bottom{ 'data-equalizer-watch' => true }
             %h4= "#{box[:name]} (#{box[:trial_price]})"
             %p.green
               %strong= "#{box[:price]} after four boxes"
             %p= box[:desc]
-          =f.radio_button :box_size, key, class: 'size-selector'
+          =f.radio_button :box_size, key, class: 'size-selector', data: { action: 'change->subscription#updateSize' }
           =f.label :box_size, "Select", value: key, class: 'button radius red'
 
     .row
@@ -81,15 +33,15 @@
       %h2 Box Options
   .row
     .small-12.medium-6.columns{ class: "#{error_class(@subscription,:delivery)}" }
-      =f.label :delivery, "Collection or Delivery?"
-      =f.select :delivery, [['Collection from 156-158 Queen Street, Warragul (Free)', false],['Delivery ($10.00)', true]], include_blank: 'Please select an option'
+      = f.label :delivery, "Collection or Delivery?"
+      = f.select :delivery, [['Collection from 156-158 Queen Street, Warragul (Free)', false],['Delivery ($10.00)', true]], { include_blank: 'Please select an option' }, data: { action: 'change->subscription#updateDelivery', 'subscription-target' => 'delivery' }
       = first_error_for @subscription, :delivery
     .small-12.medium-6.columns{ class: "#{error_class(@subscription,:frequency)}" }
-      =f.label :frequency, "Weekly or Fortnightly?"
-      =f.select :frequency, [['Weekly', 'weekly'],['Fortnightly', 'fortnightly']], include_blank: 'Please select an option'
+      = f.label :frequency, "Weekly or Fortnightly?"
+      = f.select :frequency, [['Weekly', 'weekly'],['Fortnightly', 'fortnightly']], { include_blank: 'Please select an option' }, data: { action: 'change->subscription#updateFrequency', 'subscription-target' => 'frequency' }
       = first_error_for @subscription, :frequency
 
-  = f.hidden_field :day_of_week, value: 'tuesday'
+  = f.hidden_field :day_of_week, value: 'tuesday', data: { 'subscription-target' => 'dayOfWeek' }
 
   - if @raw_token
     = hidden_field_tag :raw_token, @raw_token
@@ -131,7 +83,7 @@
           =uf.password_field :password_confirmation
           = first_error_for @user, :password_confirmation
 
-  #address
+  #address.toggle{ data: { subscription: { target: 'address' } } }
     .row
       .small-12.columns{ class: "#{error_class(@subscription,:street_address)}" }
         =f.label :street_address, "Street Address (For Delivery)"
@@ -149,29 +101,32 @@
   %br
   .row
     .small-12.columns.text-center
-      %p#summary
+      %p#summary.toggle{ data: { controller: 'summary', action: 'subscription:optionsChanged->summary#update', 'subscription-target' => 'summary' } }
         Your first
-        %span#delivery pickup
+        %span#delivery{ data: { summary: { target: 'delivery'} } } pickup
         time will be
-        %strong#day_of_week Tuesday
+        %strong#day_of_week{ data: { summary: { target: 'dayOfWeek'} } } Tuesday
         the
-        %strong#tuesday= readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date)
-        %strong#wednesday= readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date + 1)
-        %strong#thursday= readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date + 2)
+        %strong#tuesday.toggle{ data: { summary: { target: 'tuesday' } } }
+          = readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date)
+        %strong#wednesday.toggle{ data: { summary: { target: 'wednesday' } } }
+          = readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date + 1)
+        %strong#thursday.toggle{ data: { summary: { target: 'thursday' } } }
+          = readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date + 2)
         between 9am and 5:30pm.
   .row
     .small-12.medium-8.small-centered.columns.text-center
       %p
         By clicking 'Complete Sign Up' you agree to the subscription
         = succeed('.') do
-          %a.toggle_panel{ href: '#terms_and_conditions' } terms and conditions
-      #terms_and_conditions.panel.text-left{ style: 'display: none'}
+          %a{ href: 'javascript: void(0)', 'data-action' => 'subscription#toggleTerms' } terms and conditions
+      #terms_and_conditions.panel.text-left.toggle.hidden{ data: { subscription: { target: 'terms' } } }
         %h3 Terms & Conditions
         %ul
           %li
             You are responsible for collecting a vegetable box of your nominated size
             %strong each
-            %strong#week-fn week
+            %strong{ data: { subscription: { target: 'termsFrequency' } } } week
             from the
             %strong= readable_date(@season.first_pack_day_with_lead_time_after(Time.now).pack_date)
             onwards.

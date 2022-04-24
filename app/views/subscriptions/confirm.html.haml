@@ -1,18 +1,4 @@
-:javascript
-  $(document).ready(function() {
-    const form = $('#new_subscription');
-    return $(form).on('click', ':submit', () => {
-      event.preventDefault();
-      return grecaptcha.ready(() => {
-        return grecaptcha.execute(`${Rails.application.secrets.recaptcha_site_key}`, {action: 'subscribe'}).then(token => {
-          $('#recaptcha_token').val(token);
-          return $(form).submit();
-        });
-      });
-    });
-  });
-
-=form_for ([@season, @subscription]) do |f|
+= recaptcha_form_for([@season, @subscription], recaptcha: { action: 'subscribe'}) do |f|
   = render 'hidden_subscription_fields', f: f
 
   - if @raw_token
