@@ -1,9 +1,6 @@
 = recaptcha_form_for([@season, @subscription], recaptcha: { action: 'subscribe'}) do |f|
   = render 'hidden_subscription_fields', f: f
 
-  - if @raw_token
-    = hidden_field_tag :raw_token, @raw_token
-
   = hidden_field :confirmed, true
 
   %h2 Are you sure you want to sign up for another box?

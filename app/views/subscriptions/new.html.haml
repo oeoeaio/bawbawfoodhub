@@ -43,10 +43,7 @@
 
   = f.hidden_field :day_of_week, value: 'tuesday', data: { 'subscription-target' => 'dayOfWeek' }
 
-  - if @raw_token
-    = hidden_field_tag :raw_token, @raw_token
-
-  - unless current_user || @raw_token
+  - unless current_user
     %br
     .row
       .small-12.columns
