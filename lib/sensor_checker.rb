@@ -25,7 +25,6 @@ class SensorChecker
       if reading.value.between?(sensor.lower_limit, sensor.upper_limit)
         recover_from(:value, sensor)
       else
-        next if pack_day_in_progress?
         next unless sensor.fail_count_reached?
         send_alert(:value, sensor, reading)
       end
@@ -33,11 +32,6 @@ class SensorChecker
   end
 
   private
-
-  def pack_day_in_progress?
-    return unless PackDay.where(pack_date: Date.today).any?
-    Time.now.between?(Time.zone.today + 11.hours, Time.zone.today + 19.hours)
-  end
 
   def body_for(category, sensor, reading)
     case category
