@@ -1,5 +1,5 @@
 class Season < ActiveRecord::Base
-  LEAD_TIME = 36.hours
+  LEAD_TIME = 24.hours
 
   has_many :subscriptions
   has_many :pack_days
