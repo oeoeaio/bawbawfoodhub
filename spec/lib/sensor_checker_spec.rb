@@ -58,9 +58,7 @@ RSpec.describe SensorChecker do
           end
 
           context "when the reading has a value outside of the limits" do
-            context "when pack_day_in_progress? returns true" do
-              before { allow(checker).to receive(:pack_day_in_progress?) { true } }
-
+            context "when the fail_count_for_value_alert has not been reached" do
               it "does not send an alert" do
                 checker.run
                 expect(checker).to_not have_received(:send_alert)
@@ -68,25 +66,13 @@ RSpec.describe SensorChecker do
               end
             end
 
-            context "when pack_day_in_progress? returns false" do
-              before { allow(checker).to receive(:pack_day_in_progress?) { false } }
+            context "when the fail_count_for_value_alert has been reached" do
+              before { sensor.update(fail_count_for_value_alert: 1) }
 
-              context "when the fail_count_for_value_alert has not been reached" do
-                it "does not send an alert" do
-                  checker.run
-                  expect(checker).to_not have_received(:send_alert)
-                  expect(checker).to_not have_received(:recover_from).with(:value, sensor)
-                end
-              end
-
-              context "when the fail_count_for_value_alert has been reached" do
-                before { sensor.update(fail_count_for_value_alert: 1) }
-
-                it "calls send_alert with category :value" do
-                  checker.run
-                  expect(checker).to have_received(:send_alert).with(:value, sensor, reading)
-                  expect(checker).to_not have_received(:recover_from).with(:value, sensor)
-                end
+              it "calls send_alert with category :value" do
+                checker.run
+                expect(checker).to have_received(:send_alert).with(:value, sensor, reading)
+                expect(checker).to_not have_received(:recover_from).with(:value, sensor)
               end
             end
           end
