@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe ApplicationHelper, type: :helper do
   describe 'current_season' do
