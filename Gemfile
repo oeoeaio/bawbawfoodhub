@@ -43,6 +43,7 @@ gem 'recaptcha'
 gem 'nokogiri', '>= 1.11.5' # Vulnerability
 gem 'json', '>= 2.5.1' # Vulnerability
 gem 'loofah', '>= 2.9.1' # Vulnerability
+gem 'net-http' # Fix warnings
 gem 'bootsnap'
 
 gem 'babel-transpiler'
