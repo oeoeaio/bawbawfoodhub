@@ -192,6 +192,8 @@ GEM
     msgpack (1.4.2)
     multi_json (1.15.0)
     multi_xml (0.6.0)
+    net-http (0.2.2)
+      uri
     net-imap (0.2.3)
       digest
       net-protocol
@@ -338,6 +340,7 @@ GEM
       multi_json (>= 1.3.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    uri (0.11.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     websocket-driver (0.7.5)
@@ -371,6 +374,7 @@ DEPENDENCIES
   json (>= 2.5.1)
   listen
   loofah (>= 2.9.1)
+  net-http
   nokogiri (>= 1.11.5)
   pg (>= 1.1.4)
   pry-byebug
