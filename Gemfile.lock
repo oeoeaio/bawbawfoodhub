@@ -1,20 +1,3 @@
-GIT
-  remote: https://github.com/comfy/comfortable-mexican-sofa
-  revision: 07fa5559209d8b01220202b79a940386044664f8
-  ref: 07fa555
-  specs:
-    comfortable_mexican_sofa (2.0.18)
-      active_link_to (>= 1.0.0)
-      comfy_bootstrap_form (>= 4.0.0)
-      haml-rails (>= 1.0.0)
-      jquery-rails (>= 4.3.1)
-      kramdown (>= 1.0.0)
-      mimemagic (>= 0.3.2)
-      mini_magick (>= 4.8.0)
-      rails (>= 5.2.0)
-      rails-i18n (>= 5.0.0)
-      sassc-rails (>= 2.0.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -102,7 +85,18 @@ GEM
     childprocess (3.0.0)
     chronic (0.10.2)
     coderay (1.1.1)
-    comfy_bootstrap_form (4.0.6)
+    comfortable_mexican_sofa (2.0.19)
+      active_link_to (>= 1.0.0)
+      comfy_bootstrap_form (>= 4.0.0)
+      haml-rails (>= 1.0.0)
+      jquery-rails (>= 4.3.1)
+      kramdown (>= 1.0.0)
+      mimemagic (>= 0.3.2)
+      mini_magick (>= 4.8.0)
+      rails (>= 5.2.0)
+      rails-i18n (>= 5.0.0)
+      sassc-rails (>= 2.0.0)
+    comfy_bootstrap_form (4.0.9)
       rails (>= 5.0.0)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
@@ -163,7 +157,7 @@ GEM
       turbolinks
     json (2.5.1)
     jwt (1.5.6)
-    kramdown (2.3.1)
+    kramdown (2.4.0)
       rexml
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -182,7 +176,7 @@ GEM
     mimemagic (0.4.3)
       nokogiri (~> 1)
       rake
-    mini_magick (4.9.5)
+    mini_magick (4.11.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
     minitest (5.15.0)
@@ -283,13 +277,13 @@ GEM
       rspec-support (~> 3.10)
     rspec-support (3.11.0)
     ruby_dep (1.5.0)
-    ruby_parser (3.13.1)
-      sexp_processor (~> 4.9)
+    ruby_parser (3.19.1)
+      sexp_processor (~> 4.16)
     rubyzip (1.3.0)
     sass (3.4.25)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
-    sassc (2.1)
+    sassc (2.1.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
       railties (>= 4.0.0)
@@ -300,7 +294,7 @@ GEM
     selenium-webdriver (3.142.6)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sexp_processor (4.12.1)
+    sexp_processor (4.16.1)
     shoulda-matchers (4.1.2)
       activesupport (>= 4.2.0)
     slop (3.6.0)
@@ -349,7 +343,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap
   capybara (~> 3.33)
-  comfortable_mexican_sofa!
+  comfortable_mexican_sofa (~> 2.0.19)
   devise (>= 4.7.1)
   factory_girl_rails (~> 4.6)
   faker (~> 2.10)
