@@ -1,6 +1,6 @@
 - whats_in_the_box_page = cms_page('whats-in-the-box')
 - if whats_in_the_box_page.present?
-  .lush-panel.green#whats-in-the-box
+  .lush-panel.radish.shaded#whats-in-the-box
     .row
       .small-12.text-center
         = sanitize(cms_fragment_content(:content, whats_in_the_box_page))
