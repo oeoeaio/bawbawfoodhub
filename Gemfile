@@ -22,6 +22,7 @@ gem 'jbuilder', '~> 2.9'
 gem 'spring', '~> 4.0', group: :development
 
 gem "comfortable_mexican_sofa", '~> 2.0.19'
+gem 'image_processing', '~> 1.12'
 gem 'haml', '~> 5.0'
 gem 'foundation-rails', '~> 5.5.3'
 gem 'font-awesome-sass', '>= 4.7'
