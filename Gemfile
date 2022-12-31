@@ -26,6 +26,8 @@ gem 'stimulus-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.9'
 
+gem 'puma'
+
 gem "comfortable_mexican_sofa", git: 'https://github.com/comfy/comfortable-mexican-sofa', ref: '07fa555' # Need this version to fix imports
 gem 'image_processing', '~> 1.12'
 gem 'haml', '~> 5.0'
@@ -45,8 +47,6 @@ gem 'json', '>= 2.5.1' # Vulnerability
 gem 'loofah', '>= 2.9.1' # Vulnerability
 gem 'net-http' # Fix warnings
 gem 'bootsnap'
-
-gem 'babel-transpiler'
 
 group :development, :test do
   gem 'rspec-rails', '~> 5.0'
