@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -Eeuo pipefail
+
+usage() {
+  echo "PGDATABASE must be set in your .env"
+  exit 1
+}
+
+if [ -z "${PGDATABASE-}" ]; then usage; fi
+
+DB_BACKUP=db-`date +%Y%m%d-%H%M%S`.sql.gz
+
+echo -n "Backing up database..."
+pg_dumpall -c | gzip | aws s3 cp - ${S3_BACKUP_BUCKET}${DB_BACKUP}
+echo "Done"

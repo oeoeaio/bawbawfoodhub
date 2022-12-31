@@ -1,0 +1,9 @@
+FROM ubuntu:jammy AS backup
+
+WORKDIR /work
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+  && apt-get install -y curl postgresql-client awscli \
+  && rm -rf /var/lib/api/lists/*

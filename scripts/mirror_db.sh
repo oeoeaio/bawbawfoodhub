@@ -2,7 +2,7 @@
 
 # Usage: script/mirror_db.sh
 
-set -e
+set -Eeuo pipefail
 
 DB_HOST='bbfh'
 DB_USER='bbfh'

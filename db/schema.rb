@@ -37,14 +37,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_22_095807) do
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
-    t.integer "blob_id", null: false
+    t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "admins", id: :serial, force: :cascade do |t|
-    t.string "email", limit: 255, default: "", null: false
-    t.string "encrypted_password", limit: 255, default: "", null: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.index ["email"], name: "index_admins_on_email", unique: true
@@ -228,21 +228,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_22_095807) do
 
   create_table "rollovers", id: :serial, force: :cascade do |t|
     t.integer "season_id", null: false
-    t.string "confirmation_token", limit: 255
+    t.string "confirmation_token"
     t.datetime "confirmed_at", precision: nil
     t.datetime "confirmation_sent_at", precision: nil
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.datetime "cancelled_at", precision: nil
     t.integer "user_id", null: false
-    t.string "box_size", limit: 255
+    t.string "box_size"
     t.index ["confirmation_token"], name: "index_rollovers_on_confirmation_token", unique: true
-    t.index ["season_id"], name: "index_rollovers_on_season_id"
   end
 
   create_table "seasons", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
-    t.string "slug", limit: 255
+    t.string "name"
+    t.string "slug"
     t.boolean "signups_open"
     t.integer "places_remaining"
     t.datetime "created_at", precision: nil
@@ -268,7 +267,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_22_095807) do
   create_table "subscriptions", id: :serial, force: :cascade do |t|
     t.integer "season_id", null: false
     t.integer "user_id", null: false
-    t.string "box_size", limit: 255, default: "", null: false
+    t.string "box_size", default: "", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "frequency", null: false
@@ -283,14 +282,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_22_095807) do
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
-    t.string "given_name", limit: 255, default: "", null: false
-    t.string "surname", limit: 255, default: "", null: false
-    t.string "email", limit: 255, default: "", null: false
-    t.string "phone", limit: 255
+    t.string "given_name", default: "", null: false
+    t.string "surname", default: "", null: false
+    t.string "email", default: "", null: false
+    t.string "phone"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.string "encrypted_password", limit: 255, default: "", null: false
-    t.string "reset_password_token", limit: 255
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
     t.datetime "reset_password_sent_at", precision: nil
     t.datetime "initialised_at", precision: nil
     t.index ["email"], name: "index_users_on_email", unique: true

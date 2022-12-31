@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -Eeuo pipefail
+
+docker build \
+  --no-cache \
+  --target dev-environment \
+  -t bbfh_dev:latest \
+  .

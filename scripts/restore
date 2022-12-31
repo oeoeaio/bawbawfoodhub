@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -Eeuo pipefail
+
+usage() {
+  echo "PGDATABASE must be set in your .env"
+  exit 1
+}
+
+if [ -z "${PGDATABASE-}" ]; then usage; fi
+
+echo -n "Dropping and recreating database..."
+dropdb --if-exists "$PGDATABASE"
+createdb "$PGDATABASE"
+echo "Done"
+
+echo -n "Finding latest db backup..."
+db_backup=$(aws s3 ls ${S3_BACKUP_BUCKET} | grep -Eo 'db-[0-9]{8}-[0-9]{6}.sql.gz' | tail -n 1)
+echo "found ${db_backup}"
+
+echo -n "Restoring db backup..."
+aws s3 cp ${S3_BACKUP_BUCKET}${db_backup} .
+echo "Done"
+
+echo -n "Restoring backup..."
+zcat "${db_backup}" | psql
+echo "Done"
