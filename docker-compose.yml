@@ -1,0 +1,72 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: ${PGDATABASE-bbfh_dev}
+      POSTGRES_USER: bbfh
+      POSTGRES_PASSWORD: bbfh
+      # POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+
+  dev:
+    build:
+      context: .
+      target: dev-environment
+    depends_on:
+      - db
+    entrypoint: scripts/entrypoint
+    environment:
+      RAILS_ENV: development
+      DATABASE_HOST: db
+    volumes:
+      - ./:/work
+      - ruby-2.7.6-dev-gem-cache:/usr/local/bundle
+    ports:
+      - 3000:3000
+
+  backup:
+    build:
+      context: .
+      dockerfile: Dockerfile-backup
+    depends_on:
+      - db
+    volumes:
+      - ./scripts/backup:/work/scripts/backup
+      - ./scripts/restore:/work/scripts/restore
+    environment:
+      AWS_ACCESS_KEY_ID: ~
+      AWS_DEFAULT_REGION: ~
+      AWS_SECRET_ACCESS_KEY: ~
+      S3_BACKUP_BUCKET: ~
+      PGHOST: db
+      PGUSER: bbfh
+      PGPASSWORD: bbfh
+      PGDATABASE: ~
+
+  prod:
+    image: bbfh_prod:latest
+    depends_on:
+      - db
+    command: ['bash', '-c', 'scripts/migrate && scripts/start']
+    environment:
+      RAILS_ENV: production
+      RAILS_SERVE_STATIC_FILES: "true"
+      DATABASE_HOST: db
+    volumes:
+      - ./scripts/migrate:/work/scripts/migrate
+      - ./scripts/start:/work/scripts/start
+    ports:
+      - 3000:3000
+    networks:
+      default:
+        aliases:
+          - bbfh
+
+volumes:
+  db-data: ~
+  ruby-2.7.6-dev-gem-cache: ~

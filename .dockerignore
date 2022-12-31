@@ -1,0 +1,11 @@
+*
+
+!app
+!bin
+!config
+!db
+!lib
+!vendor
+!Gemfile*
+!Rakefile
+!config.ru

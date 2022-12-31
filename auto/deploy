@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -Eeuo pipefail
+
+docker build \
+  --build-arg CACHE_BUSTER=`date +%Y%m%d%H%M%S%Z` \
+  -t bbfh_prod:latest \
+  -t bbfh_prod:`date +%Y%m%d%H%M%S%Z` \
+  .
+
+docker-compose stop prod
+docker-compose rm -f prod
+docker-compose up -d prod
