@@ -1,4 +1,4 @@
-FROM ruby:2.7.6-slim@sha256:d7c357a4e8108266c1e238333448643d8a6d5ec9813ca2a9377c5e59bb59c572 as ruby-base
+FROM ruby:2.7.7-slim@sha256:49105a72025520b384e3b9266e48bee7c3b367e736d01719ef80e5cd00c70185 as ruby-base
 
 # RUN groupadd --gid 1000 bbfh \
 #     && useradd --home-dir /home/bbfh --create-home --uid 1000 \
