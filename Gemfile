@@ -26,7 +26,7 @@ gem 'stimulus-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.9'
 
-gem 'puma'
+gem 'puma', '~> 6.0'
 
 gem "comfortable_mexican_sofa", git: 'https://github.com/comfy/comfortable-mexican-sofa', ref: '07fa555' # Need this version to fix imports
 gem 'image_processing', '~> 1.12'
