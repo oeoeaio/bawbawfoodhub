@@ -10,8 +10,6 @@ services:
       # POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
     volumes:
       - db-data:/var/lib/postgresql/data
-    ports:
-      - 5433:5432
 
   dev:
     build:
@@ -60,8 +58,6 @@ services:
     volumes:
       - ./scripts/migrate:/work/scripts/migrate
       - ./scripts/start:/work/scripts/start
-    ports:
-      - 3000:3000
     networks:
       default:
         aliases:
