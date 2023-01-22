@@ -34,7 +34,7 @@
   .row
     .small-12.medium-6.columns{ class: "#{error_class(@subscription,:delivery)}" }
       = f.label :delivery, "Collection or Delivery?"
-      = f.select :delivery, [['Collection from 156-158 Queen Street, Warragul (Free)', false],['Delivery ($10.00)', true]], { include_blank: 'Please select an option' }, data: { action: 'change->subscription#updateDelivery', 'subscription-target' => 'delivery' }
+      = f.select :delivery, [['Collection from 156-158 Queen Street, Warragul (Free)', false],['Delivery, Warragul and Drouin only ($10.00)', true]], { include_blank: 'Please select an option' }, data: { action: 'change->subscription#updateDelivery', 'subscription-target' => 'delivery' }
       = first_error_for @subscription, :delivery
     .small-12.medium-6.columns{ class: "#{error_class(@subscription,:frequency)}" }
       = f.label :frequency, "Weekly or Fortnightly?"
