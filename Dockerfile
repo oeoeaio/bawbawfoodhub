@@ -20,7 +20,7 @@ RUN apt-get update \
   && apt-get install -y git gcc make \
   && rm -rf /var/lib/api/lists/*
 
-FROM bbfh_dev:latest AS with-gems-and-assets
+FROM dev-environment AS with-gems-and-assets
 
 # Don't use the cache from here on
 ARG CACHE_BUSTER
