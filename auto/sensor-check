@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -Eeuo pipefail
+
+docker-compose run --rm prod bundle exec rails runner "SensorChecker.start" -e production
