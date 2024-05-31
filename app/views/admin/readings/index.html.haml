@@ -12,3 +12,7 @@
     %tr
       %td= reading.value
       %td= reading.recorded_at.try{ |d| d.strftime("%d/%m/%Y %H:%M:%S") }
+
+.row
+  .small-6.columns
+    = link_to "Show more", admin_sensor_readings_path(@sensor, since: (@since - 1.year).strftime('%F')), class: 'button radius red'
