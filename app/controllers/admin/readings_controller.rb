@@ -3,7 +3,8 @@ class Admin::ReadingsController < Admin::BaseController
   before_action :load_sensor
 
   def index
-    @readings = @sensor.readings.where('recorded_at > ?', 1.month.ago).order(recorded_at: :desc)
+    @since = Time.parse(params[:since]) rescue 1.month.ago
+    @readings = @sensor.readings.where(recorded_at: @since..).order(recorded_at: :desc)
   end
 
   private
