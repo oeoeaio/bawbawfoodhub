@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe SensorChecker do
+  include ActionMailer::TestHelper
+
   describe "running the checker" do
     let!(:checker) { SensorChecker.new }
     let!(:sensor) { create(:sensor, active: false, lower_limit: 0.0, upper_limit: 10.0, fail_count_for_value_alert: 2) }
@@ -127,10 +129,25 @@ RSpec.describe SensorChecker do
     end
 
     context "when no current alerts exist for the given category and sensor" do
-      it "sends an sms to each recipient, and creates a new alert" do
-        expect{checker.send(:send_alert, :missing, sensor, reading)}.to change(Alert, :count).by(1)
-        expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345678', body: 'some message'})
-        expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345679', body: 'some message'})
+      context 'when there is no issue communicating with Twilio' do
+        it "sends an sms to each recipient, and creates a new alert" do
+          expect{checker.send(:send_alert, :missing, sensor, reading)}.to change(Alert, :count).by(1)
+          expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345678', body: 'some message'})
+          expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345679', body: 'some message'})
+        end
+      end
+
+      context 'when there is an issue communicating with Twilio' do
+        before do
+          allow(messages_mock).to receive(:create).and_raise(Twilio::REST::TwilioError)
+        end
+
+        it 'sends an email instead' do
+          assert_emails(1) { checker.send(:send_alert, :missing, sensor, reading) }
+          last_email = ActionMailer::Base.deliveries.last
+          expect(last_email.body.to_s).to match("^some message")
+          expect(last_email.subject).to match(/^Alert for sensor: /)
+        end
       end
     end
 
@@ -140,10 +157,12 @@ RSpec.describe SensorChecker do
       context "and the alert is less than 3 hours old" do
         before { alert.update(created_at: 3.hours.ago + 1.minute) }
 
-        it "does not send any sms, or create a new alert" do
-          expect{checker.send(:send_alert, :missing, sensor, reading)}.to_not change(Alert, :count)
-          expect(checker).to_not have_received(:body_for)
-          expect(messages_mock).to_not have_received(:create)
+        it "does not send any sms or email, or create a new alert" do
+          assert_emails(0) do
+            expect{checker.send(:send_alert, :missing, sensor, reading)}.to_not change(Alert, :count)
+            expect(checker).to_not have_received(:body_for)
+            expect(messages_mock).to_not have_received(:create)
+          end
         end
       end
 
@@ -151,10 +170,32 @@ RSpec.describe SensorChecker do
         before { alert.update(created_at: 3.hours.ago - 1.minute) }
 
         context "and the alert has not been slept" do
-          it "sends an 'ESCALATION' sms to each recipient, does not create a new alert" do
-            expect{checker.send(:send_alert, :missing, sensor, reading)}.to_not change(Alert, :count)
-            expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345678', body: 'ESCALATION: some message'})
-            expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345679', body: 'ESCALATION: some message'})
+          context 'when there is no issue communicating with Twilio' do
+            it "sends an 'ESCALATION' sms to each recipient, does not create a new alert" do
+              expect{checker.send(:send_alert, :missing, sensor, reading)}.to_not change(Alert, :count)
+              expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345678', body: 'ESCALATION: some message'})
+              expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345679', body: 'ESCALATION: some message'})
+            end
+
+            it 'sends an email' do
+              assert_emails(1) { checker.send(:send_alert, :missing, sensor, reading) }
+              last_email = ActionMailer::Base.deliveries.last
+              expect(last_email.body.to_s).to eq("ESCALATION: some message\n")
+              expect(last_email.subject).to match(/^Alert for sensor: /)
+            end
+          end
+
+          context 'when there is an issue communicating with Twilio' do
+            before do
+              allow(messages_mock).to receive(:create).and_raise(Twilio::REST::TwilioError)
+            end
+
+            it 'still sends an email' do
+              assert_emails(1) { checker.send(:send_alert, :missing, sensor, reading) }
+              last_email = ActionMailer::Base.deliveries.last
+              expect(last_email.body.to_s).to match("^ESCALATION: some message")
+              expect(last_email.subject).to match(/^Alert for sensor: /)
+            end
           end
         end
 
@@ -162,20 +203,44 @@ RSpec.describe SensorChecker do
           before { alert.update(sleep_until: Time.now + 1.minute) }
 
           context "and the sleep timer has not expired" do
-            it "does not send any sms, or create a new alert" do
-              expect{checker.send(:send_alert, :missing, sensor, reading)}.to_not change(Alert, :count)
-              expect(checker).to_not have_received(:body_for)
-              expect(messages_mock).to_not have_received(:create)
+            it "does not send any sms or email, or create a new alert" do
+              assert_emails(0) do
+                expect{checker.send(:send_alert, :missing, sensor, reading)}.to_not change(Alert, :count)
+                expect(checker).to_not have_received(:body_for)
+                expect(messages_mock).to_not have_received(:create)
+              end
             end
           end
 
           context "and the sleep timer has expired" do
             before { alert.update(sleep_until: Time.now - 1.minute) }
 
-            it "sends an 'ESCALATION' sms to each recipient, does not create a new alert" do
-              expect{checker.send(:send_alert, :missing, sensor, reading)}.to_not change(Alert, :count)
-              expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345678', body: 'ESCALATION: some message'})
-              expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345679', body: 'ESCALATION: some message'})
+            context 'when there is no issue communicating with Twilio' do
+              it "sends an 'ESCALATION' sms to each recipient, does not create a new alert" do
+                expect{checker.send(:send_alert, :missing, sensor, reading)}.to_not change(Alert, :count)
+                expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345678', body: 'ESCALATION: some message'})
+                expect(messages_mock).to have_received(:create).with({from: 'BBFHMonitor', to: '+61412345679', body: 'ESCALATION: some message'})
+              end
+
+              it 'sends an email' do
+                assert_emails(1) { checker.send(:send_alert, :missing, sensor, reading) }
+                last_email = ActionMailer::Base.deliveries.last
+                expect(last_email.body.to_s).to eq("ESCALATION: some message\n")
+                expect(last_email.subject).to match(/^Alert for sensor: /)
+              end
+            end
+
+            context 'when there is an issue communicating with Twilio' do
+              before do
+                allow(messages_mock).to receive(:create).and_raise(Twilio::REST::TwilioError)
+              end
+
+              it 'still sends an email' do
+                assert_emails(1) { checker.send(:send_alert, :missing, sensor, reading) }
+                last_email = ActionMailer::Base.deliveries.last
+                expect(last_email.body.to_s).to match("^ESCALATION: some message")
+                expect(last_email.subject).to match(/^Alert for sensor: /)
+              end
             end
           end
         end

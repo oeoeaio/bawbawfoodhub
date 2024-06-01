@@ -72,6 +72,11 @@ class SensorChecker
     recipients_for(sensor).each do |recipient|
       sms_client.messages.create(from: 'BBFHMonitor', to: recipient, body: body)
     end
+    SensorMailer.alert(sensor, body).deliver_now if alert.present?
+  rescue Twilio::REST::TwilioError => e
+    body += "\n\n<br><br>There was an error sending an SMS via Twilio:"
+    body += "\n\n<br><br>#{e.message}"
+    SensorMailer.alert(sensor, body).deliver_now
   end
 
   def recipients_for(sensor)
