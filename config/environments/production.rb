@@ -96,11 +96,11 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:              'smtp.gmail.com',
+    address:              'email-smtp.ap-southeast-2.amazonaws.com',
     port:                 587,
     domain:               'bawbawfoodhub.org.au',
-    user_name:            Rails.application.secrets.admin_email,
-    password:             Rails.application.secrets.email_pass,
+    user_name:            Rails.application.secrets.smtp_user_name,
+    password:             Rails.application.secrets.smpt_pass,
     authentication:       'plain',
     return_response:      true,
     enable_starttls_auto: true,
