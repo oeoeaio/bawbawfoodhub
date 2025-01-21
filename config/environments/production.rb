@@ -100,7 +100,7 @@ Rails.application.configure do
     port:                 587,
     domain:               'bawbawfoodhub.org.au',
     user_name:            Rails.application.secrets.smtp_user_name,
-    password:             Rails.application.secrets.smpt_pass,
+    password:             Rails.application.secrets.smtp_pass,
     authentication:       'plain',
     return_response:      true,
     enable_starttls_auto: true,
