@@ -9,7 +9,7 @@ FROM ruby:2.7.7-slim@sha256:49105a72025520b384e3b9266e48bee7c3b367e736d01719ef80
 WORKDIR /work
 
 RUN apt-get update \
-  && apt-get install -y libpq-dev shared-mime-info \
+  && apt-get install -y build-essential libpq-dev shared-mime-info \
   && rm -rf /var/lib/api/lists/*
 
 RUN gem install bundler:2.3.9
