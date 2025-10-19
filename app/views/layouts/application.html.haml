@@ -21,7 +21,7 @@
 
   %body{ {:style => "font-family: sans-serif" } }
     = render 'layouts/nav'
-    %script{ src: "https://www.google.com/recaptcha/api.js?render=#{Rails.application.secrets.recaptcha_site_key}" }
+    %script{ src: "https://www.google.com/recaptcha/enterprise.js?render=#{Rails.application.secrets.recaptcha_site_key}" }
 
     .flash
       - if flash[:success]
