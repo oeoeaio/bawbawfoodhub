@@ -110,16 +110,24 @@ class SubscriptionsController < ApplicationController
   end
 
   def verify_recaptcha_token
-    response = HTTParty.post("https://www.google.com/recaptcha/api/siteverify",
+    url = "https://recaptchaenterprise.googleapis.com/v1/projects/#{Rails.application.secrets.recaptcha_enterprise_project_id}/assessments"
+    response = HTTParty.post(
+      url,
+      headers: { 'Content-Type' => 'application/json' },
       query: {
-        secret: Rails.application.secrets.recaptcha_secret_key,
-        response: params[:recaptcha_token]
-      }
+        key: Rails.application.secrets.recaptcha_enterprise_api_key,
+      },
+      body: {
+        event: {
+          token: params[:recaptcha_token],
+          siteKey: Rails.application.secrets.recaptcha_site_key,
+        }
+      }.to_json
     )
 
-    return if response["success"] && response["action"] == 'subscribe' && response["score"] > 0.5
-    Rails.logger.info("reCAPTCHA failed for token: #{params[:recaptcha_token]}")
-    Rails.logger.info(response.inspect)
+    return if response['tokenProperties']['action'] == 'subscribe' && response['riskAnalysis']['score'] > 0.5
+    Rails.logger.warn("reCAPTCHA failed for token: #{params[:recaptcha_token]}")
+    Rails.logger.warn(response.inspect)
     render :sorry
   end
 end
